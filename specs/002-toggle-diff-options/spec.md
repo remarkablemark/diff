@@ -13,6 +13,7 @@
 - Q: Where is the diff method toggle placed relative to the view mode toggle? → A: Left side of diff header — diff method toggle replaces/sits next to the "Diff" label, view mode toggle stays on the right.
 - Q: How is the diff method selection state handled? → A: Same as ViewToggle — `useState<DiffMethod>('words')` in App, passed as prop to the toggle component, App passes diffMethod to useDiff.
 - Q: Should the user's diff method selection persist across page reloads? → A: Yes, persist to localStorage. Also persist the view mode (Unified/Side-by-Side) selection.
+- Q: Should the diff method buttons display tooltips? → A: No — the button labels "Characters", "Words", "Lines" are self-explanatory. Keep it simple for the MVP.
 
 ## User Scenarios & Testing _(mandatory)_
 
