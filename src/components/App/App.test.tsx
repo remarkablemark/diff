@@ -427,4 +427,44 @@ describe('App component', () => {
     const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
     expect(columns).toHaveLength(2);
   });
+
+  it('shows line number gutter in unified diff view', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'line1\nline2');
+    await user.type(modified, 'line1\nchanged');
+
+    const gutter = container.querySelector('[data-testid="diff-gutter"]');
+    expect(gutter).toBeInTheDocument();
+    expect(gutter?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('displays correct line numbers for multi-line diff', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'a\nb\n');
+    await user.type(modified, 'a\nc\n');
+
+    await user.click(screen.getByRole('button', { name: 'Lines' }));
+
+    const origCells = container.querySelectorAll(
+      '[data-testid="gutter-original"]',
+    );
+    const modCells = container.querySelectorAll(
+      '[data-testid="gutter-modified"]',
+    );
+    expect(origCells.length).toBeGreaterThan(0);
+    expect(modCells.length).toBeGreaterThan(0);
+
+    expect(origCells[0].textContent).toBe('1');
+    expect(modCells[0].textContent).toBe('1');
+  });
 });
