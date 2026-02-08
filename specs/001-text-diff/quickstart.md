@@ -77,11 +77,8 @@ npm run build
 ## Testing
 
 ```bash
-# Run all tests in watch mode
-npm test
-
 # Run a specific test file
-npm test -- --run src/hooks/useDiff.test.ts
+npm test -- src/hooks/useDiff.test.ts
 
 # Run tests with coverage report
 npm run test:ci

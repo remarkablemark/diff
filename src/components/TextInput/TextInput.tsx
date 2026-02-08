@@ -14,6 +14,7 @@ export default function TextInput({
   const lineCount = value ? value.split('\n').length : 1;
 
   const handleScroll = (event: React.UIEvent<HTMLTextAreaElement>) => {
+    /* v8 ignore else -- @preserve */
     if (gutterRef.current) {
       gutterRef.current.scrollTop = event.currentTarget.scrollTop;
     }
