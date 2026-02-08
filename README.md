@@ -6,7 +6,7 @@
 
 Compare the [diff](https://wikipedia.org/wiki/Diff#Use) between 2 texts:
 
-- [Website](https://remarkablemark.org/diff/)
+- [Diff](https://remarkablemark.org/diff/)
 
 ## Install
 
