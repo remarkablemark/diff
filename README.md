@@ -3,7 +3,7 @@
 [![build](https://github.com/remarkablemark/diff/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/diff/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/test.yml)
 
-Compare the diff between 2 texts:
+Compare the [diff](https://wikipedia.org/wiki/Diff#Use) between 2 texts:
 
 - [Website](https://remarkablemark.org/diff/)
 
