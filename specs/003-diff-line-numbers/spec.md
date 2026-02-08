@@ -7,7 +7,7 @@
 
 ## Clarifications
 
-_(none yet)_
+- Q: Should line numbers appear for all diff methods or only when the method is "lines"? → A: Show line numbers for all three diff methods (characters, words, lines). The system must split word/character-level segments by newlines to reconstruct line-based rows so line numbers are always visible.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -51,7 +51,7 @@ When the diff output is displayed in side-by-side view, the original column show
 
 ### Edge Cases
 
-- What happens when the diff method is set to "characters" or "words" (non-line-based)? [NEEDS CLARIFICATION: Should line numbers only appear when the diff method is "lines", or should the system split word/character segments by newlines to reconstruct line-based output?]
+- What happens when the diff method is set to "characters" or "words" (non-line-based)? The system splits word/character segments by newlines to reconstruct line-based rows, so line numbers are always visible regardless of diff method.
 - What happens when the text has no newlines (single-line input)? The gutter should show line 1 for both sides.
 - What happens when one text is much longer than the other? Line numbers should continue incrementing correctly for each side independently.
 - What happens with very large line numbers (e.g., 10,000+ lines)? The gutter width should accommodate the number of digits without clipping.
@@ -69,6 +69,7 @@ When the diff output is displayed in side-by-side view, the original column show
 - **FR-007**: The line number gutter MUST be decorative and hidden from screen readers (aria-hidden)
 - **FR-008**: The gutter MUST accommodate varying digit widths without clipping or layout shifts
 - **FR-009**: Line numbers MUST be correct when the diff method is "lines" — each segment maps directly to source lines
+- **FR-010**: Line numbers MUST be displayed for all diff methods (characters, words, lines) — the system MUST split non-line segments by newlines to reconstruct line-based rows
 
 ### Key Entities
 

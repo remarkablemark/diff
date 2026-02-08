@@ -31,4 +31,4 @@
 
 ## Notes
 
-- One [NEEDS CLARIFICATION] marker remains in Edge Cases regarding whether line numbers should appear for non-line diff methods (characters/words). This needs user input before proceeding to `/speckit.clarify` or `/speckit.plan`.
+- All clarifications resolved. Spec is ready for `/speckit.clarify` or `/speckit.plan`.
