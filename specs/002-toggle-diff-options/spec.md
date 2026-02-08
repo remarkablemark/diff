@@ -10,6 +10,8 @@
 ### Session 2026-02-08
 
 - Q: What UI pattern should the diff method control use? → A: Same segmented button group as the existing ViewToggle — 3 adjacent buttons (Characters | Words | Lines) matching the existing style, placed alongside it in the diff header.
+- Q: Where is the diff method toggle placed relative to the view mode toggle? → A: Left side of diff header — diff method toggle replaces/sits next to the "Diff" label, view mode toggle stays on the right.
+- Q: How is the diff method selection state handled? → A: Same as ViewToggle — `useState<DiffMethod>('words')` in App, passed as prop to the toggle component, App passes diffMethod to useDiff.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -46,6 +48,7 @@ A user wants to switch between different diff comparison methods to get the most
 - **FR-004**: All diff option controls MUST be visible whenever the diff output is visible
 - **FR-005**: All diff option changes MUST take effect immediately without requiring any additional user action
 - **FR-006**: Diff option controls MUST be keyboard accessible
+- **FR-007**: Diff method state MUST be managed in the App component via the same pattern as the existing view mode state (lifted state, passed as props)
 
 ### Key Entities
 
