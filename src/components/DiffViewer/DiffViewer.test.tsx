@@ -222,4 +222,90 @@ describe('DiffViewer component', () => {
     expect(gutter?.className).toContain('font-mono');
     expect(gutter?.className).toContain('select-none');
   });
+
+  it('renders line number gutters in side-by-side view', () => {
+    const result = makeResult(
+      [
+        { value: 'same\n', type: 'unchanged' },
+        { value: 'old\n', type: 'removed' },
+        { value: 'new\n', type: 'added' },
+      ],
+      true,
+    );
+
+    const { container } = render(
+      <DiffViewer result={result} viewMode="side-by-side" />,
+    );
+
+    const origGutter = container.querySelector(
+      '[data-testid="sbs-gutter-original"]',
+    );
+    const modGutter = container.querySelector(
+      '[data-testid="sbs-gutter-modified"]',
+    );
+    expect(origGutter).toBeInTheDocument();
+    expect(origGutter?.getAttribute('aria-hidden')).toBe('true');
+    expect(modGutter).toBeInTheDocument();
+    expect(modGutter?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('shows correct line numbers in side-by-side original column', () => {
+    const result = makeResult(
+      [
+        { value: 'same\n', type: 'unchanged' },
+        { value: 'old\n', type: 'removed' },
+      ],
+      true,
+    );
+
+    const { container } = render(
+      <DiffViewer result={result} viewMode="side-by-side" />,
+    );
+
+    const origNums = container.querySelectorAll(
+      '[data-testid="sbs-original-line"]',
+    );
+    expect(origNums[0].textContent).toBe('1');
+    expect(origNums[1].textContent).toBe('2');
+  });
+
+  it('shows correct line numbers in side-by-side modified column', () => {
+    const result = makeResult(
+      [
+        { value: 'same\n', type: 'unchanged' },
+        { value: 'new\n', type: 'added' },
+      ],
+      true,
+    );
+
+    const { container } = render(
+      <DiffViewer result={result} viewMode="side-by-side" />,
+    );
+
+    const modNums = container.querySelectorAll(
+      '[data-testid="sbs-modified-line"]',
+    );
+    expect(modNums[0].textContent).toBe('1');
+    expect(modNums[1].textContent).toBe('2');
+  });
+
+  it('renders placeholder rows for missing lines in side-by-side view', () => {
+    const result = makeResult(
+      [
+        { value: 'old\n', type: 'removed' },
+        { value: 'new\n', type: 'added' },
+      ],
+      true,
+    );
+
+    const { container } = render(
+      <DiffViewer result={result} viewMode="side-by-side" />,
+    );
+
+    const placeholders = container.querySelectorAll(
+      '[data-testid="sbs-placeholder"]',
+    );
+    expect(placeholders.length).toBeGreaterThan(0);
+    expect(placeholders[0].className).toContain('bg-gray-100');
+  });
 });
