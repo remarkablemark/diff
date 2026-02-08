@@ -1,11 +1,11 @@
-# diff
+# Diff
 
 [![build](https://github.com/remarkablemark/diff/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/diff/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/test.yml)
 
-📝 Check the diff between 2 files:
+📝 Compare the diff between texts:
 
-- [diff](https://remarkablemark.org/diff/)
+- [site](https://remarkablemark.org/diff/)
 
 ## Install
 

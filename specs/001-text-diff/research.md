@@ -1,4 +1,4 @@
-# Research: Text Diff Checker
+# Research: Diff
 
 **Feature Branch**: `001-text-diff`
 **Date**: 2026-02-07

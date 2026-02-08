@@ -1,4 +1,4 @@
-# Feature Specification: Text Diff Checker
+# Feature Specification: Diff
 
 **Feature Branch**: `001-text-diff`
 **Created**: 2026-02-07

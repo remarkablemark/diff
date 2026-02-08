@@ -1,4 +1,4 @@
-# Tasks: Text Diff Checker
+# Tasks: Diff
 
 **Input**: Design documents from `/specs/001-text-diff/`
 **Prerequisites**: plan.md (required), spec.md (required), research.md, data-model.md, quickstart.md

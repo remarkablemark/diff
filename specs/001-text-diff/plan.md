@@ -1,4 +1,4 @@
-# Implementation Plan: Text Diff Checker
+# Implementation Plan: Diff
 
 **Branch**: `001-text-diff` | **Date**: 2026-02-07 | **Spec**: [spec.md](./spec.md)
 **Input**: Feature specification from `/specs/001-text-diff/spec.md`

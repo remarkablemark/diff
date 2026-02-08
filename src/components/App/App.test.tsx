@@ -47,7 +47,7 @@ describe('App component', () => {
     render(<App />);
 
     const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toHaveTextContent('Text Diff Checker');
+    expect(heading).toHaveTextContent('Diff');
   });
 
   it('renders two text inputs with correct labels', () => {

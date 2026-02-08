@@ -1,4 +1,4 @@
-# Quickstart: Text Diff Checker
+# Quickstart: Diff
 
 **Feature Branch**: `001-text-diff`
 **Date**: 2026-02-07

@@ -1,4 +1,4 @@
-# Specification Quality Checklist: Text Diff Checker
+# Specification Quality Checklist: Diff
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-02-07
