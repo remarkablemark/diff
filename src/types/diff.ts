@@ -22,3 +22,21 @@ export type ViewMode = 'unified' | 'side-by-side';
 
 /** Available diff comparison methods */
 export type DiffMethod = 'characters' | 'words' | 'lines';
+
+/** A single line in the diff output with line number metadata */
+export interface DiffLine {
+  /** The text content of this line (without trailing newline) */
+  text: string;
+  /** The diff classification: added, removed, or unchanged */
+  type: DiffType;
+  /** Line number in the original text, undefined for added lines */
+  originalLineNumber: number | undefined;
+  /** Line number in the modified text, undefined for removed lines */
+  modifiedLineNumber: number | undefined;
+}
+
+/** Extended diff result with line-based output for rendering with line numbers */
+export interface DiffLineResult extends DiffResult {
+  /** Line-based representation of the diff, derived from segments */
+  lines: DiffLine[];
+}
