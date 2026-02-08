@@ -2,6 +2,7 @@
 
 [![build](https://github.com/remarkablemark/diff/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/diff/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/remarkablemark/diff/graph/badge.svg?token=ZkmfBJcqwI)](https://codecov.io/gh/remarkablemark/diff)
 
 Compare the [diff](https://wikipedia.org/wiki/Diff#Use) between 2 texts:
 
