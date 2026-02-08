@@ -76,6 +76,12 @@ Controls which diff rendering mode is active.
 
 **State Location**: `useState<ViewMode>` in the root `App` component, default `'unified'`
 
+**Responsive Behavior (FR-003 / FR-010)**:
+
+- On screens below `md:` (768px), the effective view mode is always `'unified'` regardless of state
+- The `ViewToggle` component is hidden on screens below `md:`
+- The `DiffViewer` receives the effective view mode (state value on desktop, forced `'unified'` on mobile)
+
 ---
 
 ## Type Definitions
@@ -112,13 +118,15 @@ type ViewMode = 'unified' | 'side-by-side';
 TextInput (original) ──┐
                        ├──→ useDiff hook ──→ DiffResult ──→ DiffViewer
 TextInput (modified) ──┘                                       ↑
-                                                          ViewMode (toggle)
+                                              effectiveViewMode (toggle + media query)
 ```
 
 - Two `TextInput` values feed into the `useDiff` hook
 - `useDiff` returns a `DiffResult` (or `null` when inputs don't meet display criteria)
-- `DiffViewer` receives `DiffResult` and `ViewMode` to render the appropriate view
-- `ViewToggle` controls the `ViewMode` state
+- `DiffViewer` receives `DiffResult` and the effective `ViewMode` to render the appropriate view
+- `ViewToggle` controls the `ViewMode` state (hidden on mobile per FR-003)
+- On mobile (<768px), the effective view mode is forced to `'unified'` regardless of toggle state
+- Dark mode styling is handled entirely via Tailwind `dark:` variants — no data model impact
 
 ## Component Props Interfaces
 
@@ -143,7 +151,7 @@ interface TextInputProps {
 interface DiffViewerProps {
   /** The computed diff result, null when output should be hidden */
   result: DiffResult | null;
-  /** The active display mode */
+  /** The effective display mode (forced 'unified' on mobile) */
   viewMode: ViewMode;
 }
 ```
@@ -174,3 +182,26 @@ function useDiff(originalText: string, modifiedText: string): DiffResult | null;
 - Returns `null` if `originalText` or `modifiedText` is empty → triggers hidden output
 - Returns `{ segments: [...], hasChanges: false }` if texts are identical → triggers "No differences found"
 - Returns `{ segments: [...], hasChanges: true }` if texts differ → triggers diff rendering
+
+## useMediaQuery Hook
+
+```typescript
+/**
+ * Returns true when the viewport matches the given media query string.
+ * Used to determine effective ViewMode on mobile (FR-003, FR-010).
+ */
+function useMediaQuery(query: string): boolean;
+```
+
+**Usage in App**:
+
+```typescript
+const isDesktop = useMediaQuery('(min-width: 768px)');
+const effectiveViewMode = isDesktop ? viewMode : 'unified';
+```
+
+**Behavior**:
+
+- Listens to `window.matchMedia(query)` change events
+- Returns `false` during SSR or when `window` is unavailable (safe default → unified view)
+- Updates synchronously on viewport resize

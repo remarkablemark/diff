@@ -159,3 +159,76 @@ Rely on `diffWords()` performance (sufficient for 10K lines) and defer virtualiz
 | Debounce input                | Spec explicitly says "no debounce" (FR-004)                   |
 | Virtualized list from day one | Premature optimization; adds complexity before measuring need |
 | Web Worker from day one       | Adds async complexity; measure first per Simplicity principle |
+
+---
+
+## Research Topic 6: Responsive Layout for Two-Panel Diff UI
+
+### Decision
+
+Use Tailwind responsive prefixes (`md:`) to switch between stacked (mobile) and side-by-side (desktop) layouts. Textareas have a fixed max height with internal scrolling on all screen sizes.
+
+### Rationale
+
+- **Standard pattern**: Stacking columns on mobile is the most common responsive approach for two-panel UIs
+- **Tailwind-native**: `md:flex-row` / `flex-col` requires zero custom CSS — aligns with Simplicity principle
+- **Fixed-height textareas**: Prevents excessive page scrolling when content is long; users scroll within each textarea independently
+- **Auto-unified diff on mobile**: Side-by-side diff columns are unreadable on narrow screens (<768px), so the diff view forces unified mode and hides the toggle below `md:`
+
+### Implementation Approach
+
+1. **Input layout**: `flex flex-col md:flex-row gap-4` on the container wrapping both `TextInput` components
+2. **Textarea height**: `max-h-64 overflow-y-auto` (or similar) on each textarea + gutter wrapper — consistent on all breakpoints
+3. **ViewToggle visibility**: `hidden md:flex` — toggle is hidden on mobile, visible on `md:` and above
+4. **DiffViewer**: When viewport is below `md:`, always render unified view regardless of `viewMode` state. Use a `useMediaQuery` hook or check `window.matchMedia('(min-width: 768px)')` to determine effective view mode
+5. **Diff output layout**: Full width on all breakpoints (single column for unified, two-column grid for side-by-side on desktop)
+
+### Alternatives Considered
+
+| Approach                               | Rejected Because                                                                                 |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Always side-by-side (pinch-zoom)       | Poor mobile UX; textareas become too narrow to read or type in                                   |
+| Tabbed inputs on mobile                | Adds UI complexity (tab state, switching); stacking is simpler and keeps both inputs visible     |
+| Desktop-only with mobile warning       | Excludes mobile users entirely; unnecessary given that the UI adapts well with responsive layout |
+| Variable textarea height (grow to fit) | Causes excessive page scrolling with long content; fixed height + internal scroll is more usable |
+
+---
+
+## Research Topic 7: Dark Mode with `prefers-color-scheme`
+
+### Decision
+
+Use Tailwind CSS 4's built-in dark mode support (`dark:` variant) driven by the `prefers-color-scheme` media query. No manual toggle — the app follows the user's system preference.
+
+### Rationale
+
+- **Zero runtime cost**: `prefers-color-scheme` is a CSS media query — no JavaScript needed for detection
+- **Tailwind-native**: `dark:` prefix is built into Tailwind 4; no configuration needed beyond ensuring `@tailwindcss` is imported
+- **Developer audience**: Developers frequently use dark mode; auto-detecting system preference provides the best default experience
+- **No added state**: No theme toggle state to manage — aligns with Simplicity principle
+
+### Implementation Approach
+
+1. **Tailwind 4 dark mode**: Tailwind 4 uses `@media (prefers-color-scheme: dark)` by default for `dark:` variants — no config change needed
+2. **Base colors**: Apply `bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100` on the root element
+3. **Textarea styling**: `bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600`
+4. **Diff highlights (light)**: `bg-red-100 text-red-800` (removed), `bg-green-100 text-green-800` (added)
+5. **Diff highlights (dark)**: `dark:bg-red-900/30 dark:text-red-300` (removed), `dark:bg-green-900/30 dark:text-green-300` (added)
+6. **"No differences found" message**: `text-gray-500 dark:text-gray-400`
+7. **ViewToggle buttons**: `bg-gray-100 dark:bg-gray-700` for inactive, `bg-blue-500 dark:bg-blue-600 text-white` for active
+8. **Line number gutter**: `bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500`
+
+### Color Accessibility in Dark Mode
+
+- Red/green diff highlights use both background tint and text color shift — not color alone (supplemented by `+`/`-` markers per Research Topic 4)
+- Dark mode colors chosen for sufficient contrast: light text on dark tinted backgrounds
+- Tested against WCAG AA contrast ratios: `red-300` on `red-900/30` and `green-300` on `green-900/30` both exceed 4.5:1
+
+### Alternatives Considered
+
+| Approach                       | Rejected Because                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------- |
+| Manual toggle (light/dark)     | Adds UI complexity and state management; system preference is sufficient for MVP            |
+| CSS custom properties (no TW)  | Reinvents what Tailwind `dark:` provides natively; violates Tailwind-only styling principle |
+| Three themes (light/dark/auto) | Over-engineering for MVP; auto-only is simplest                                             |
+| No dark mode                   | Developer tool used in dark environments; poor UX for a significant portion of users        |

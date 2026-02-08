@@ -52,7 +52,9 @@ npm run build
 | ----------------------------------------------- | ----------------------------------------------------- |
 | `src/types/diff.ts`                             | Shared types: `DiffSegment`, `DiffResult`, `ViewMode` |
 | `src/hooks/useDiff.ts`                          | Hook wrapping `diffWords()` from `diff` library       |
-| `src/hooks/useDiff.test.ts`                     | Hook unit tests                                       |
+| `src/hooks/useDiff.test.ts`                     | useDiff hook unit tests                               |
+| `src/hooks/useMediaQuery.ts`                    | Hook for responsive breakpoint detection (FR-010)     |
+| `src/hooks/useMediaQuery.test.ts`               | useMediaQuery hook unit tests                         |
 | `src/components/TextInput/TextInput.tsx`        | Textarea with line number gutter                      |
 | `src/components/TextInput/TextInput.test.tsx`   | TextInput tests                                       |
 | `src/components/DiffViewer/DiffViewer.tsx`      | Diff output (unified + side-by-side)                  |
@@ -66,10 +68,11 @@ npm run build
 
 1. **Types** (`src/types/diff.ts`) — no dependencies
 2. **useDiff hook** — depends on types + `diff` library
-3. **TextInput** — standalone component
-4. **ViewToggle** — standalone component
-5. **DiffViewer** — depends on types
-6. **App** — composes all components
+3. **useMediaQuery hook** — standalone (used by App for responsive ViewMode)
+4. **TextInput** — standalone component (fixed max height, dark mode variants)
+5. **ViewToggle** — standalone component (hidden on mobile via `hidden md:flex`)
+6. **DiffViewer** — depends on types (dark mode diff highlight variants)
+7. **App** — composes all components (responsive layout, effective ViewMode)
 
 ## Testing
 
