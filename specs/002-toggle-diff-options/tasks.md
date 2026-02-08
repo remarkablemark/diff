@@ -19,9 +19,9 @@
 
 **Purpose**: Add the `DiffMethod` type and the generic `useLocalStorage` hook that all subsequent tasks depend on.
 
-- [ ] T001 Add `DiffMethod` type (`'characters' | 'words' | 'lines'`) to src/types/diff.ts
-- [ ] T002 [P] Write unit tests for `useLocalStorage` hook in src/hooks/useLocalStorage.test.ts (read/write, fallback on missing key, fallback on invalid JSON, update persists to localStorage)
-- [ ] T003 [P] Implement `useLocalStorage<T>` hook in src/hooks/useLocalStorage.ts (generic useState + localStorage read/write with JSON serialization and error fallback)
+- [x] T001 Add `DiffMethod` type (`'characters' | 'words' | 'lines'`) to src/types/diff.ts
+- [x] T002 [P] Write unit tests for `useLocalStorage` hook in src/hooks/useLocalStorage.test.ts (read/write, fallback on missing key, fallback on invalid JSON, update persists to localStorage)
+- [x] T003 [P] Implement `useLocalStorage<T>` hook in src/hooks/useLocalStorage.ts (generic useState + localStorage read/write with JSON serialization and error fallback)
 
 **Checkpoint**: `DiffMethod` type exists, `useLocalStorage` hook is tested and working.
 
@@ -33,8 +33,8 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T004 Update `useDiff` hook to accept a third parameter `method: DiffMethod` and dispatch to `diffChars`/`diffWords`/`diffLines` in src/hooks/useDiff.ts
-- [ ] T005 Update `useDiff` tests to cover character-level and line-level diff methods in src/hooks/useDiff.test.ts
+- [x] T004 Update `useDiff` hook to accept a third parameter `method: DiffMethod` and dispatch to `diffChars`/`diffWords`/`diffLines` in src/hooks/useDiff.ts
+- [x] T005 Update `useDiff` tests to cover character-level and line-level diff methods in src/hooks/useDiff.test.ts
 
 **Checkpoint**: `useDiff` supports all three diff methods with tests passing.
 
@@ -50,15 +50,15 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T006 [P] [US1] Write unit tests for `DiffMethodToggle` component in src/components/DiffMethodToggle/DiffMethodToggle.test.tsx (renders three buttons for characters/words/lines, highlights active method, calls onMethodChange on click, is keyboard accessible)
-- [ ] T007 [P] [US1] Write integration tests for diff method switching in src/components/App/App.test.tsx (switching method changes diff output, default is "words", localStorage persistence restores selection on re-render)
+- [x] T006 [P] [US1] Write unit tests for `DiffMethodToggle` component in src/components/DiffMethodToggle/DiffMethodToggle.test.tsx (renders three buttons for characters/words/lines, highlights active method, calls onMethodChange on click, is keyboard accessible)
+- [x] T007 [P] [US1] Write integration tests for diff method switching in src/components/App/App.test.tsx (switching method changes diff output, default is "words", localStorage persistence restores selection on re-render)
 
 ### Implementation for User Story 1
 
-- [ ] T008 [P] [US1] Create `DiffMethodToggleProps` interface in src/components/DiffMethodToggle/DiffMethodToggle.types.ts
-- [ ] T009 [P] [US1] Create barrel export in src/components/DiffMethodToggle/index.ts
-- [ ] T010 [US1] Implement `DiffMethodToggle` component with 3-button segmented group (Characters | Words | Lines), `role="group"`, `aria-label`, active/inactive Tailwind styling per research.md in src/components/DiffMethodToggle/DiffMethodToggle.tsx
-- [ ] T011 [US1] Update `App` component: add `diffMethod` state via `useLocalStorage('diffMethod', 'words')`, migrate `viewMode` to `useLocalStorage('viewMode', 'unified')`, pass `diffMethod` to `useDiff` and `DiffMethodToggle`, place `DiffMethodToggle` on left side of diff header in src/components/App/App.tsx
+- [x] T008 [P] [US1] Create `DiffMethodToggleProps` interface in src/components/DiffMethodToggle/DiffMethodToggle.types.ts
+- [x] T009 [P] [US1] Create barrel export in src/components/DiffMethodToggle/index.ts
+- [x] T010 [US1] Implement `DiffMethodToggle` component with 3-button segmented group (Characters | Words | Lines), `role="group"`, `aria-label`, active/inactive Tailwind styling per research.md in src/components/DiffMethodToggle/DiffMethodToggle.tsx
+- [x] T011 [US1] Update `App` component: add `diffMethod` state via `useLocalStorage('diffMethod', 'words')`, migrate `viewMode` to `useLocalStorage('viewMode', 'unified')`, pass `diffMethod` to `useDiff` and `DiffMethodToggle`, place `DiffMethodToggle` on left side of diff header in src/components/App/App.tsx
 
 **Checkpoint**: User Story 1 is fully functional — diff method toggle works, selections persist to localStorage, all tests pass.
 
@@ -68,9 +68,9 @@
 
 **Purpose**: Final quality pass.
 
-- [ ] T012 [P] Accessibility audit — verify `role="group"`, `aria-label` on DiffMethodToggle, keyboard tab order, button focus states
-- [ ] T013 Run all quality gates: `npm run lint`, `npm run lint:tsc`, `npm run test:ci`, `npm run build`
-- [ ] T014 Run quickstart.md validation — follow all steps in specs/002-toggle-diff-options/quickstart.md and verify they work end-to-end
+- [x] T012 [P] Accessibility audit — verify `role="group"`, `aria-label` on DiffMethodToggle, keyboard tab order, button focus states
+- [x] T013 Run all quality gates: `npm run lint`, `npm run lint:tsc`, `npm run test:ci`, `npm run build`
+- [x] T014 Run quickstart.md validation — follow all steps in specs/002-toggle-diff-options/quickstart.md and verify they work end-to-end
 
 ---
 

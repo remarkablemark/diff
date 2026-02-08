@@ -19,3 +19,6 @@ export interface DiffResult {
 
 /** Available diff display modes */
 export type ViewMode = 'unified' | 'side-by-side';
+
+/** Available diff comparison methods */
+export type DiffMethod = 'characters' | 'words' | 'lines';

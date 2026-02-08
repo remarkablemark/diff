@@ -80,4 +80,40 @@ describe('useDiff', () => {
     rerender({ original: 'hello', modified: 'world' });
     expect(result.current).toBe(firstResult);
   });
+
+  it('computes character-level diff when method is "characters"', () => {
+    const { result } = renderHook(() => useDiff('abc', 'aXc', 'characters'));
+    expect(result.current?.hasChanges).toBe(true);
+
+    const segments = result.current?.segments ?? [];
+    const removed = segments.filter((s) => s.type === 'removed');
+    const added = segments.filter((s) => s.type === 'added');
+    expect(removed).toEqual([{ value: 'b', type: 'removed' }]);
+    expect(added).toEqual([{ value: 'X', type: 'added' }]);
+  });
+
+  it('computes line-level diff when method is "lines"', () => {
+    const { result } = renderHook(() =>
+      useDiff('line1\nline2\n', 'line1\nchanged\n', 'lines'),
+    );
+    expect(result.current?.hasChanges).toBe(true);
+
+    const segments = result.current?.segments ?? [];
+    const removed = segments.filter((s) => s.type === 'removed');
+    const added = segments.filter((s) => s.type === 'added');
+    expect(removed[0]?.value).toContain('line2');
+    expect(added[0]?.value).toContain('changed');
+  });
+
+  it('defaults to word-level diff when method is omitted', () => {
+    const withMethod = renderHook(() =>
+      useDiff('hello world', 'hello there', 'words'),
+    );
+    const withoutMethod = renderHook(() =>
+      useDiff('hello world', 'hello there'),
+    );
+    expect(withMethod.result.current?.segments).toEqual(
+      withoutMethod.result.current?.segments,
+    );
+  });
 });
