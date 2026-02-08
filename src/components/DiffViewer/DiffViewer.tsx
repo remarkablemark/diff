@@ -76,8 +76,8 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
           aria-hidden="true"
           className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
         >
-          {result.lines.map((line) => {
-            const key = `g-${line.type}-${String(line.originalLineNumber)}-${String(line.modifiedLineNumber)}`;
+          {result.lines.map((line, i) => {
+            const key = `g-${String(i)}-${line.type}`;
             return (
               <div key={key} className="flex">
                 <span
@@ -97,8 +97,8 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
           })}
         </div>
         <div className="flex-1 overflow-x-auto bg-white p-0 font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-          {result.lines.map((line) => {
-            const key = `c-${line.type}-${String(line.originalLineNumber)}-${String(line.modifiedLineNumber)}`;
+          {result.lines.map((line, i) => {
+            const key = `c-${String(i)}-${line.type}`;
             if (line.type === 'added') {
               return (
                 <div
