@@ -31,6 +31,9 @@
 
 ## Notes
 
-- All items pass validation. Spec is ready for `/speckit.clarify` or `/speckit.plan`.
-- No [NEEDS CLARIFICATION] markers were needed — the feature description is straightforward with clear, reasonable defaults applied.
-- Assumptions made: line-level diff (standard default), real-time updates (common UX pattern), red/green color coding (industry standard for diff tools).
+- All items pass validation. Spec is ready for `/speckit.plan`.
+- Clarification session 2026-02-07 resolved 3 questions:
+  1. Diff library: `diff` (`npm: diff`)
+  2. Display format: Both unified inline and side-by-side views with toggle
+  3. Diff granularity: Word-level
+- No [NEEDS CLARIFICATION] markers remain in the spec.

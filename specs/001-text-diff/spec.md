@@ -5,6 +5,14 @@
 **Status**: Draft
 **Input**: User description: "check diff between 2 text inputs"
 
+## Clarifications
+
+### Session 2026-02-07
+
+- Q: Which diff computation library should be used? → A: `diff` (`npm: diff`) — established library, ~10KB, supports line/word/character modes, TypeScript support.
+- Q: What diff display format should be used? → A: Both unified inline and side-by-side views, with a toggle switch for the user to choose between them.
+- Q: What diff granularity should be used? → A: Word-level — differences highlighted at word boundaries within lines for best readability.
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Compare Two Text Inputs (Priority: P1)
@@ -25,7 +33,7 @@ A user visits the app and sees two side-by-side text areas. They enter or paste 
 
 ### User Story 2 - Visual Diff Output with Color Coding (Priority: P2)
 
-A user compares two texts and the diff result is displayed with clear visual indicators: removed text is highlighted in red, added text is highlighted in green, and unchanged text is displayed normally. This allows the user to quickly scan and understand the differences at a glance.
+A user compares two texts and the diff result is displayed with clear visual indicators: removed text is highlighted in red, added text is highlighted in green, and unchanged text is displayed normally. The user can toggle between a unified inline view (single column with interleaved changes) and a side-by-side view (two columns with aligned lines). This allows the user to quickly scan and understand the differences at a glance using their preferred format.
 
 **Why this priority**: Without clear visual distinction, the diff output would be difficult to interpret. Color-coded output is essential for usability but depends on the core diff comparison (P1) being in place first.
 
@@ -66,8 +74,8 @@ A user modifies text in either input area and the diff output updates automatica
 ### Functional Requirements
 
 - **FR-001**: System MUST provide two text input areas where users can enter or paste text.
-- **FR-002**: System MUST compute a line-level diff between the contents of the two text input areas.
-- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones.
+- **FR-002**: System MUST compute a word-level diff between the contents of the two text input areas using the `diff` library (`npm: diff`).
+- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them.
 - **FR-004**: System MUST update the diff output automatically when the content of either text input area changes.
 - **FR-005**: System MUST handle empty inputs gracefully, treating an empty input as an empty string for comparison purposes.
 - **FR-006**: System MUST correctly handle multi-line text, preserving line breaks in both input and output.
