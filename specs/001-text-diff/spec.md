@@ -14,6 +14,8 @@
 - Q: What diff granularity should be used? → A: Word-level — differences highlighted at word boundaries within lines for best readability.
 - Q: What component should be used for text input? → A: Plain `<textarea>` elements with a synced line number gutter, styled with Tailwind. No external editor library.
 - Q: How should the diff output be rendered? → A: Custom React components styled with Tailwind utility classes. No external diff rendering library.
+- Q: What is displayed when textareas are empty? → A: Diff output area is completely empty/hidden until both textareas have content.
+- Q: What is displayed when texts are identical (no diff)? → A: A short message like "No differences found" is shown in the diff output area.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -28,7 +30,7 @@ A user visits the app and sees two side-by-side text areas. They enter or paste 
 **Acceptance Scenarios**:
 
 1. **Given** the app is loaded with two empty text areas, **When** the user enters "hello world" in the first area and "hello there" in the second area, **Then** the system displays a diff result showing "world" as removed and "there" as added.
-2. **Given** the app is loaded, **When** the user enters identical text in both areas, **Then** the system displays the text with no differences highlighted.
+2. **Given** the app is loaded, **When** the user enters identical text in both areas, **Then** the system displays a "No differences found" message in the diff output area.
 3. **Given** the app is loaded, **When** the user enters text in only one area and leaves the other empty, **Then** the system displays the entire text as either fully added or fully removed depending on which area contains text.
 
 ---
@@ -65,7 +67,7 @@ A user modifies text in either input area and the diff output updates automatica
 
 ### Edge Cases
 
-- What happens when both text areas are empty? The diff output should display nothing or an empty state message.
+- What happens when both text areas are empty? The diff output area is hidden until both textareas have content.
 - What happens when the user pastes a very large text (e.g., 10,000+ lines)? The system should still compute and display the diff without freezing the interface.
 - What happens when text contains special characters, unicode, or emoji? The diff should handle all valid text content correctly.
 - What happens when text contains only whitespace differences (spaces, tabs, newlines)? The diff should detect and display whitespace-only changes.
@@ -79,7 +81,8 @@ A user modifies text in either input area and the diff output updates automatica
 - **FR-002**: System MUST compute a word-level diff between the contents of the two text input areas using the `diff` library (`npm: diff`).
 - **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them. Rendering MUST use custom React components styled with Tailwind (no external diff rendering library).
 - **FR-004**: System MUST update the diff output automatically when the content of either text input area changes.
-- **FR-005**: System MUST handle empty inputs gracefully, treating an empty input as an empty string for comparison purposes.
+- **FR-005**: System MUST handle empty inputs gracefully by hiding the diff output area until both textareas contain text.
+- **FR-009**: System MUST display a "No differences found" message in the diff output area when both inputs contain identical text.
 - **FR-006**: System MUST correctly handle multi-line text, preserving line breaks in both input and output.
 - **FR-007**: System MUST support special characters, unicode, and emoji in both inputs without errors.
 - **FR-008**: System MUST remain responsive when processing large text inputs (up to 10,000 lines).
