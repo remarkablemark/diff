@@ -70,31 +70,62 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
 
   return (
     <div aria-live="polite">
-      <div className="rounded-md border border-gray-300 bg-white p-4 font-mono text-sm whitespace-pre-wrap dark:border-gray-600 dark:bg-gray-800">
-        {result.segments.map((segment) => {
-          const key = `${segment.type}-${segment.value}`;
-          if (segment.type === 'added') {
+      <div className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
+        <div
+          data-testid="diff-gutter"
+          aria-hidden="true"
+          className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
+        >
+          {result.lines.map((line) => {
+            const key = `g-${line.type}-${String(line.originalLineNumber)}-${String(line.modifiedLineNumber)}`;
             return (
-              <span
-                key={key}
-                className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-              >
-                +{segment.value}
-              </span>
+              <div key={key} className="flex">
+                <span
+                  data-testid="gutter-original"
+                  className="inline-block w-10 px-2 text-right"
+                >
+                  {line.originalLineNumber ?? ''}
+                </span>
+                <span
+                  data-testid="gutter-modified"
+                  className="inline-block w-10 px-2 text-right"
+                >
+                  {line.modifiedLineNumber ?? ''}
+                </span>
+              </div>
             );
-          }
-          if (segment.type === 'removed') {
+          })}
+        </div>
+        <div className="flex-1 overflow-x-auto bg-white p-0 font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+          {result.lines.map((line) => {
+            const key = `c-${line.type}-${String(line.originalLineNumber)}-${String(line.modifiedLineNumber)}`;
+            if (line.type === 'added') {
+              return (
+                <div
+                  key={key}
+                  className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                >
+                  <span className="px-2">+{line.text}</span>
+                </div>
+              );
+            }
+            if (line.type === 'removed') {
+              return (
+                <div
+                  key={key}
+                  className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                >
+                  <span className="px-2">-{line.text}</span>
+                </div>
+              );
+            }
             return (
-              <span
-                key={key}
-                className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-              >
-                -{segment.value}
-              </span>
+              <div key={key}>
+                <span className="px-2">{line.text}</span>
+              </div>
             );
-          }
-          return <span key={key}>{segment.value}</span>;
-        })}
+          })}
+        </div>
       </div>
     </div>
   );
