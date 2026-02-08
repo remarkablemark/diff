@@ -5,6 +5,12 @@
 **Status**: Draft
 **Input**: User description: "toggle diff options"
 
+## Clarifications
+
+### Session 2026-02-08
+
+- Q: What UI pattern should the diff method control use? → A: Same segmented button group as the existing ViewToggle — 3 adjacent buttons (Characters | Words | Lines) matching the existing style, placed alongside it in the diff header.
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Toggle Diff Method (Priority: P1)
@@ -34,7 +40,7 @@ A user wants to switch between different diff comparison methods to get the most
 
 ### Functional Requirements
 
-- **FR-001**: System MUST provide a control to select the diff comparison method from: characters, words (default), and lines
+- **FR-001**: System MUST provide a segmented button group control (matching the existing view mode toggle pattern) to select the diff comparison method from: characters, words (default), and lines
 - **FR-002**: System MUST recompute the diff output immediately when the diff method selection changes
 - **FR-003**: System MUST default to word-level diff on page load (preserving current behavior)
 - **FR-004**: All diff option controls MUST be visible whenever the diff output is visible
