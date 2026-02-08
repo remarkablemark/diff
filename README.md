@@ -3,7 +3,9 @@
 [![build](https://github.com/remarkablemark/diff/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/build.yml)
 [![test](https://github.com/remarkablemark/diff/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/test.yml)
 
-diff
+📝 Check the diff between 2 files:
+
+- [diff](https://remarkablemark.org/diff/)
 
 ## Install
 
