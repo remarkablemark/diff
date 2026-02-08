@@ -16,6 +16,7 @@
 - Q: How should the diff output be rendered? → A: Custom React components styled with Tailwind utility classes. No external diff rendering library.
 - Q: What is displayed when textareas are empty? → A: Diff output area is completely empty/hidden until both textareas have content.
 - Q: What is displayed when texts are identical (no diff)? → A: A short message like "No differences found" is shown in the diff output area.
+- Q: Should diff computation be debounced for real-time updates? → A: No debounce — recompute diff on every keystroke immediately.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -80,7 +81,7 @@ A user modifies text in either input area and the diff output updates automatica
 - **FR-001**: System MUST provide two text input areas (plain `<textarea>` elements with line number gutters) where users can enter or paste text.
 - **FR-002**: System MUST compute a word-level diff between the contents of the two text input areas using the `diff` library (`npm: diff`).
 - **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them. Rendering MUST use custom React components styled with Tailwind (no external diff rendering library).
-- **FR-004**: System MUST update the diff output automatically when the content of either text input area changes.
+- **FR-004**: System MUST update the diff output automatically on every keystroke (no debounce) when the content of either text input area changes.
 - **FR-005**: System MUST handle empty inputs gracefully by hiding the diff output area until both textareas contain text.
 - **FR-009**: System MUST display a "No differences found" message in the diff output area when both inputs contain identical text.
 - **FR-006**: System MUST correctly handle multi-line text, preserving line breaks in both input and output.

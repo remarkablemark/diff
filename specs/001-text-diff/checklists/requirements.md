@@ -32,7 +32,7 @@
 ## Notes
 
 - All items pass validation. Spec is ready for `/speckit.plan`.
-- Clarification session 2026-02-07 resolved 7 questions:
+- Clarification session 2026-02-07 resolved 8 questions:
   1. Diff library: `diff` (`npm: diff`)
   2. Display format: Both unified inline and side-by-side views with toggle
   3. Diff granularity: Word-level
@@ -40,4 +40,5 @@
   5. Diff display rendering: Custom React components with Tailwind (no diff rendering library)
   6. Empty state: Diff output area hidden until both textareas have content
   7. No-diff state: "No differences found" message displayed
+  8. Debounce: No debounce — recompute diff on every keystroke immediately
 - No [NEEDS CLARIFICATION] markers remain in the spec.
