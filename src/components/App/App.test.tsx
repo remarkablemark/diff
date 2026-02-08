@@ -98,6 +98,21 @@ describe('App component', () => {
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
+  it('renders "Diff" label when diff output is visible', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.queryByText('Diff')).not.toBeInTheDocument();
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'hello');
+
+    expect(screen.getByText('Diff')).toBeInTheDocument();
+  });
+
   it('shows diff segments when texts differ', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);

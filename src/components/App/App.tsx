@@ -38,7 +38,10 @@ export default function App() {
 
       {diffResult && (
         <div className="mt-6">
-          <div className="mb-4 flex justify-end">
+          <div className="mb-1 flex items-center justify-between">
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Diff
+            </span>
             <ViewToggle activeMode={viewMode} onModeChange={setViewMode} />
           </div>
           <DiffViewer result={diffResult} viewMode={effectiveViewMode} />
