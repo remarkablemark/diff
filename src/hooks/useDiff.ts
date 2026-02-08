@@ -1,7 +1,8 @@
 import type { Change } from 'diff';
 import { diffChars, diffLines, diffWords } from 'diff';
 import { useMemo } from 'react';
-import type { DiffMethod, DiffResult, DiffSegment } from 'src/types/diff';
+import type { DiffLineResult, DiffMethod, DiffSegment } from 'src/types/diff';
+import { segmentsToLines } from 'src/utils/segmentsToLines';
 
 function computeChanges(
   method: DiffMethod,
@@ -26,7 +27,7 @@ export function useDiff(
   originalText: string,
   modifiedText: string,
   method: DiffMethod = 'words',
-): DiffResult | null {
+): DiffLineResult | null {
   return useMemo(() => {
     if (!originalText || !modifiedText) {
       return null;
@@ -43,6 +44,8 @@ export function useDiff(
       (segment) => segment.type === 'added' || segment.type === 'removed',
     );
 
-    return { segments, hasChanges };
+    const lines = segmentsToLines(segments);
+
+    return { segments, hasChanges, lines };
   }, [originalText, modifiedText, method]);
 }

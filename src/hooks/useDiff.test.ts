@@ -116,4 +116,45 @@ describe('useDiff', () => {
       withoutMethod.result.current?.segments,
     );
   });
+
+  it('includes lines array in result', () => {
+    const { result } = renderHook(() => useDiff('hello world', 'hello world'));
+    expect(result.current?.lines).toBeDefined();
+    expect(result.current?.lines.length).toBeGreaterThan(0);
+  });
+
+  it('returns correct line numbers for line-level diff', () => {
+    const { result } = renderHook(() =>
+      useDiff('line1\nline2\n', 'line1\nchanged\n', 'lines'),
+    );
+    const lines = result.current?.lines ?? [];
+
+    const unchanged = lines.filter((l) => l.type === 'unchanged');
+    expect(unchanged[0]).toMatchObject({
+      text: 'line1',
+      originalLineNumber: 1,
+      modifiedLineNumber: 1,
+    });
+
+    const removed = lines.filter((l) => l.type === 'removed');
+    expect(removed[0]).toMatchObject({
+      originalLineNumber: 2,
+      modifiedLineNumber: undefined,
+    });
+
+    const added = lines.filter((l) => l.type === 'added');
+    expect(added[0]).toMatchObject({
+      originalLineNumber: undefined,
+      modifiedLineNumber: 2,
+    });
+  });
+
+  it('returns lines for character-level diff with newlines', () => {
+    const { result } = renderHook(() =>
+      useDiff('a\nb\n', 'a\nc\n', 'characters'),
+    );
+    const lines = result.current?.lines ?? [];
+    expect(lines.length).toBeGreaterThan(0);
+    expect(lines[0]?.originalLineNumber).toBe(1);
+  });
 });

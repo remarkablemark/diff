@@ -1,8 +1,8 @@
-import type { DiffResult, ViewMode } from 'src/types/diff';
+import type { DiffLineResult, ViewMode } from 'src/types/diff';
 
 export interface DiffViewerProps {
-  /** The computed diff result, null when output should be hidden */
-  result: DiffResult | null;
+  /** The computed diff result with line data, null when output should be hidden */
+  result: DiffLineResult | null;
   /** The effective display mode (forced 'unified' on mobile) */
   viewMode: ViewMode;
 }
