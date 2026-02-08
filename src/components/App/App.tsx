@@ -1,47 +1,49 @@
 import { useState } from 'react';
-
-import brands from './brands';
+import DiffViewer from 'src/components/DiffViewer';
+import TextInput from 'src/components/TextInput';
+import ViewToggle from 'src/components/ViewToggle';
+import { useDiff } from 'src/hooks/useDiff';
+import { useMediaQuery } from 'src/hooks/useMediaQuery';
+import type { ViewMode } from 'src/types/diff';
 
 export default function App() {
-  const [count, setCount] = useState(0);
+  const [originalText, setOriginalText] = useState('');
+  const [modifiedText, setModifiedText] = useState('');
+  const [viewMode, setViewMode] = useState<ViewMode>('unified');
+
+  const diffResult = useDiff(originalText, modifiedText);
+  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const effectiveViewMode = isDesktop ? viewMode : 'unified';
 
   return (
     <>
-      <div className="flex justify-center">
-        {brands.map(({ alt, href, src }) => (
-          <a key={href} href={href} rel="nofollow noopener" target="_blank">
-            <img
-              src={src}
-              className="m-4 h-24 hover:drop-shadow-2xl"
-              alt={alt}
-            />
-          </a>
-        ))}
+      <h1 className="mb-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Text Diff Checker
+      </h1>
+
+      <div className="flex flex-col gap-4 md:flex-row">
+        <TextInput
+          label="Original Text"
+          value={originalText}
+          onChange={setOriginalText}
+          placeholder="Paste original text here..."
+        />
+        <TextInput
+          label="Modified Text"
+          value={modifiedText}
+          onChange={setModifiedText}
+          placeholder="Paste modified text here..."
+        />
       </div>
 
-      <h1 className="my-10 text-5xl font-bold">diff</h1>
-
-      <div className="p-8">
-        <button
-          className="cursor-pointer rounded-md border border-slate-300 bg-slate-50 px-4 py-2 text-center text-sm font-medium text-slate-800 shadow-xs transition-all hover:border-slate-800 focus:border-slate-800 focus:bg-slate-50 active:border-slate-800 active:bg-slate-50 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-          onClick={() => {
-            setCount((count) => count + 1);
-          }}
-          type="button"
-        >
-          count is {count}
-        </button>
-
-        <p className="my-4 text-slate-600">
-          Edit{' '}
-          <code className="font-[monospace]">src/components/App/App.tsx</code>{' '}
-          and save to test HMR
-        </p>
-      </div>
-
-      <p className="text-slate-400">
-        Click on the Vite, React, and Tailwind logos to learn more about diff
-      </p>
+      {diffResult && (
+        <div className="mt-6">
+          <div className="mb-4 flex justify-end">
+            <ViewToggle activeMode={viewMode} onModeChange={setViewMode} />
+          </div>
+          <DiffViewer result={diffResult} viewMode={effectiveViewMode} />
+        </div>
+      )}
     </>
   );
 }

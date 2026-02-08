@@ -19,8 +19,8 @@
 
 **Purpose**: Install the new runtime dependency and create the shared type definitions that all components depend on.
 
-- [ ] T001 Install `diff` npm package as a runtime dependency via `npm install diff`
-- [ ] T002 Create shared type definitions (`DiffType`, `DiffSegment`, `DiffResult`, `ViewMode`) in src/types/diff.ts
+- [x] T001 Install `diff` npm package as a runtime dependency via `npm install diff`
+- [x] T002 Create shared type definitions (`DiffType`, `DiffSegment`, `DiffResult`, `ViewMode`) in src/types/diff.ts
 
 ---
 
@@ -30,10 +30,10 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T003 [P] Implement `useDiff` hook wrapping `diffWords()` from `diff` library in src/hooks/useDiff.ts
-- [ ] T004 [P] Write unit tests for `useDiff` hook in src/hooks/useDiff.test.ts (empty inputs → null, identical texts → hasChanges false, different texts → correct segments)
-- [ ] T005 [P] Implement `useMediaQuery` hook using `window.matchMedia` in src/hooks/useMediaQuery.ts
-- [ ] T006 [P] Write unit tests for `useMediaQuery` hook in src/hooks/useMediaQuery.test.ts (matches/no-match, resize updates, SSR fallback)
+- [x] T003 [P] Implement `useDiff` hook wrapping `diffWords()` from `diff` library in src/hooks/useDiff.ts
+- [x] T004 [P] Write unit tests for `useDiff` hook in src/hooks/useDiff.test.ts (empty inputs → null, identical texts → hasChanges false, different texts → correct segments)
+- [x] T005 [P] Implement `useMediaQuery` hook using `window.matchMedia` in src/hooks/useMediaQuery.ts
+- [x] T006 [P] Write unit tests for `useMediaQuery` hook in src/hooks/useMediaQuery.test.ts (matches/no-match, resize updates, SSR fallback)
 
 **Checkpoint**: Foundation ready — hooks tested, types defined, `diff` library installed. User story implementation can now begin.
 
@@ -49,16 +49,16 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T007 [P] [US1] Write unit tests for `TextInput` component in src/components/TextInput/TextInput.test.tsx (renders textarea with label, line number gutter, scroll sync, onChange callback, placeholder)
-- [ ] T008 [P] [US1] Write unit tests for `App` component (US1 scope) in src/components/App/App.test.tsx (renders two text inputs with labels "Original Text" and "Modified Text", hides diff output when inputs are empty, hides diff output when only one input has text, shows "No differences found" when texts are identical, shows diff segments when texts differ)
+- [x] T007 [P] [US1] Write unit tests for `TextInput` component in src/components/TextInput/TextInput.test.tsx (renders textarea with label, line number gutter, scroll sync, onChange callback, placeholder)
+- [x] T008 [P] [US1] Write unit tests for `App` component (US1 scope) in src/components/App/App.test.tsx (renders two text inputs with labels "Original Text" and "Modified Text", hides diff output when inputs are empty, hides diff output when only one input has text, shows "No differences found" when texts are identical, shows diff segments when texts differ)
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Create `TextInputProps` interface in src/components/TextInput/TextInput.types.ts
-- [ ] T010 [P] [US1] Create barrel export in src/components/TextInput/index.ts
-- [ ] T011 [US1] Implement `TextInput` component with `<textarea>`, line number gutter (`aria-hidden="true"`), scroll sync, and `<label>` in src/components/TextInput/TextInput.tsx
-- [ ] T012 [US1] Update `App` component to render two `TextInput` components (original + modified) with `useState` for each, responsive side-by-side layout (`flex flex-col md:flex-row`), fixed-height textareas with internal scroll, and basic diff output area showing `useDiff` result in src/components/App/App.tsx
-- [ ] T013 [US1] Remove placeholder content (brands, counter) from src/components/App/App.tsx and src/components/App/brands.ts
+- [x] T009 [P] [US1] Create `TextInputProps` interface in src/components/TextInput/TextInput.types.ts
+- [x] T010 [P] [US1] Create barrel export in src/components/TextInput/index.ts
+- [x] T011 [US1] Implement `TextInput` component with `<textarea>`, line number gutter (`aria-hidden="true"`), scroll sync, and `<label>` in src/components/TextInput/TextInput.tsx
+- [x] T012 [US1] Update `App` component to render two `TextInput` components (original + modified) with `useState` for each, responsive side-by-side layout (`flex flex-col md:flex-row`), fixed-height textareas with internal scroll, and basic diff output area showing `useDiff` result in src/components/App/App.tsx
+- [x] T013 [US1] Remove placeholder content (brands, counter) from src/components/App/App.tsx and src/components/App/brands.ts
 
 **Checkpoint**: User Story 1 is fully functional — two text inputs compute and display a basic diff. Testable independently with `npm run test:ci`.
 
@@ -74,19 +74,19 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T014 [P] [US2] Write unit tests for `DiffViewer` component in src/components/DiffViewer/DiffViewer.test.tsx (renders null result as empty, renders "No differences found" with `role="status"` when hasChanges is false, renders added segments with green styling and `+` prefix, renders removed segments with red styling and `-` prefix, renders unchanged segments without highlighting, renders unified view correctly, renders side-by-side view correctly, wraps output in `aria-live="polite"`)
-- [ ] T015 [P] [US2] Write unit tests for `ViewToggle` component in src/components/ViewToggle/ViewToggle.test.tsx (renders two buttons for unified and side-by-side, highlights active mode, calls onModeChange on click, is keyboard accessible)
+- [x] T014 [P] [US2] Write unit tests for `DiffViewer` component in src/components/DiffViewer/DiffViewer.test.tsx (renders null result as empty, renders "No differences found" with `role="status"` when hasChanges is false, renders added segments with green styling and `+` prefix, renders removed segments with red styling and `-` prefix, renders unchanged segments without highlighting, renders unified view correctly, renders side-by-side view correctly, wraps output in `aria-live="polite"`)
+- [x] T015 [P] [US2] Write unit tests for `ViewToggle` component in src/components/ViewToggle/ViewToggle.test.tsx (renders two buttons for unified and side-by-side, highlights active mode, calls onModeChange on click, is keyboard accessible)
 
 ### Implementation for User Story 2
 
-- [ ] T016 [P] [US2] Create `DiffViewerProps` interface in src/components/DiffViewer/DiffViewer.types.ts
-- [ ] T017 [P] [US2] Create barrel export in src/components/DiffViewer/index.ts
-- [ ] T018 [P] [US2] Create `ViewToggleProps` interface in src/components/ViewToggle/ViewToggle.types.ts
-- [ ] T019 [P] [US2] Create barrel export in src/components/ViewToggle/index.ts
-- [ ] T020 [US2] Implement `DiffViewer` component with unified view (single column, interleaved changes with `+`/`-` markers, red/green Tailwind classes, dark mode variants) and side-by-side view (two-column grid, left=removed+unchanged, right=added+unchanged), `aria-live="polite"`, "No differences found" with `role="status"` in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T021 [US2] Implement `ViewToggle` component with button group for unified/side-by-side, active state styling, `hidden md:flex` responsive visibility in src/components/ViewToggle/ViewToggle.tsx
-- [ ] T022 [US2] Update `App` component to integrate `DiffViewer`, `ViewToggle`, and `useMediaQuery` — add `viewMode` state, compute `effectiveViewMode` (forced unified on mobile), pass props to `DiffViewer` and `ViewToggle` in src/components/App/App.tsx
-- [ ] T023 [US2] Update `App` tests to cover view toggle integration, effective view mode on mobile, color-coded diff rendering, and dark mode classes in src/components/App/App.test.tsx
+- [x] T016 [P] [US2] Create `DiffViewerProps` interface in src/components/DiffViewer/DiffViewer.types.ts
+- [x] T017 [P] [US2] Create barrel export in src/components/DiffViewer/index.ts
+- [x] T018 [P] [US2] Create `ViewToggleProps` interface in src/components/ViewToggle/ViewToggle.types.ts
+- [x] T019 [P] [US2] Create barrel export in src/components/ViewToggle/index.ts
+- [x] T020 [US2] Implement `DiffViewer` component with unified view (single column, interleaved changes with `+`/`-` markers, red/green Tailwind classes, dark mode variants) and side-by-side view (two-column grid, left=removed+unchanged, right=added+unchanged), `aria-live="polite"`, "No differences found" with `role="status"` in src/components/DiffViewer/DiffViewer.tsx
+- [x] T021 [US2] Implement `ViewToggle` component with button group for unified/side-by-side, active state styling, `hidden md:flex` responsive visibility in src/components/ViewToggle/ViewToggle.tsx
+- [x] T022 [US2] Update `App` component to integrate `DiffViewer`, `ViewToggle`, and `useMediaQuery` — add `viewMode` state, compute `effectiveViewMode` (forced unified on mobile), pass props to `DiffViewer` and `ViewToggle` in src/components/App/App.tsx
+- [x] T023 [US2] Update `App` tests to cover view toggle integration, effective view mode on mobile, color-coded diff rendering, and dark mode classes in src/components/App/App.test.tsx
 
 **Checkpoint**: User Stories 1 AND 2 are both functional — full color-coded diff with unified/side-by-side toggle. Testable independently.
 
@@ -102,12 +102,12 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T024 [US3] Write integration tests for real-time updates in src/components/App/App.test.tsx (diff updates on each keystroke in either textarea, diff updates when text is pasted, diff output transitions from hidden → visible as user types in second textarea, diff output transitions from visible → "No differences found" when user makes texts identical)
+- [x] T024 [US3] Write integration tests for real-time updates in src/components/App/App.test.tsx (diff updates on each keystroke in either textarea, diff updates when text is pasted, diff output transitions from hidden → visible as user types in second textarea, diff output transitions from visible → "No differences found" when user makes texts identical)
 
 ### Implementation for User Story 3
 
-- [ ] T025 [US3] Verify and ensure `App` component wires `TextInput` onChange directly to `useState` setters with no debounce or intermediate state in src/components/App/App.tsx (this should already work from US1 — validate and fix if needed)
-- [ ] T026 [US3] Verify edge case handling: clearing one input after diff is displayed updates output, pasting large text triggers immediate recomputation, special characters/unicode/emoji handled correctly in src/components/App/App.test.tsx
+- [x] T025 [US3] Verify and ensure `App` component wires `TextInput` onChange directly to `useState` setters with no debounce or intermediate state in src/components/App/App.tsx (this should already work from US1 — validate and fix if needed)
+- [x] T026 [US3] Verify edge case handling: clearing one input after diff is displayed updates output, pasting large text triggers immediate recomputation, special characters/unicode/emoji handled correctly in src/components/App/App.test.tsx
 
 **Checkpoint**: All three user stories are independently functional — real-time diff with color coding and view toggle.
 
@@ -117,11 +117,11 @@
 
 **Purpose**: Final quality pass affecting multiple user stories.
 
-- [ ] T027 [P] Apply dark mode styling (`dark:` variants) to all components — root element (`bg-white dark:bg-gray-900`), textareas, line gutters, diff highlights, toggle buttons per research.md color specs in src/components/
-- [ ] T028 [P] Apply responsive layout polish — verify stacked layout on mobile, side-by-side on `md:`, fixed-height textareas with internal scroll on all breakpoints in src/components/App/App.tsx
-- [ ] T029 [P] Accessibility audit — verify all `<label>` associations, `aria-live="polite"` on diff output, `role="status"` on no-diff message, `aria-hidden="true"` on line gutters, `+`/`-` text markers on diff segments, keyboard tab order
-- [ ] T030 Run all quality gates: `npm run lint`, `npm run lint:tsc`, `npm run test:ci`, `npm run build`
-- [ ] T031 Run quickstart.md validation — follow all steps in specs/001-text-diff/quickstart.md and verify they work end-to-end
+- [x] T027 [P] Apply dark mode styling (`dark:` variants) to all components — root element (`bg-white dark:bg-gray-900`), textareas, line gutters, diff highlights, toggle buttons per research.md color specs in src/components/
+- [x] T028 [P] Apply responsive layout polish — verify stacked layout on mobile, side-by-side on `md:`, fixed-height textareas with internal scroll on all breakpoints in src/components/App/App.tsx
+- [x] T029 [P] Accessibility audit — verify all `<label>` associations, `aria-live="polite"` on diff output, `role="status"` on no-diff message, `aria-hidden="true"` on line gutters, `+`/`-` text markers on diff segments, keyboard tab order
+- [x] T030 Run all quality gates: `npm run lint`, `npm run lint:tsc`, `npm run test:ci`, `npm run build`
+- [x] T031 Run quickstart.md validation — follow all steps in specs/001-text-diff/quickstart.md and verify they work end-to-end
 
 ---
 
