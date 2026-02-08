@@ -1,17 +1,26 @@
 import { useState } from 'react';
+import DiffMethodToggle from 'src/components/DiffMethodToggle';
 import DiffViewer from 'src/components/DiffViewer';
 import TextInput from 'src/components/TextInput';
 import ViewToggle from 'src/components/ViewToggle';
 import { useDiff } from 'src/hooks/useDiff';
+import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { useMediaQuery } from 'src/hooks/useMediaQuery';
-import type { ViewMode } from 'src/types/diff';
+import type { DiffMethod, ViewMode } from 'src/types/diff';
 
 export default function App() {
   const [originalText, setOriginalText] = useState('');
   const [modifiedText, setModifiedText] = useState('');
-  const [viewMode, setViewMode] = useState<ViewMode>('unified');
+  const [viewMode, setViewMode] = useLocalStorage<ViewMode>(
+    'viewMode',
+    'unified',
+  );
+  const [diffMethod, setDiffMethod] = useLocalStorage<DiffMethod>(
+    'diffMethod',
+    'words',
+  );
 
-  const diffResult = useDiff(originalText, modifiedText);
+  const diffResult = useDiff(originalText, modifiedText, diffMethod);
   const isDesktop = useMediaQuery('(min-width: 768px)');
   const effectiveViewMode = isDesktop ? viewMode : 'unified';
 
@@ -39,9 +48,10 @@ export default function App() {
       {diffResult && (
         <div className="mt-6">
           <div className="mb-1 flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Diff
-            </span>
+            <DiffMethodToggle
+              activeMethod={diffMethod}
+              onMethodChange={setDiffMethod}
+            />
             <ViewToggle activeMode={viewMode} onModeChange={setViewMode} />
           </div>
           <DiffViewer result={diffResult} viewMode={effectiveViewMode} />

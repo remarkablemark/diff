@@ -37,6 +37,7 @@ describe('App component', () => {
   beforeEach(() => {
     const { mockMatchMedia } = createMockMatchMedia(false);
     window.matchMedia = mockMatchMedia;
+    localStorage.clear();
   });
 
   afterEach(() => {
@@ -98,11 +99,13 @@ describe('App component', () => {
     expect(screen.getByRole('status')).toBeInTheDocument();
   });
 
-  it('renders "Diff" label when diff output is visible', async () => {
+  it('renders diff method toggle when diff output is visible', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    expect(screen.queryByText('Diff')).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('group', { name: 'Diff method' }),
+    ).not.toBeInTheDocument();
 
     const original = screen.getByLabelText('Original Text');
     const modified = screen.getByLabelText('Modified Text');
@@ -110,7 +113,9 @@ describe('App component', () => {
     await user.type(original, 'hello');
     await user.type(modified, 'hello');
 
-    expect(screen.getByText('Diff')).toBeInTheDocument();
+    expect(
+      screen.getByRole('group', { name: 'Diff method' }),
+    ).toBeInTheDocument();
   });
 
   it('shows diff segments when texts differ', async () => {
@@ -315,5 +320,111 @@ describe('App component', () => {
 
     const addedSpan = diffOutput?.querySelector('.bg-green-100');
     expect(addedSpan).toBeInTheDocument();
+  });
+
+  it('defaults to Words diff method', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'world');
+
+    const wordsButton = screen.getByRole('button', { name: 'Words' });
+    expect(wordsButton.className).toContain('bg-blue-500');
+  });
+
+  it('switches diff output when changing diff method', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'abc');
+    await user.type(modified, 'aXc');
+
+    const diffOutput = container.querySelector('[aria-live="polite"]');
+
+    await user.click(screen.getByRole('button', { name: 'Characters' }));
+
+    const removedSpan = diffOutput?.querySelector('.bg-red-100');
+    expect(removedSpan).toBeInTheDocument();
+    expect(removedSpan?.textContent).toBe('-b');
+
+    const addedSpan = diffOutput?.querySelector('.bg-green-100');
+    expect(addedSpan).toBeInTheDocument();
+    expect(addedSpan?.textContent).toBe('+X');
+  });
+
+  it('persists diff method to localStorage', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'world');
+
+    await user.click(screen.getByRole('button', { name: 'Lines' }));
+
+    expect(localStorage.getItem('diffMethod')).toBe(JSON.stringify('lines'));
+  });
+
+  it('restores diff method from localStorage on mount', async () => {
+    localStorage.setItem('diffMethod', JSON.stringify('characters'));
+
+    const user = userEvent.setup();
+    render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'world');
+
+    const charsButton = screen.getByRole('button', { name: 'Characters' });
+    expect(charsButton.className).toContain('bg-blue-500');
+  });
+
+  it('persists view mode to localStorage', async () => {
+    const { mockMatchMedia } = createMockMatchMedia(true);
+    window.matchMedia = mockMatchMedia;
+
+    const user = userEvent.setup();
+    render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'world');
+
+    await user.click(screen.getByRole('button', { name: /side-by-side/i }));
+
+    expect(localStorage.getItem('viewMode')).toBe(
+      JSON.stringify('side-by-side'),
+    );
+  });
+
+  it('restores view mode from localStorage on mount', async () => {
+    const { mockMatchMedia } = createMockMatchMedia(true);
+    window.matchMedia = mockMatchMedia;
+    localStorage.setItem('viewMode', JSON.stringify('side-by-side'));
+
+    const user = userEvent.setup();
+    const { container } = render(<App />);
+
+    const original = screen.getByLabelText('Original Text');
+    const modified = screen.getByLabelText('Modified Text');
+
+    await user.type(original, 'hello');
+    await user.type(modified, 'world');
+
+    const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
+    expect(columns).toHaveLength(2);
   });
 });

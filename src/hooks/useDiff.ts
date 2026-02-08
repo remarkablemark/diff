@@ -1,21 +1,38 @@
-import { diffWords } from 'diff';
+import type { Change } from 'diff';
+import { diffChars, diffLines, diffWords } from 'diff';
 import { useMemo } from 'react';
-import type { DiffResult, DiffSegment } from 'src/types/diff';
+import type { DiffMethod, DiffResult, DiffSegment } from 'src/types/diff';
+
+function computeChanges(
+  method: DiffMethod,
+  oldStr: string,
+  newStr: string,
+): Change[] {
+  switch (method) {
+    case 'characters':
+      return diffChars(oldStr, newStr);
+    case 'lines':
+      return diffLines(oldStr, newStr);
+    case 'words':
+      return diffWords(oldStr, newStr);
+  }
+}
 
 /**
- * Computes a word-level diff between two strings.
+ * Computes a diff between two strings using the specified method.
  * Returns null when either input is empty (FR-005).
  */
 export function useDiff(
   originalText: string,
   modifiedText: string,
+  method: DiffMethod = 'words',
 ): DiffResult | null {
   return useMemo(() => {
     if (!originalText || !modifiedText) {
       return null;
     }
 
-    const changes = diffWords(originalText, modifiedText);
+    const changes = computeChanges(method, originalText, modifiedText);
 
     const segments: DiffSegment[] = changes.map((change) => ({
       value: change.value,
@@ -27,5 +44,5 @@ export function useDiff(
     );
 
     return { segments, hasChanges };
-  }, [originalText, modifiedText]);
+  }, [originalText, modifiedText, method]);
 }
