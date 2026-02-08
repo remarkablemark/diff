@@ -19,7 +19,7 @@ export default function App() {
         ))}
       </div>
 
-      <h1 className="my-10 text-5xl font-bold">Vite + React + Tailwind</h1>
+      <h1 className="my-10 text-5xl font-bold">diff</h1>
 
       <div className="p-8">
         <button
@@ -40,7 +40,7 @@ export default function App() {
       </div>
 
       <p className="text-slate-400">
-        Click on the Vite, React, and Tailwind logos to learn more
+        Click on the Vite, React, and Tailwind logos to learn more about diff
       </p>
     </>
   );

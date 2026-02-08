@@ -1,17 +1,17 @@
-# vite-react-tailwind-template
+# diff
 
-[![build](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/build.yml)
-[![test](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/vite-react-tailwind-template/actions/workflows/test.yml)
+[![build](https://github.com/remarkablemark/diff/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/build.yml)
+[![test](https://github.com/remarkablemark/diff/actions/workflows/test.yml/badge.svg)](https://github.com/remarkablemark/diff/actions/workflows/test.yml)
 
-Vite React Tailwind Template
+diff
 
 ## Install
 
 Clone the repository:
 
 ```sh
-git clone https://github.com/remarkablemark/vite-react-tailwind-template.git
-cd vite-react-tailwind-template
+git clone https://github.com/remarkablemark/diff.git
+cd diff
 ```
 
 Install the dependencies:
