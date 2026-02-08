@@ -12,6 +12,7 @@
 - Q: What UI pattern should the diff method control use? → A: Same segmented button group as the existing ViewToggle — 3 adjacent buttons (Characters | Words | Lines) matching the existing style, placed alongside it in the diff header.
 - Q: Where is the diff method toggle placed relative to the view mode toggle? → A: Left side of diff header — diff method toggle replaces/sits next to the "Diff" label, view mode toggle stays on the right.
 - Q: How is the diff method selection state handled? → A: Same as ViewToggle — `useState<DiffMethod>('words')` in App, passed as prop to the toggle component, App passes diffMethod to useDiff.
+- Q: Should the user's diff method selection persist across page reloads? → A: Yes, persist to localStorage. Also persist the view mode (Unified/Side-by-Side) selection.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -49,6 +50,8 @@ A user wants to switch between different diff comparison methods to get the most
 - **FR-005**: All diff option changes MUST take effect immediately without requiring any additional user action
 - **FR-006**: Diff option controls MUST be keyboard accessible
 - **FR-007**: Diff method state MUST be managed in the App component via the same pattern as the existing view mode state (lifted state, passed as props)
+- **FR-008**: System MUST persist the selected diff method to localStorage and restore it on page load, falling back to "words" if no saved value exists
+- **FR-009**: System MUST persist the selected view mode (unified/side-by-side) to localStorage and restore it on page load, falling back to "unified" if no saved value exists
 
 ### Key Entities
 
