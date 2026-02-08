@@ -12,6 +12,8 @@
 - Q: Which diff computation library should be used? → A: `diff` (`npm: diff`) — established library, ~10KB, supports line/word/character modes, TypeScript support.
 - Q: What diff display format should be used? → A: Both unified inline and side-by-side views, with a toggle switch for the user to choose between them.
 - Q: What diff granularity should be used? → A: Word-level — differences highlighted at word boundaries within lines for best readability.
+- Q: What component should be used for text input? → A: Plain `<textarea>` elements with a synced line number gutter, styled with Tailwind. No external editor library.
+- Q: How should the diff output be rendered? → A: Custom React components styled with Tailwind utility classes. No external diff rendering library.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -73,9 +75,9 @@ A user modifies text in either input area and the diff output updates automatica
 
 ### Functional Requirements
 
-- **FR-001**: System MUST provide two text input areas where users can enter or paste text.
+- **FR-001**: System MUST provide two text input areas (plain `<textarea>` elements with line number gutters) where users can enter or paste text.
 - **FR-002**: System MUST compute a word-level diff between the contents of the two text input areas using the `diff` library (`npm: diff`).
-- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them.
+- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them. Rendering MUST use custom React components styled with Tailwind (no external diff rendering library).
 - **FR-004**: System MUST update the diff output automatically when the content of either text input area changes.
 - **FR-005**: System MUST handle empty inputs gracefully, treating an empty input as an empty string for comparison purposes.
 - **FR-006**: System MUST correctly handle multi-line text, preserving line breaks in both input and output.

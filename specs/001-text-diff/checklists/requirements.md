@@ -32,8 +32,10 @@
 ## Notes
 
 - All items pass validation. Spec is ready for `/speckit.plan`.
-- Clarification session 2026-02-07 resolved 3 questions:
+- Clarification session 2026-02-07 resolved 5 questions:
   1. Diff library: `diff` (`npm: diff`)
   2. Display format: Both unified inline and side-by-side views with toggle
   3. Diff granularity: Word-level
+  4. Text input component: Plain `<textarea>` with line number gutter (no editor library)
+  5. Diff display rendering: Custom React components with Tailwind (no diff rendering library)
 - No [NEEDS CLARIFICATION] markers remain in the spec.
