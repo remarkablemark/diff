@@ -8,6 +8,9 @@
 ## Clarifications
 
 - Q: Should line numbers appear for all diff methods or only when the method is "lines"? → A: Show line numbers for all three diff methods (characters, words, lines). The system must split word/character-level segments by newlines to reconstruct line-based rows so line numbers are always visible.
+- Q: Should the diff output gutter reuse the existing TextInput gutter design pattern? → A: Yes — reuse the existing TextInput gutter style (muted gray, right-aligned, monospace, light background strip) for visual consistency between input and output areas.
+- Q: How should the unified view gutter lay out two line numbers (original + modified)? → A: Two narrow columns side by side — left column for original line number, right column for modified line number (GitHub/GitLab convention).
+- Q: What should placeholder rows look like in side-by-side view when a line doesn't exist on one side? → A: Follow GitHub convention — empty row with a subtle background tint (faint gray) to indicate the missing line, no line number shown.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -65,11 +68,13 @@ When the diff output is displayed in side-by-side view, the original column show
 - **FR-003**: Removed lines MUST show the original line number but no modified line number
 - **FR-004**: Added lines MUST show the modified line number but no original line number
 - **FR-005**: Unchanged lines MUST show both original and modified line numbers
-- **FR-006**: Line numbers MUST be visually distinct from diff content (e.g., muted color, right-aligned, monospace)
+- **FR-006**: Line numbers MUST reuse the existing TextInput gutter style — muted gray text, right-aligned, monospace font, light background strip — for visual consistency
 - **FR-007**: The line number gutter MUST be decorative and hidden from screen readers (aria-hidden)
 - **FR-008**: The gutter MUST accommodate varying digit widths without clipping or layout shifts
 - **FR-009**: Line numbers MUST be correct when the diff method is "lines" — each segment maps directly to source lines
 - **FR-010**: Line numbers MUST be displayed for all diff methods (characters, words, lines) — the system MUST split non-line segments by newlines to reconstruct line-based rows
+- **FR-011**: In unified view, the gutter MUST display two side-by-side columns — left for original line number, right for modified line number (GitHub/GitLab convention)
+- **FR-012**: In side-by-side view, placeholder rows for missing lines MUST display an empty row with a subtle background tint (faint gray) and no line number, following GitHub convention
 
 ### Key Entities
 
