@@ -44,9 +44,8 @@ You're an expert engineer for this React app.
 
 ### Testing
 
-- **Watch mode:** `npm test` (run Vitest tests in watch mode with file watching)
 - **Coverage:** `npm run test:ci` (run tests with coverage report, requires 100% coverage)
-- **Single test file:** `npm test -- --run path/to/test.test.tsx` (run specific test file)
+- **Single test file:** `npm test -- path/to/test.test.tsx` (run specific test file)
 - **Single test with coverage:** `npm run test:ci -- path/to/test.test.tsx`
 
 ## Code Style Guidelines
@@ -115,7 +114,7 @@ import type { User } from './types';
 - **Mock external dependencies** - mock API calls, browser APIs, etc.
 - **Descriptive test names** - should clearly state what is being tested
 - **Vitest globals** - use `vi.fn()`, `vi.mock()`, `vi.clearAllMocks()`
-- **Test setup** - global test environment configured in `vitest.config.mts` with `globals: true`
+- **Test setup** - global test environment configured in `vite.config.mts` with `globals: true`
 
 ### Code Quality Rules
 
