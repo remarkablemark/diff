@@ -17,6 +17,9 @@
 - Q: What is displayed when textareas are empty? → A: Diff output area is completely empty/hidden until both textareas have content.
 - Q: What is displayed when texts are identical (no diff)? → A: A short message like "No differences found" is shown in the diff output area.
 - Q: Should diff computation be debounced for real-time updates? → A: No debounce — recompute diff on every keystroke immediately.
+- Q: How should the layout adapt on mobile/small screens? → A: Responsive stacking — side-by-side on `md:` (768px+), stacked vertically on smaller screens. Textareas have a fixed max height and scroll internally to keep the page compact.
+- Q: How should the side-by-side diff view behave on mobile? → A: Auto-unified on mobile — force unified view below `md:` breakpoint; the view toggle is only visible on `md:` and above.
+- Q: Should the app support dark mode? → A: Yes — auto-detect via `prefers-color-scheme` and apply dark variants to all elements including diff color coding.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -80,13 +83,15 @@ A user modifies text in either input area and the diff output updates automatica
 
 - **FR-001**: System MUST provide two text input areas (plain `<textarea>` elements with line number gutters) where users can enter or paste text.
 - **FR-002**: System MUST compute a word-level diff between the contents of the two text input areas using the `diff` library (`npm: diff`).
-- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them. Rendering MUST use custom React components styled with Tailwind (no external diff rendering library).
+- **FR-003**: System MUST display the diff result with visual color coding — removed text in red tones and added text in green tones — in both a unified inline view and a side-by-side view, with a toggle to switch between them. On screens below the `md:` breakpoint (768px), the diff MUST default to unified view and the view toggle MUST be hidden. Rendering MUST use custom React components styled with Tailwind (no external diff rendering library).
 - **FR-004**: System MUST update the diff output automatically on every keystroke (no debounce) when the content of either text input area changes.
 - **FR-005**: System MUST handle empty inputs gracefully by hiding the diff output area until both textareas contain text.
-- **FR-009**: System MUST display a "No differences found" message in the diff output area when both inputs contain identical text.
 - **FR-006**: System MUST correctly handle multi-line text, preserving line breaks in both input and output.
 - **FR-007**: System MUST support special characters, unicode, and emoji in both inputs without errors.
 - **FR-008**: System MUST remain responsive when processing large text inputs (up to 10,000 lines).
+- **FR-009**: System MUST display a "No differences found" message in the diff output area when both inputs contain identical text.
+- **FR-010**: System MUST use a responsive layout — side-by-side text inputs on `md:` breakpoint (768px+) and stacked vertically on smaller screens. Textareas MUST have a fixed max height with internal scrolling to keep the page compact on all screen sizes.
+- **FR-011**: System MUST support dark mode via `prefers-color-scheme` media query, automatically applying dark variants to all UI elements including diff color coding (red/green highlights must remain distinguishable in both light and dark themes).
 
 ### Key Entities
 
