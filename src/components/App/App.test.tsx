@@ -371,11 +371,13 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    expect(localStorage.getItem('diffMethod')).toBe(JSON.stringify('lines'));
+    expect(localStorage.getItem('diff.diffMethod')).toBe(
+      JSON.stringify('lines'),
+    );
   });
 
   it('restores diff method from localStorage on mount', async () => {
-    localStorage.setItem('diffMethod', JSON.stringify('characters'));
+    localStorage.setItem('diff.diffMethod', JSON.stringify('characters'));
 
     const user = userEvent.setup();
     render(<App />);
@@ -405,7 +407,7 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: /side-by-side/i }));
 
-    expect(localStorage.getItem('viewMode')).toBe(
+    expect(localStorage.getItem('diff.viewMode')).toBe(
       JSON.stringify('side-by-side'),
     );
   });
@@ -413,7 +415,7 @@ describe('App component', () => {
   it('restores view mode from localStorage on mount', async () => {
     const { mockMatchMedia } = createMockMatchMedia(true);
     window.matchMedia = mockMatchMedia;
-    localStorage.setItem('viewMode', JSON.stringify('side-by-side'));
+    localStorage.setItem('diff.viewMode', JSON.stringify('side-by-side'));
 
     const user = userEvent.setup();
     const { container } = render(<App />);
@@ -550,11 +552,13 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    expect(localStorage.getItem('diffMethod')).toBe(JSON.stringify('lines'));
+    expect(localStorage.getItem('diff.diffMethod')).toBe(
+      JSON.stringify('lines'),
+    );
   });
 
   it('restores diff method from localStorage on mount', async () => {
-    localStorage.setItem('diffMethod', JSON.stringify('characters'));
+    localStorage.setItem('diff.diffMethod', JSON.stringify('characters'));
 
     const user = userEvent.setup();
     render(<App />);
@@ -581,13 +585,13 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: /side-by-side/i }));
 
-    expect(localStorage.getItem('viewMode')).toBe(
+    expect(localStorage.getItem('diff.viewMode')).toBe(
       JSON.stringify('side-by-side'),
     );
   });
 
   it('restores view mode from localStorage on mount', async () => {
-    localStorage.setItem('viewMode', JSON.stringify('side-by-side'));
+    localStorage.setItem('diff.viewMode', JSON.stringify('side-by-side'));
 
     window.matchMedia = vi.fn().mockReturnValue({
       matches: true,

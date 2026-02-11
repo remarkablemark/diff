@@ -18,7 +18,7 @@ The granularity of comparison. A string union type with three possible values.
 - `'lines'` — line-level diff (`diffLines`)
 
 **Default**: `'words'` (preserves current behavior)
-**Persistence**: localStorage key `'diffMethod'`
+**Persistence**: localStorage key `'diff.diffMethod'`
 
 ## Modified Entities
 
@@ -30,7 +30,7 @@ The `DiffResult` interface (`segments` + `hasChanges`) remains unchanged. The di
 
 The `ViewMode` type (`'unified' | 'side-by-side'`) remains unchanged. It gains localStorage persistence via the same `useLocalStorage` hook.
 
-**Persistence**: localStorage key `'viewMode'`
+**Persistence**: localStorage key `'diff.viewMode'`
 
 ## Hooks
 

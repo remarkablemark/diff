@@ -58,7 +58,7 @@
 - [x] T008 [P] [US1] Create `DiffMethodToggleProps` interface in src/components/DiffMethodToggle/DiffMethodToggle.types.ts
 - [x] T009 [P] [US1] Create barrel export in src/components/DiffMethodToggle/index.ts
 - [x] T010 [US1] Implement `DiffMethodToggle` component with 3-button segmented group (Characters | Words | Lines), `role="group"`, `aria-label`, active/inactive Tailwind styling per research.md in src/components/DiffMethodToggle/DiffMethodToggle.tsx
-- [x] T011 [US1] Update `App` component: add `diffMethod` state via `useLocalStorage('diffMethod', 'words')`, migrate `viewMode` to `useLocalStorage('viewMode', 'unified')`, pass `diffMethod` to `useDiff` and `DiffMethodToggle`, place `DiffMethodToggle` on left side of diff header in src/components/App/App.tsx
+- [x] T011 [US1] Update `App` component: add `diffMethod` state via `useLocalStorage('diff.diffMethod', 'words')`, migrate `viewMode` to `useLocalStorage('diff.viewMode', 'unified')`, pass `diffMethod` to `useDiff` and `DiffMethodToggle`, place `DiffMethodToggle` on left side of diff header in src/components/App/App.tsx
 
 **Checkpoint**: User Story 1 is fully functional — diff method toggle works, selections persist to localStorage, all tests pass.
 

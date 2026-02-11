@@ -12,11 +12,11 @@ export default function App() {
   const [originalText, setOriginalText] = useState('');
   const [modifiedText, setModifiedText] = useState('');
   const [viewMode, setViewMode] = useLocalStorage<ViewMode>(
-    'viewMode',
+    'diff.viewMode',
     'unified',
   );
   const [diffMethod, setDiffMethod] = useLocalStorage<DiffMethod>(
-    'diffMethod',
+    'diff.diffMethod',
     'words',
   );
 
