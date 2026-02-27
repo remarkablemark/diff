@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import type { DiffLineResult } from 'src/types/diff';
 import { segmentsToLines } from 'src/utils/segmentsToLines';
 
@@ -307,7 +307,7 @@ describe('DiffViewer component', () => {
   });
 
   describe('Scroll Synchronization Integration', () => {
-    it('should update scroll position when content is scrolled', () => {
+    it('should update scroll position when content is scrolled', async () => {
       const result = makeResult(
         [
           { value: 'line1\n', type: 'unchanged' },
@@ -316,9 +316,6 @@ describe('DiffViewer component', () => {
         true,
       );
 
-      // Test the handleContentScroll callback behavior
-      // Since it's internal to the component, we'll test the behavior
-      // by simulating a scroll on the rendered component
       const { container } = render(
         <DiffViewer
           result={result}
@@ -330,13 +327,13 @@ describe('DiffViewer component', () => {
       const contentArea = container.querySelector('.overflow-x-auto');
       expect(contentArea).toBeInTheDocument();
 
-      // Simulate scroll event
+      // Simulate scroll event and wait for React to process the state update
       if (contentArea) {
-        // This tests that the scroll handler is properly attached
-        // and the component can handle scroll events without errors
-        expect(() => {
-          contentArea.dispatchEvent(new Event('scroll'));
-        }).not.toThrow();
+        await waitFor(() => {
+          expect(() => {
+            contentArea.dispatchEvent(new Event('scroll'));
+          }).not.toThrow();
+        });
       }
     });
 
