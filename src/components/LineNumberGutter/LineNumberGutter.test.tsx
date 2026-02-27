@@ -7,7 +7,6 @@ describe('LineNumberGutter', () => {
   const defaultProps: LineNumberGutterProps = {
     lineCount: 10,
     digitCount: 2,
-    onScroll: vi.fn(),
     scrollTop: 0,
     scrollLeft: 0,
     'aria-label': 'Line numbers',
@@ -44,19 +43,17 @@ describe('LineNumberGutter', () => {
   });
 
   it('should handle scroll events', () => {
-    const mockOnScroll = vi.fn();
-    render(<LineNumberGutter {...defaultProps} onScroll={mockOnScroll} />);
+    render(<LineNumberGutter {...defaultProps} />);
 
     const gutter = screen.getByLabelText('Line numbers');
 
     // Simulate scroll event
     gutter.dispatchEvent(new Event('scroll'));
 
-    // The scroll event should trigger the onScroll callback
+    // The scroll event should be handled by the component
     // Since we can't easily mock the currentTarget in testing, let's check
     // that the component renders correctly and the scroll handler exists
     expect(gutter).toBeInTheDocument();
-    expect(mockOnScroll).toBeDefined();
   });
 
   it('should apply custom className', () => {

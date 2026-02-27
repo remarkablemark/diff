@@ -1,10 +1,12 @@
-import type { DiffLineResult, ViewMode } from 'src/types/diff';
+import type { DiffLineResult, DiffMethod, ViewMode } from 'src/types/diff';
 
 export interface DiffViewerProps {
   /** The computed diff result with line data, null when output should be hidden */
   result: DiffLineResult | null;
   /** The effective display mode (forced 'unified' on mobile) */
   viewMode: ViewMode;
+  /** The diff method being used */
+  diffMethod?: DiffMethod;
   /** Enable scroll synchronization (default: true) */
   enableScrollSync?: boolean;
   /** Explicit gutter width control */

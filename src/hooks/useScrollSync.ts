@@ -30,10 +30,10 @@ export interface UseScrollSyncReturn {
   /** Scroll handler for gutter element */
   onGutterScroll: (event: React.UIEvent<HTMLDivElement>) => void;
   /** Scroll handler for content element */
-  onContentScroll: (event: React.UIEvent<HTMLTextAreaElement>) => void;
+  onContentScroll: (event: React.UIEvent<HTMLDivElement>) => void;
   /** Ref objects for DOM elements */
   gutterRef: React.RefObject<HTMLDivElement | null>;
-  contentRef: React.RefObject<HTMLTextAreaElement | null>;
+  contentRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export const useScrollSync = (
@@ -49,7 +49,7 @@ export const useScrollSync = (
   });
 
   const gutterRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLTextAreaElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const debounceTimeoutRef = useRef<number>(null);
 
   const syncScrollPosition = useCallback(
@@ -94,7 +94,7 @@ export const useScrollSync = (
   );
 
   const onContentScroll = useCallback(
-    (event: React.UIEvent<HTMLTextAreaElement>) => {
+    (event: React.UIEvent<HTMLDivElement>) => {
       const element = event.currentTarget;
       syncScrollPosition(element.scrollTop, element.scrollLeft, 'content');
     },

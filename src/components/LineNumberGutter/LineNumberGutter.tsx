@@ -1,30 +1,20 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import type { LineNumberGutterProps } from './LineNumberGutter.types';
 
 export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
   lineCount,
   digitCount,
-  onScroll,
   scrollTop,
   scrollLeft,
   className = '',
   'aria-label': ariaLabel = 'Line numbers',
 }) => {
-  const handleScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement>) => {
-      const element = event.currentTarget;
-      onScroll(element.scrollTop, element.scrollLeft);
-    },
-    [onScroll],
-  );
-
   // Generate line numbers
   const lineNumbers = useMemo(() => {
     return Array.from({ length: lineCount }, (_, index) => index + 1);
   }, [lineCount]);
 
-  // Set scroll position when props change
   const scrollElementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,13 +31,17 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
   return (
     <div
       ref={scrollElementRef}
+      data-testid="diff-gutter"
+      aria-hidden="true"
       className={`bg-secondary overflow-hidden border-r pr-2 text-right font-mono select-none ${widthClass} ${className} `}
-      onScroll={handleScroll}
       role="generic"
       aria-label={ariaLabel}
       data-digits={digitCount}
     >
-      <div className="pointer-events-none">
+      <div
+        className="pointer-events-none"
+        style={{ transform: 'translateY(-' + String(scrollTop) + 'px)' }}
+      >
         {lineNumbers.map((lineNumber) => (
           <div
             key={lineNumber}

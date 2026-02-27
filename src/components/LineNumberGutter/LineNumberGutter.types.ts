@@ -7,8 +7,6 @@ export interface LineNumberGutterProps {
   lineCount: number;
   /** Current digit width for gutter sizing */
   digitCount: 2 | 3;
-  /** Scroll event callback for synchronization */
-  onScroll: (scrollTop: number, scrollLeft: number) => void;
   /** Current vertical scroll position (for sync) */
   scrollTop: number;
   /** Current horizontal scroll position (for sync) */

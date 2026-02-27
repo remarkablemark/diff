@@ -53,7 +53,7 @@ description: 'Task list for Fix Line Number Scrolling feature implementation'
 - [x] T006 [P] [US1] Unit test for useScrollSync hook scroll event handling in src/hooks/useScrollSync.test.ts
 - [x] T007 [P] [US1] Unit test for LineNumberGutter component rendering in src/components/LineNumberGutter/LineNumberGutter.test.tsx
 - [x] T008 [P] [US1] Unit test for scroll synchronization logic in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T009 [P] [US1] Integration test for DiffViewer with scroll sync in src/components/DiffViewer/DiffViewer.test.tsx
+- [x] T009 [P] [US1] Integration test for DiffViewer with scroll sync in src/components/DiffViewer/DiffViewer.test.tsx
 
 ### Implementation for User Story 1
 
@@ -63,12 +63,12 @@ description: 'Task list for Fix Line Number Scrolling feature implementation'
 - [x] T013 [US1] Add Tailwind CSS styling for gutter layout in src/components/LineNumberGutter/LineNumberGutter.tsx
 - [x] T014 [US1] Implement dynamic width calculation (2-3 digits) in src/components/LineNumberGutter/LineNumberGutter.tsx
 - [x] T015 [US1] Create LineNumberGutter barrel export in src/components/LineNumberGutter/index.ts
-- [ ] T016 [US1] Enhance DiffViewer component to integrate LineNumberGutter in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T017 [US1] Apply useScrollSync hook in DiffViewer component in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T018 [US1] Add CSS Grid layout for gutter and content in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T019 [US1] Implement horizontal scroll synchronization in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T020 [US1] Add accessibility attributes and ARIA labels in src/components/DiffViewer/DiffViewer.tsx
-- [ ] T021 [US1] Update DiffViewer barrel export in src/components/DiffViewer/index.ts
+- [x] T016 [US1] Enhance DiffViewer component to integrate LineNumberGutter in src/components/DiffViewer/DiffViewer.tsx
+- [x] T017 [US1] Apply useScrollSync hook in DiffViewer component in src/components/DiffViewer/DiffViewer.tsx
+- [x] T018 [US1] Add CSS Grid layout for gutter and content in src/components/DiffViewer/DiffViewer.tsx
+- [x] T019 [US1] Implement horizontal scroll synchronization in src/components/DiffViewer/DiffViewer.tsx
+- [x] T020 [US1] Add accessibility attributes and ARIA labels in src/components/DiffViewer/DiffViewer.tsx
+- [x] T021 [US1] Update DiffViewer barrel export in src/components/DiffViewer/index.ts
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 

@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 
-import type { ScrollSyncOptions } from './useScrollSync';
-import { useScrollSync } from './useScrollSync';
+import { type ScrollSyncOptions, useScrollSync } from './useScrollSync';
 
 describe('useScrollSync', () => {
   const mockOptions: ScrollSyncOptions = {
@@ -60,12 +59,12 @@ describe('useScrollSync', () => {
     const mockContentElement = {
       scrollTop: 200,
       scrollLeft: 75,
-    } as HTMLTextAreaElement;
+    } as HTMLDivElement;
 
     act(() => {
       result.current.onContentScroll({
         currentTarget: mockContentElement,
-      } as React.UIEvent<HTMLTextAreaElement>);
+      } as React.UIEvent<HTMLDivElement>);
     });
 
     // Need to wait for debounce
