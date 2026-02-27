@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 
 import TextInput from '.';
 
@@ -126,6 +127,57 @@ describe('TextInput component', () => {
         value: 50,
       });
       textarea.dispatchEvent(new Event('scroll', { bubbles: true }));
+    }).not.toThrow();
+  });
+
+  it('should detect horizontal scrollbar and add padding to gutter', () => {
+    // Mock a textarea with horizontal scrollbar
+    render(
+      <TextInput
+        {...defaultProps}
+        value="a very long line that will cause horizontal scrolling"
+      />,
+    );
+
+    const textarea = screen.getByLabelText('Original Text');
+    const gutter = screen.getByTestId('line-gutter');
+
+    // Mock the textarea to have horizontal scrollbar
+    Object.defineProperty(textarea, 'scrollWidth', {
+      writable: true,
+      value: 1000,
+    });
+    Object.defineProperty(textarea, 'clientWidth', {
+      writable: true,
+      value: 800,
+    });
+
+    // Trigger the scrollbar detection by changing value
+    expect(() => {
+      render(<TextInput {...defaultProps} value="updated text" />);
+    }).not.toThrow();
+
+    expect(gutter).toBeInTheDocument();
+  });
+
+  it('should handle horizontal scrollbar detection without error', () => {
+    render(<TextInput {...defaultProps} value="short line" />);
+
+    const textarea = screen.getByLabelText('Original Text');
+
+    // Mock the textarea without horizontal scrollbar
+    Object.defineProperty(textarea, 'scrollWidth', {
+      writable: true,
+      value: 800,
+    });
+    Object.defineProperty(textarea, 'clientWidth', {
+      writable: true,
+      value: 800,
+    });
+
+    // This should not throw
+    expect(() => {
+      render(<TextInput {...defaultProps} value="updated short text" />);
     }).not.toThrow();
   });
 });

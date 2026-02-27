@@ -148,4 +148,21 @@ describe('LineNumberGutter', () => {
       );
     }).not.toThrow();
   });
+
+  it('should handle horizontal scrollbar detection on scroll', () => {
+    // This test ensures the scrollbar detection logic runs without error
+    // We can't easily mock the DOM querySelector in this test environment,
+    // but we can verify the component handles scrollLeft changes
+    const { rerender } = render(
+      <LineNumberGutter {...defaultProps} scrollLeft={0} />,
+    );
+
+    const gutter = screen.getByLabelText('Line numbers');
+    expect(gutter).toBeInTheDocument();
+
+    // Trigger scrollLeft change which should trigger scrollbar detection
+    expect(() => {
+      rerender(<LineNumberGutter {...defaultProps} scrollLeft={50} />);
+    }).not.toThrow();
+  });
 });

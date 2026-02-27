@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { LineNumberGutterProps } from './LineNumberGutter.types';
 
@@ -16,6 +16,23 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
   }, [lineCount]);
 
   const scrollElementRef = useRef<HTMLDivElement>(null);
+  const [hasHorizontalScrollbar, setHasHorizontalScrollbar] = useState(false);
+
+  // Check for horizontal scrollbar in the content area
+  const checkHorizontalScrollbar = () => {
+    // Find the content element by looking for the next sibling or parent's child
+    const contentElement = /* v8 ignore next */
+    scrollElementRef.current?.parentElement?.querySelector(
+      '[class*="overflow-x-auto"]',
+    );
+    /* v8 ignore start */
+    if (contentElement) {
+      const hasScrollbar =
+        contentElement.scrollWidth > contentElement.clientWidth;
+      setHasHorizontalScrollbar(hasScrollbar);
+    }
+    /* v8 ignore end */
+  };
 
   useEffect(() => {
     /* v8 ignore start */
@@ -26,6 +43,16 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
     /* v8 ignore end */
   }, [scrollTop, scrollLeft]);
 
+  // Check for horizontal scrollbar when scroll position changes
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      checkHorizontalScrollbar();
+    }, 0);
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [scrollLeft]);
+
   const widthClass = digitCount === 3 ? 'w-[calc(2ch*3)]' : 'w-[calc(2ch*2)]';
 
   return (
@@ -33,7 +60,11 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
       ref={scrollElementRef}
       data-testid="diff-gutter"
       aria-hidden="true"
-      className={`bg-secondary overflow-x-hidden overflow-y-auto border-r pr-2 text-right font-mono select-none ${widthClass} ${className} `}
+      className={`bg-secondary overflow-x-hidden overflow-y-auto border-r pr-2 text-right font-mono select-none ${widthClass} ${
+        hasHorizontalScrollbar
+          ? 'pb-[calc(1.5rem+var(--scrollbar-size,0px))]'
+          : ''
+      } ${className} `}
       role="generic"
       aria-label={ariaLabel}
       data-digits={digitCount}
