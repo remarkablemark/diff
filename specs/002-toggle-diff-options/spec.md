@@ -2,7 +2,7 @@
 
 **Feature Branch**: `002-toggle-diff-options`
 **Created**: 2026-02-08
-**Status**: Draft
+**Status**: Completed
 **Input**: User description: "toggle diff options"
 
 ## Clarifications

@@ -1,8 +1,8 @@
 # Feature Specification: Diff Line Numbers
 
-**Feature Branch**: `003-diff-line-numbers`  
-**Created**: 2026-02-08  
-**Status**: Draft  
+**Feature Branch**: `003-diff-line-numbers`
+**Created**: 2026-02-08
+**Status**: Completed
 **Input**: User description: "diff line numbers"
 
 ## Clarifications
