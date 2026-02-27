@@ -1,7 +1,7 @@
 # Feature Specification: Fix Line Number Scrolling
 
 **Feature Branch**: `001-fix-line-number-scrolling`  
-**Created**: 2025-02-26  
+**Created**: 2026-02-26  
 **Status**: Draft  
 **Input**: User description: "fix line number scrolling"
 
