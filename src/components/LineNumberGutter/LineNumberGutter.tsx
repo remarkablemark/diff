@@ -33,25 +33,20 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
       ref={scrollElementRef}
       data-testid="diff-gutter"
       aria-hidden="true"
-      className={`bg-secondary overflow-hidden border-r pr-2 text-right font-mono select-none ${widthClass} ${className} `}
+      className={`bg-secondary overflow-x-hidden overflow-y-auto border-r pr-2 text-right font-mono select-none ${widthClass} ${className} `}
       role="generic"
       aria-label={ariaLabel}
       data-digits={digitCount}
     >
-      <div
-        className="pointer-events-none"
-        style={{ transform: 'translateY(-' + String(scrollTop) + 'px)' }}
-      >
-        {lineNumbers.map((lineNumber) => (
-          <div
-            key={lineNumber}
-            className="text-sm leading-6"
-            style={{ height: '24px' }}
-          >
-            {lineNumber}
-          </div>
-        ))}
-      </div>
+      {lineNumbers.map((lineNumber) => (
+        <div
+          key={lineNumber}
+          className="text-sm leading-6"
+          style={{ height: '24px' }}
+        >
+          {lineNumber}
+        </div>
+      ))}
     </div>
   );
 };

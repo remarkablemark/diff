@@ -165,7 +165,7 @@ describe('DiffViewer component', () => {
 
     // Check that line numbers are rendered (1, 2, 3...)
     const lineNumbers = container.querySelectorAll(
-      '[aria-label="Line numbers"] div div',
+      '[aria-label="Line numbers"] div',
     );
     expect(lineNumbers.length).toBeGreaterThan(0);
     expect(lineNumbers[0]).toHaveTextContent('1');
@@ -180,7 +180,7 @@ describe('DiffViewer component', () => {
 
     // Check that line numbers are rendered (1, 2, 3...)
     const lineNumbers = container.querySelectorAll(
-      '[aria-label="Line numbers"] div div',
+      '[aria-label="Line numbers"] div',
     );
     expect(lineNumbers.length).toBeGreaterThan(0);
     expect(lineNumbers[0]).toHaveTextContent('1');
@@ -195,7 +195,7 @@ describe('DiffViewer component', () => {
 
     // Check that line numbers are rendered (1, 2, 3...)
     const lineNumbers = container.querySelectorAll(
-      '[aria-label="Line numbers"] div div',
+      '[aria-label="Line numbers"] div',
     );
     expect(lineNumbers.length).toBeGreaterThan(0);
     expect(lineNumbers[0]).toHaveTextContent('1');
