@@ -52,6 +52,7 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 
 - Q: What synchronization mechanism should be used to keep the line number gutter aligned with the textarea during scrolling? → A: Keep textarea and implement linked scroll containers with synchronized scroll events
 - Q: How should the line number gutter handle varying digit counts for proper alignment? → A: Use fixed-width gutter with monospace font and right-alignment
+- Q: What should be the maximum digit count for the line number gutter width? → A: Use CSS auto-sizing with max-width constraint
 
 ## Requirements _(mandatory)_
 
@@ -60,7 +61,7 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 - **FR-001**: System MUST synchronize vertical scrolling between line numbers and diff content using linked scroll containers
 - **FR-002**: System MUST synchronize horizontal scrolling (when present) between line numbers and diff content using scroll event coordination
 - **FR-003**: System MUST maintain line number alignment in both unified and side-by-side view modes
-- **FR-004**: System MUST handle line numbers with varying digit counts using fixed-width gutter with monospace font and right-alignment
+- **FR-004**: System MUST handle line numbers with varying digit counts using CSS auto-sizing with max-width constraint
 - **FR-005**: System MUST preserve line number visibility during viewport resizing
 - **FR-006**: System MUST ensure line numbers remain readable and accessible
 - **FR-007**: System MUST maintain proper spacing between line numbers and content
@@ -68,7 +69,7 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 
 ### Key Entities _(include if feature involves data)_
 
-- **Line Number Gutter**: The fixed-width column displaying line numbers in a separate scroll container, using monospace font with right-alignment
+- **Line Number Gutter**: The auto-sizing column displaying line numbers in a separate scroll container, using monospace font with right-alignment and max-width constraint
 - **Diff Content Area**: The textarea containing diff text with synchronized scrolling
 - **Scroll Container**: Linked containers managing coordinated scroll behavior between gutter and content
 - **Viewport**: The visible area of the diff viewer
