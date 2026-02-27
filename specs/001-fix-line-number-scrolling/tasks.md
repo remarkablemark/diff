@@ -4,8 +4,7 @@ description: 'Task list for Fix Line Number Scrolling feature implementation'
 
 # Tasks: Fix Line Number Scrolling
 
-**Status**: ✅ **USER STORY 1 COMPLETED** | 🔄 **USER STORY 2 PENDING**  
-**Tests**: ✅ **142/142 PASSING** | **Coverage**: ✅ **100%**
+**Status**: ✅ **FEATURE COMPLETE** | **Tests**: ✅ **142/142 PASSING** | **Coverage**: ✅ **100%**
 
 **Input**: Design documents from `/specs/001-fix-line-number-scrolling/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
@@ -74,46 +73,6 @@ description: 'Task list for Fix Line Number Scrolling feature implementation'
 - [x] T021 [US1] Update DiffViewer barrel export in src/components/DiffViewer/index.ts
 
 **Checkpoint**: ✅ **COMPLETED** - User Story 1 is fully functional and testable independently
-
----
-
-## Phase 4: User Story 2 - Responsive Line Number Display (Priority: P2) 🔄 **OPTIONAL**
-
-**Goal**: Ensure line numbers display properly across different viewport sizes and devices
-
-**Independent Test**: View the same diff on different viewport sizes and verify line numbers remain visible and properly formatted
-
-**Status**: 🔄 **NOT STARTED** - Optional enhancement for responsive design
-
-### Tests for User Story 2 (REQUIRED - 100% coverage) ⚠️
-
-- [ ] T022 [P] [US2] Unit test for responsive width calculation in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T023 [P] [US2] Integration test for viewport resizing behavior in src/components/DiffViewer/DiffViewer.test.tsx
-
-### Implementation for User Story 2
-
-- [ ] T024 [US2] Implement responsive width calculation for different viewport sizes in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T025 [US2] Add viewport resize handling in useScrollSync hook in src/hooks/useScrollSync.ts
-- [ ] T026 [US2] Implement Tailwind responsive classes for gutter layout in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T027 [US2] Add viewport size validation and edge case handling in src/components/DiffViewer/DiffViewer.tsx
-
-**Checkpoint**: 🔄 **OPTIONAL** - User Stories 1 AND 2 should both work independently (US1 complete, US2 optional)
-
----
-
-## Phase 5: Polish & Cross-Cutting Concerns 🔄 **OPTIONAL**
-
-**Purpose**: Improvements that affect multiple user stories
-
-**Status**: 🔄 **NOT STARTED** - Optional optimizations for production readiness
-
-- [ ] T028 [P] Performance optimization for large diff files in src/hooks/useScrollSync.ts
-- [ ] T029 [P] Error handling and graceful degradation in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T030 [P] Memory cleanup and event listener management in src/hooks/useScrollSync.ts
-- [ ] T031 Add comprehensive accessibility testing in src/components/DiffViewer/DiffViewer.test.tsx
-- [ ] T032 [P] Documentation updates for component APIs in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T033 Code cleanup and refactoring for maintainability
-- [ ] T034 Final validation against success criteria (SC-001 through SC-005)
 
 ---
 
