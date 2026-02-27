@@ -39,20 +39,11 @@
 
 **Implementation**:
 
-```css
-.diff-container {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0;
-}
-.line-number-gutter {
-  grid-column: 1;
-  overflow: hidden;
-}
-.diff-content {
-  grid-column: 2;
-  overflow: auto;
-}
+```tsx
+<div className="grid h-full grid-cols-[auto_1fr] gap-0">
+  <div className="col-span-1 overflow-hidden">{/* Line number gutter */}</div>
+  <div className="col-span-2 overflow-auto">{/* Diff content */}</div>
+</div>
 ```
 
 **Alternatives considered**:
@@ -72,11 +63,15 @@
 
 **Implementation**:
 
-```css
-.line-number-gutter {
-  width: calc(2ch * var(--digit-count, 2));
-  max-width: calc(2ch * 3); /* Max 3 digits */
-}
+```tsx
+<div className="w-[calc(2ch*var(--digit-count,2))] max-w-[calc(2ch*3)]">
+  {/* Line numbers */}
+</div>
+
+// Or with data attributes
+<div className="w-[calc(2ch*2)]" data-digits="2">
+  {/* 2-digit gutter */}
+</div>
 ```
 
 **Alternatives considered**:

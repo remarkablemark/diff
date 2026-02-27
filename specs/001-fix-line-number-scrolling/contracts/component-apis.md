@@ -149,47 +149,33 @@ const { scrollState, onGutterScroll, onContentScroll, gutterRef, contentRef } =
 - **Ref Management**: Supplies refs for proper DOM element attachment
 - **Cleanup**: Automatically cleans up event listeners on unmount
 
-## CSS Custom Properties
+## Tailwind CSS Classes
 
 ### Gutter Width Calculation
 
-```css
-.line-number-gutter {
-  width: calc(2ch * var(--digit-count, 2));
-  max-width: calc(2ch * 3);
-}
+```tsx
+<div className="w-[calc(2ch*var(--digit-count,2))] max-w-[calc(2ch*3)]">
+  {/* Line numbers */}
+</div>
 
-.line-number-gutter[data-digits='2'] {
-  --digit-count: 2;
-}
+<div className="w-[calc(2ch*2)]" data-digits="2">
+  {/* 2-digit gutter */}
+</div>
 
-.line-number-gutter[data-digits='3'] {
-  --digit-count: 3;
-}
+<div className="w-[calc(2ch*3)]" data-digits="3">
+  {/* 3-digit gutter */}
+</div>
 ```
 
 ### Scroll Container Styling
 
-```css
-.diff-container {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0;
-}
-
-.line-number-gutter {
-  grid-column: 1;
-  overflow: hidden;
-  font-family: ui-monospace, monospace;
-  text-align: right;
-  padding-right: 0.5rem;
-}
-
-.diff-content {
-  grid-column: 2;
-  overflow: auto;
-  resize: vertical;
-}
+```tsx
+<div className="grid h-full grid-cols-[auto_1fr] gap-0">
+  <div className="bg-secondary col-span-1 overflow-hidden border-r pr-2 text-right font-mono select-none">
+    {/* Line number gutter */}
+  </div>
+  <div className="col-span-2 resize-y overflow-auto">{/* Diff content */}</div>
+</div>
 ```
 
 ## Event Contracts

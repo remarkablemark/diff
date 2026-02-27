@@ -79,43 +79,41 @@ touch src/hooks/useScrollSync.test.ts
 - Accessibility tests with screen reader simulation
 - Performance tests with large diff files
 
-## CSS Implementation
+## Tailwind CSS Implementation
 
 ### Gutter Styling
 
-```css
-.line-number-gutter {
-  font-family: ui-monospace, monospace;
-  text-align: right;
-  padding-right: 0.5rem;
-  user-select: none;
-  background-color: var(--color-bg-secondary);
-  border-right: 1px solid var(--color-border);
-}
+```tsx
+<div className="font-mono text-right pr-2 select-none bg-secondary border-r">
+  {/* Line numbers */}
+</div>
 
-.line-number-gutter[data-digits='2'] {
-  width: calc(2ch * 2);
-}
+<div className="w-[calc(2ch*2)]" data-digits="2">
+  {/* 2-digit gutter */}
+</div>
 
-.line-number-gutter[data-digits='3'] {
-  width: calc(2ch * 3);
-}
+<div className="w-[calc(2ch*3)]" data-digits="3">
+  {/* 3-digit gutter */}
+</div>
 ```
 
 ### Container Layout
 
-```css
-.diff-container {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0;
-  height: 100%;
-}
+```tsx
+<div className="grid h-full grid-cols-[auto_1fr] gap-0">
+  <div className="col-span-1 overflow-hidden">{/* Line number gutter */}</div>
+  <div className="col-span-2 resize-y overflow-auto">
+    {/* Diff content textarea */}
+  </div>
+</div>
+```
 
-.diff-content {
-  overflow: auto;
-  resize: vertical;
-}
+### Responsive Design
+
+```tsx
+<div className="grid h-full grid-cols-[auto_1fr] gap-0 sm:gap-0 md:gap-0 lg:gap-0">
+  {/* Responsive gutter that works across viewport sizes */}
+</div>
 ```
 
 ## Usage Examples
