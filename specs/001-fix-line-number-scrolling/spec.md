@@ -46,24 +46,32 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 - What happens when the diff content is shorter than the viewport height?
 - How does system handle empty diffs or diffs with no changes?
 
+## Clarifications
+
+### Session 2026-02-26
+
+- Q: What synchronization mechanism should be used to keep the line number gutter aligned with the textarea during scrolling? → A: Keep textarea and implement linked scroll containers with synchronized scroll events
+
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
 
-- **FR-001**: System MUST synchronize horizontal scrolling between line numbers and diff content
-- **FR-002**: System MUST synchronize vertical scrolling between line numbers and diff content
+- **FR-001**: System MUST synchronize horizontal scrolling between line numbers and diff content using linked scroll containers
+- **FR-002**: System MUST synchronize vertical scrolling between line numbers and diff content using scroll event coordination
 - **FR-003**: System MUST maintain line number alignment in both unified and side-by-side view modes
 - **FR-004**: System MUST handle line numbers with varying digit counts without breaking alignment
 - **FR-005**: System MUST preserve line number visibility during viewport resizing
 - **FR-006**: System MUST ensure line numbers remain readable and accessible
 - **FR-007**: System MUST maintain proper spacing between line numbers and content
+- **FR-008**: System MUST preserve native textarea functionality (selection, copy, accessibility) while achieving synchronization
 
 ### Key Entities _(include if feature involves data)_
 
-- **Line Number Gutter**: The fixed-width column displaying line numbers
-- **Diff Content Area**: The scrollable area containing diff text
-- **Scroll Container**: The container managing scrolling behavior
+- **Line Number Gutter**: The fixed-width column displaying line numbers in a separate scroll container
+- **Diff Content Area**: The textarea containing diff text with synchronized scrolling
+- **Scroll Container**: Linked containers managing coordinated scroll behavior between gutter and content
 - **Viewport**: The visible area of the diff viewer
+- **Scroll Event Coordinator**: JavaScript mechanism synchronizing scroll positions between containers
 
 ## Success Criteria _(mandatory)_
 
