@@ -205,4 +205,83 @@ describe('segmentsToLines', () => {
       },
     ]);
   });
+
+  it('handles segment ending with multiple newlines', () => {
+    const segments: DiffSegment[] = [
+      { value: 'line1\n\nline3\n', type: 'unchanged' },
+    ];
+    const lines = segmentsToLines(segments);
+
+    expect(lines).toEqual([
+      {
+        text: 'line1',
+        type: 'unchanged',
+        originalLineNumber: 1,
+        modifiedLineNumber: 1,
+      },
+      {
+        text: '',
+        type: 'unchanged',
+        originalLineNumber: 2,
+        modifiedLineNumber: 2,
+      },
+      {
+        text: 'line3',
+        type: 'unchanged',
+        originalLineNumber: 3,
+        modifiedLineNumber: 3,
+      },
+    ]);
+  });
+
+  it('handles mixed segment types with complex line number tracking', () => {
+    const segments: DiffSegment[] = [
+      { value: 'unchanged1\n', type: 'unchanged' },
+      { value: 'removed1\n', type: 'removed' },
+      { value: 'removed2\n', type: 'removed' },
+      { value: 'added1\n', type: 'added' },
+      { value: 'added2\n', type: 'added' },
+      { value: 'unchanged2\n', type: 'unchanged' },
+    ];
+    const lines = segmentsToLines(segments);
+
+    expect(lines).toEqual([
+      {
+        text: 'unchanged1',
+        type: 'unchanged',
+        originalLineNumber: 1,
+        modifiedLineNumber: 1,
+      },
+      {
+        text: 'removed1',
+        type: 'removed',
+        originalLineNumber: 2,
+        modifiedLineNumber: undefined,
+      },
+      {
+        text: 'removed2',
+        type: 'removed',
+        originalLineNumber: 3,
+        modifiedLineNumber: undefined,
+      },
+      {
+        text: 'added1',
+        type: 'added',
+        originalLineNumber: undefined,
+        modifiedLineNumber: 2,
+      },
+      {
+        text: 'added2',
+        type: 'added',
+        originalLineNumber: undefined,
+        modifiedLineNumber: 3,
+      },
+      {
+        text: 'unchanged2',
+        type: 'unchanged',
+        originalLineNumber: 4,
+        modifiedLineNumber: 4,
+      },
+    ]);
+  });
 });

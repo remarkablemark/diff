@@ -14,10 +14,11 @@ export default function TextInput({
   const lineCount = value ? value.split('\n').length : 1;
 
   const handleScroll = (event: React.UIEvent<HTMLTextAreaElement>) => {
-    /* v8 ignore else -- @preserve */
+    /* v8 ignore start */
     if (gutterRef.current) {
       gutterRef.current.scrollTop = event.currentTarget.scrollTop;
     }
+    /* v8 ignore end */
   };
 
   return (
