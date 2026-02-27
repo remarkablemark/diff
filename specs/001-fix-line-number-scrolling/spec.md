@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-fix-line-number-scrolling`  
 **Created**: 2026-02-26  
-**Status**: Completed (User Story 1) / Draft (User Story 2)  
+**Status**: Completed (User Story 1 & 3) / Draft (User Story 2)  
 **Input**: User description: "fix line number scrolling"
 
 ## User Scenarios & Testing _(mandatory)_
@@ -49,10 +49,37 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 
 ---
 
+### User Story 3 - Horizontal Scrollbar Detection (Priority: P1) ✅ **COMPLETED**
+
+As a user viewing diffs with long lines that cause horizontal scrollbars, I want the line numbers to have extra bottom padding when horizontal scrollbars appear, so the last line number remains visible and not obscured by the scrollbar.
+
+**Why this priority**: This addresses a visual usability issue where horizontal scrollbars can cover the last line number, making it difficult to reference the final line in the diff.
+
+**Independent Test**: Can be fully tested by creating content that triggers horizontal scrolling and verifying the last line number has appropriate padding.
+
+**Acceptance Scenarios**:
+
+1. **Given** a diff with long lines that trigger horizontal scrolling, **When** the scrollbar appears, **Then** the line number gutter adds 2rem bottom padding plus scrollbar height
+2. **Given** a diff with short lines that don't trigger horizontal scrolling, **When** rendered, **Then** the line number gutter uses normal padding without extra space
+3. **Given** content changes that add/remove horizontal scrolling, **When** the scrollbar state changes, **Then** the padding updates dynamically
+
+**Implementation Notes**:
+
+- Added horizontal scrollbar detection using `scrollWidth > clientWidth` comparison
+- Implemented dynamic padding with `pb-[calc(2rem+var(--scrollbar-size,0px))]` CSS class
+- Added `useState` to track scrollbar presence in both `TextInput` and `LineNumberGutter` components
+- Used `useEffect` with `setTimeout` to avoid React setState warnings
+- Enhanced both components to detect scrollbars and apply padding automatically
+- Maintained 100% test coverage with comprehensive test cases
+- Used CSS custom properties for scrollbar size customization
+
+---
+
 ### Edge Cases
 
 - ✅ **SOLVED**: What happens when line numbers have different digit counts (e.g., line 9 vs line 1000)? → Dynamic width calculation (2-3 digits)
 - ✅ **SOLVED**: How does system handle very long lines that exceed viewport width? → Horizontal scrolling with `whitespace-pre` prevents wrapping
+- ✅ **SOLVED**: What happens when horizontal scrollbars appear and cover the last line number? → Dynamic bottom padding detection with 2rem + scrollbar height
 - What happens when the diff content is shorter than the viewport height? → Line numbers still render correctly
 - What happens when the diff content is shorter than the viewport height? → Current behavior preserved
 - ✅ **SOLVED**: What happens when text is pasted creating very long lines? → Horizontal scrolling maintains alignment
@@ -80,14 +107,19 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 - **FR-005**: System MUST ensure line numbers remain readable and accessible
 - **FR-006**: System MUST maintain proper spacing between line numbers and content
 - **FR-007**: System MUST preserve native textarea functionality (selection, copy, accessibility) while achieving synchronization
+- **FR-008**: System MUST detect horizontal scrollbars and add appropriate bottom padding to line number gutters
+- **FR-009**: System MUST dynamically adjust padding when horizontal scrollbar state changes
+- **FR-010**: System MUST use 2rem bottom padding plus scrollbar height when horizontal scrollbar is detected
 
 ### Key Entities _(include if feature involves data)_
 
-- **Line Number Gutter**: The auto-sizing column displaying line numbers in a separate scroll container, using monospace font with right-alignment, minimum 2-digit width growing to maximum 3-digit width
+- **Line Number Gutter**: The auto-sizing column displaying line numbers in a separate scroll container, using monospace font with right-alignment, minimum 2-digit width growing to maximum 3-digit width, with dynamic bottom padding for horizontal scrollbars
 - **Diff Content Area**: The textarea containing diff text with synchronized scrolling
 - **Scroll Container**: Linked containers managing coordinated scroll behavior between gutter and content
 - **Viewport**: The visible area of the diff viewer
 - **Scroll Event Coordinator**: JavaScript mechanism synchronizing scroll positions between containers
+- **Horizontal Scrollbar Detector**: JavaScript logic that compares `scrollWidth` vs `clientWidth` to detect scrollbar presence
+- **Dynamic Padding Calculator**: CSS-based system using `calc(2rem+var(--scrollbar-size,0px))` for appropriate spacing
 
 ## Success Criteria _(mandatory)_
 
@@ -101,6 +133,14 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 - **SC-004**: Line number display works correctly across viewport widths from 320px to 1920px ✅
 - **SC-005**: No horizontal scrollbar appears for line number gutter under any circumstances ✅
 
+**User Story 3 - Horizontal Scrollbar Detection** ✅ **COMPLETED**
+
+- **SC-010**: Horizontal scrollbars are detected automatically using scrollWidth vs clientWidth comparison ✅
+- **SC-011**: Line number gutter adds 2rem bottom padding when horizontal scrollbar is present ✅
+- **SC-012**: Padding updates dynamically when scrollbar state changes ✅
+- **SC-013**: Last line number remains visible and not obscured by horizontal scrollbar ✅
+- **SC-014**: Normal padding is maintained when no horizontal scrollbar is present ✅
+
 **User Story 2 - Responsive Line Number Display** 🔄 **IN PROGRESS**
 
 - **SC-006**: Line numbers adapt to different viewport sizes without breaking layout
@@ -113,8 +153,10 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 - ✅ **Transform-based scrolling**: Smooth CSS transform synchronization
 - ✅ **Dynamic width calculation**: Auto-sizing from 2-3 digits based on line count
 - ✅ **Horizontal scrolling support**: `whitespace-pre` prevents wrapping issues
-- ✅ **100% test coverage**: 40/40 tests passing across all components
+- ✅ **Horizontal scrollbar detection**: Automatic detection using DOM comparison
+- ✅ **Dynamic bottom padding**: 2rem + scrollbar height when needed
+- ✅ **100% test coverage**: 145/145 tests passing across all components
 - ✅ **TypeScript strict mode**: Full type safety with proper interfaces
 - ✅ **Tailwind CSS only**: No custom CSS, consistent styling approach
 - ✅ **Accessibility compliance**: ARIA labels and semantic HTML
-- ✅ **Performance optimized**: Efficient scroll event handling
+- ✅ **Performance optimized**: Efficient scroll event handling with setTimeout
