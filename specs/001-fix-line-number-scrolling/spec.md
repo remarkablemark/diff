@@ -19,7 +19,6 @@ As a user viewing a diff with line numbers, I want the line numbers to remain sy
 
 1. **Given** a diff with many lines that require vertical scrolling, **When** I scroll vertically, **Then** the line numbers remain visible and aligned with their corresponding line content
 2. **Given** a diff with long lines that exceed textarea width, **When** horizontal scrolling appears, **Then** the line numbers remain aligned with their corresponding line content
-3. **Given** a side-by-side diff view, **When** I scroll either column, **Then** the line numbers for both columns remain synchronized with their respective content
 
 ---
 
@@ -62,12 +61,11 @@ As a user viewing diffs on different screen sizes, I want the line numbers to di
 
 - **FR-001**: System MUST synchronize vertical scrolling between line numbers and diff content using linked scroll containers
 - **FR-002**: System MUST synchronize horizontal scrolling (when present) between line numbers and diff content using scroll event coordination
-- **FR-003**: System MUST maintain line number alignment in both unified and side-by-side view modes
-- **FR-004**: System MUST handle line numbers with minimum 2 digits width, auto-growing to maximum 3 digits
-- **FR-005**: System MUST preserve line number visibility during viewport resizing
-- **FR-006**: System MUST ensure line numbers remain readable and accessible
-- **FR-007**: System MUST maintain proper spacing between line numbers and content
-- **FR-008**: System MUST preserve native textarea functionality (selection, copy, accessibility) while achieving synchronization
+- **FR-003**: System MUST handle line numbers with minimum 2 digits width, auto-growing to maximum 3 digits
+- **FR-004**: System MUST preserve line number visibility during viewport resizing
+- **FR-005**: System MUST ensure line numbers remain readable and accessible
+- **FR-006**: System MUST maintain proper spacing between line numbers and content
+- **FR-007**: System MUST preserve native textarea functionality (selection, copy, accessibility) while achieving synchronization
 
 ### Key Entities _(include if feature involves data)_
 
