@@ -54,7 +54,11 @@ export default function App() {
             />
             <ViewToggle activeMode={viewMode} onModeChange={setViewMode} />
           </div>
-          <DiffViewer result={diffResult} viewMode={effectiveViewMode} />
+          <DiffViewer
+            result={diffResult}
+            viewMode={effectiveViewMode}
+            diffMethod={diffMethod}
+          />
         </div>
       )}
     </>

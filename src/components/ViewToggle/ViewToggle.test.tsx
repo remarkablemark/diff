@@ -40,6 +40,22 @@ describe('ViewToggle component', () => {
     expect(sideBySideButton.className).toContain('bg-blue-500');
   });
 
+  it('shows inactive state for unified button when side-by-side is active', () => {
+    render(<ViewToggle {...defaultProps} activeMode="side-by-side" />);
+
+    const unifiedButton = screen.getByRole('button', { name: /unified/i });
+    expect(unifiedButton.className).toContain('bg-gray-100');
+  });
+
+  it('shows inactive state for side-by-side button when unified is active', () => {
+    render(<ViewToggle {...defaultProps} activeMode="unified" />);
+
+    const sideBySideButton = screen.getByRole('button', {
+      name: /side-by-side/i,
+    });
+    expect(sideBySideButton.className).toContain('bg-gray-100');
+  });
+
   it('calls onModeChange with "unified" when unified button is clicked', async () => {
     const user = userEvent.setup();
     const onModeChange = vi.fn();

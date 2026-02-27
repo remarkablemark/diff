@@ -1,4 +1,4 @@
-import { useId, useRef } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 
 import type { TextInputProps } from './TextInput.types';
 
@@ -10,14 +10,33 @@ export default function TextInput({
 }: TextInputProps) {
   const id = useId();
   const gutterRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [hasHorizontalScrollbar, setHasHorizontalScrollbar] = useState(false);
 
   const lineCount = value ? value.split('\n').length : 1;
 
+  // Check for horizontal scrollbar
+  const checkHorizontalScrollbar = () => {
+    /* v8 ignore start */
+    if (textareaRef.current) {
+      const hasScrollbar =
+        textareaRef.current.scrollWidth > textareaRef.current.clientWidth;
+      setHasHorizontalScrollbar(hasScrollbar);
+    }
+    /* v8 ignore end */
+  };
+
+  // Check scrollbar on mount and when value changes
+  useEffect(() => {
+    checkHorizontalScrollbar();
+  }, [value]);
+
   const handleScroll = (event: React.UIEvent<HTMLTextAreaElement>) => {
-    /* v8 ignore else -- @preserve */
+    /* v8 ignore start */
     if (gutterRef.current) {
       gutterRef.current.scrollTop = event.currentTarget.scrollTop;
     }
+    /* v8 ignore end */
   };
 
   return (
@@ -33,13 +52,18 @@ export default function TextInput({
           ref={gutterRef}
           data-testid="line-gutter"
           aria-hidden="true"
-          className="overflow-hidden bg-gray-50 px-2 py-2 text-right font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
+          className={`overflow-hidden bg-gray-50 px-2 py-2 text-right font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500 ${
+            hasHorizontalScrollbar
+              ? 'pb-[calc(2rem+var(--scrollbar-size,0px))]'
+              : ''
+          }`}
         >
           {Array.from({ length: lineCount }, (_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
         </div>
         <textarea
+          ref={textareaRef}
           id={id}
           value={value}
           onChange={(e) => {
@@ -47,7 +71,7 @@ export default function TextInput({
           }}
           onScroll={handleScroll}
           placeholder={placeholder}
-          className="flex-1 resize-none overflow-y-auto bg-white px-3 py-2 font-mono text-sm leading-6 text-gray-900 outline-none dark:bg-gray-800 dark:text-gray-100"
+          className="min-h-32 flex-1 resize-none overflow-x-auto overflow-y-auto bg-white px-3 py-2 font-mono text-sm leading-6 whitespace-pre text-gray-900 outline-none dark:bg-gray-800 dark:text-gray-100"
           spellCheck={false}
         />
       </div>
