@@ -79,12 +79,10 @@ src/
 │   ├── useScrollSync.ts
 │   ├── useScrollSync.test.ts
 │   └── [existing hooks...]
-└── utils/
-    └── [existing utils...]
-
-test/
-├── setupFiles.ts
-└── [existing test setup...]
+├── utils/
+│   └── [existing utils...]
+├── setupTests.ts
+└── [existing src files...]
 ```
 
 **Structure Decision**: Single React component enhancement within existing src/components structure. New LineNumberGutter component and useScrollSync hook will integrate with current DiffViewer component.
