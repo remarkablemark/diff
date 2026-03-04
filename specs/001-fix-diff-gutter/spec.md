@@ -5,6 +5,12 @@
 **Status**: Draft
 **Input**: User description: "Fix line numbers in diff gutter"
 
+## Clarifications
+
+### Session 2026-03-03
+
+- Q: How should the two line number columns be visually separated and styled in the unified view gutter? → A: Small gap with subtle vertical divider line, muted color for empty/missing numbers (GitHub-style)
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Correct Line Numbers in Unified Diff View (Priority: P1)
@@ -58,6 +64,7 @@ The side-by-side view already displays line numbers, but they should be verified
 ### Functional Requirements
 
 - **FR-001**: The unified diff view gutter MUST display two columns of line numbers side-by-side — left column for original line numbers, right column for modified line numbers
+- **FR-001b**: The two line number columns MUST be separated by a small gap with a subtle vertical divider line, and empty/missing numbers MUST use a muted color (GitHub-style visual treatment)
 - **FR-002**: Each line number displayed in the gutter MUST correspond to the actual line position in the source text (original or modified), not the sequential index in the diff output
 - **FR-003**: Removed lines MUST show the correct original line number in the left column and blank in the right column
 - **FR-004**: Added lines MUST show blank in the left column and the correct modified line number in the right column
