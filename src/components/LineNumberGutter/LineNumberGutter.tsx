@@ -2,12 +2,12 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 
 import type { LineNumberGutterProps } from './LineNumberGutter.types';
 
-export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
+export function LineNumberGutter({
   lines,
   scrollTop,
   className = '',
   'aria-label': ariaLabel = 'Line numbers',
-}) => {
+}: LineNumberGutterProps) {
   const scrollElementRef = useRef<HTMLDivElement>(null);
   const [hasHorizontalScrollbar, setHasHorizontalScrollbar] = useState(false);
 
@@ -96,4 +96,4 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
       })}
     </div>
   );
-};
+}

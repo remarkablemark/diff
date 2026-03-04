@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react';
 
 import type { SideBySideGutterProps } from './SideBySideGutter.types';
 
-export const SideBySideGutter: React.FC<SideBySideGutterProps> = ({
+export function SideBySideGutter({
   pairs,
   column,
   scrollTop,
   className = '',
   'aria-label': ariaLabel = 'Line numbers',
-}) => {
+}: SideBySideGutterProps) {
   const scrollElementRef = useRef<HTMLDivElement>(null);
 
   // Sync vertical scroll position
@@ -43,4 +43,4 @@ export const SideBySideGutter: React.FC<SideBySideGutterProps> = ({
       })}
     </div>
   );
-};
+}
