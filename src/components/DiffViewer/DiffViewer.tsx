@@ -58,16 +58,16 @@ export default function DiffViewer({
             data-testid="diff-column-original"
             className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <div className="grid grid-cols-[auto_1fr] bg-white font-mono text-sm leading-6 dark:bg-gray-800">
+            <div className="bg-white font-mono text-sm leading-6 dark:bg-gray-800">
               {pairs.map((pair, index) => {
                 const key = `orig-${String(index)}`;
                 const lineNumber = pair.original?.originalLineNumber ?? '';
 
                 // Determine row styling
                 let lineNumberClasses =
-                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800';
+                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800 align-top';
                 let contentClasses =
-                  'pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100';
+                  'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
 
                 if (!pair.original) {
                   // Placeholder for added lines
@@ -80,7 +80,7 @@ export default function DiffViewer({
                 }
 
                 return (
-                  <Fragment key={key}>
+                  <div key={key} className="flex">
                     <div className={lineNumberClasses}>{lineNumber}</div>
                     <div className={contentClasses}>
                       {!pair.original ? (
@@ -91,7 +91,7 @@ export default function DiffViewer({
                         <span>{pair.original.text}</span>
                       )}
                     </div>
-                  </Fragment>
+                  </div>
                 );
               })}
             </div>
@@ -102,16 +102,16 @@ export default function DiffViewer({
             data-testid="diff-column-modified"
             className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <div className="grid grid-cols-[auto_1fr] bg-white font-mono text-sm leading-6 dark:bg-gray-800">
+            <div className="bg-white font-mono text-sm leading-6 dark:bg-gray-800">
               {pairs.map((pair, index) => {
                 const key = `mod-${String(index)}`;
                 const lineNumber = pair.modified?.modifiedLineNumber ?? '';
 
                 // Determine row styling
                 let lineNumberClasses =
-                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800';
+                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800 align-top';
                 let contentClasses =
-                  'pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100';
+                  'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
 
                 if (!pair.modified) {
                   // Placeholder for removed lines
@@ -124,7 +124,7 @@ export default function DiffViewer({
                 }
 
                 return (
-                  <Fragment key={key}>
+                  <div key={key} className="flex">
                     <div className={lineNumberClasses}>{lineNumber}</div>
                     <div className={contentClasses}>
                       {!pair.modified ? (
@@ -135,7 +135,7 @@ export default function DiffViewer({
                         <span>{pair.modified.text}</span>
                       )}
                     </div>
-                  </Fragment>
+                  </div>
                 );
               })}
             </div>

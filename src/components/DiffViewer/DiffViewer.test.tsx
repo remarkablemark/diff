@@ -251,12 +251,12 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    // Check for grid structure in both columns
+    // Check for flex rows in both columns
     const origColumn = container.querySelector(
-      '[data-testid="diff-column-original"] .grid.grid-cols-\\[auto_1fr\\]',
+      '[data-testid="diff-column-original"]',
     );
     const modColumn = container.querySelector(
-      '[data-testid="diff-column-modified"] .grid.grid-cols-\\[auto_1fr\\]',
+      '[data-testid="diff-column-modified"]',
     );
     expect(origColumn).toBeInTheDocument();
     expect(modColumn).toBeInTheDocument();
@@ -275,14 +275,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    // Line numbers are first child in each row (odd children in grid)
+    // Line numbers are in flex rows
     const origColumn = container.querySelector(
-      '[data-testid="diff-column-original"] .grid',
+      '[data-testid="diff-column-original"]',
     );
-    const origNums = origColumn?.querySelectorAll('div:nth-child(odd)');
-    expect(origNums).toHaveLength(2);
-    expect(origNums?.[0].textContent).toBe('1');
-    expect(origNums?.[1].textContent).toBe('2');
+    const rows = origColumn?.querySelectorAll('.flex');
+    expect(rows).toHaveLength(2);
+    expect(rows?.[0].textContent).toBe('1same');
+    expect(rows?.[1].textContent).toBe('2-old');
   });
 
   it('shows correct line numbers in side-by-side modified column', () => {
@@ -298,14 +298,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    // Line numbers are first child in each row (odd children in grid)
+    // Line numbers are in flex rows
     const modColumn = container.querySelector(
-      '[data-testid="diff-column-modified"] .grid',
+      '[data-testid="diff-column-modified"]',
     );
-    const modNums = modColumn?.querySelectorAll('div:nth-child(odd)');
-    expect(modNums).toHaveLength(2);
-    expect(modNums?.[0].textContent).toBe('1');
-    expect(modNums?.[1].textContent).toBe('2');
+    const rows = modColumn?.querySelectorAll('.flex');
+    expect(rows).toHaveLength(2);
+    expect(rows?.[0].textContent).toBe('1same');
+    expect(rows?.[1].textContent).toBe('2+new');
   });
 
   it('renders placeholder rows for missing lines in side-by-side view', () => {
@@ -321,14 +321,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    // Check for placeholder content (non-breaking space) in original column for added line
+    // Check for placeholder content in original column for added line
     const origColumn = container.querySelector(
-      '[data-testid="diff-column-original"] .grid',
+      '[data-testid="diff-column-original"]',
     );
-    const contentCells = origColumn?.querySelectorAll('div:nth-child(even)');
-    expect(contentCells).toHaveLength(2);
-    // Second content cell should be placeholder for added line
-    expect(contentCells?.[1].textContent).toBe('\u00A0');
+    const rows = origColumn?.querySelectorAll('.flex');
+    expect(rows).toHaveLength(2);
+    // Second row should be placeholder for added line
+    expect(rows?.[1].textContent).toBe('\u00A0');
   });
 
   describe('Scroll Synchronization Integration', () => {
