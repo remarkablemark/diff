@@ -54,7 +54,8 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
     };
   }, [scrollLeft]);
 
-  const widthClass = digitCount === 3 ? 'w-[calc(2ch*3)]' : 'w-[calc(2ch*2)]';
+  const widthClass =
+    digitCount === 3 ? 'w-[calc(2ch*3+1rem)]' : 'w-[calc(2ch*2+1rem)]';
 
   return (
     <div
