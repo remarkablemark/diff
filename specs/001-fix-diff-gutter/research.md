@@ -80,10 +80,10 @@
 
 ### React Component Design
 
-- Functional component with `React.FC` type
+- Functional component with implicit TypeScript typing (no `React.FC`)
 - Props interface in separate `.types.ts` file
 - Co-located test file with full coverage
-- `useMemo` for derived data (line number arrays)
+- Avoid `useMemo` unless profiling shows performance issues (YAGNI)
 - `useRef` for DOM access (scroll synchronization)
 
 ### Accessibility
