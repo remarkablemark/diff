@@ -80,8 +80,7 @@ export function LineNumberGutter({
         return (
           <div
             key={key}
-            className="grid grid-cols-2 items-center gap-1 text-sm leading-6"
-            style={{ height: '24px' }}
+            className="grid grid-cols-2 items-start gap-1 text-sm leading-6"
           >
             {/* Original line number column */}
             <span className={originalNum === '' ? 'text-muted-foreground' : ''}>
