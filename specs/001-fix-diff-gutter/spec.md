@@ -114,28 +114,32 @@ The side-by-side view already displays line numbers, but they should be verified
   <div class="content whitespace-nowrap">more content...</div>
 </div>
 
-<!-- Side-by-Side View - Flex rows with text wrapping -->
-<div class="grid grid-cols-2 gap-4">
-  <!-- Original Column -->
-  <div class="flex flex-col">
-    <div class="flex">
+<!-- Side-by-Side View - Unified rows with both columns per row -->
+<div>
+  <!-- Each row contains both original and modified sides -->
+  <div class="flex">
+    <!-- Original side (left half) -->
+    <div class="flex w-1/2 border-r border-gray-200">
       <div class="line-number flex-shrink-0">1</div>
       <div class="content flex-1 break-words whitespace-pre-wrap">
         original text that wraps
       </div>
     </div>
-    <div class="flex">
-      <div class="line-number flex-shrink-0">2</div>
-      <div class="content flex-1 break-words whitespace-pre-wrap">removed</div>
-    </div>
-  </div>
-  <!-- Modified Column -->
-  <div class="flex flex-col">
-    <div class="flex">
+    <!-- Modified side (right half) -->
+    <div class="flex w-1/2">
       <div class="line-number flex-shrink-0">1</div>
       <div class="content flex-1 break-words whitespace-pre-wrap">modified</div>
     </div>
-    <div class="flex">
+  </div>
+
+  <div class="flex">
+    <!-- Original side (left half) -->
+    <div class="flex w-1/2 border-r border-gray-200">
+      <div class="line-number flex-shrink-0">2</div>
+      <div class="content flex-1 break-words whitespace-pre-wrap">removed</div>
+    </div>
+    <!-- Modified side (right half) -->
+    <div class="flex w-1/2">
       <div class="line-number flex-shrink-0">2</div>
       <div class="content flex-1 break-words whitespace-pre-wrap">added</div>
     </div>
@@ -146,7 +150,11 @@ The side-by-side view already displays line numbers, but they should be verified
 ### Key Implementation Details
 
 - **Unified view**: Line numbers are rendered inline as the first column of each grid row, ensuring perfect height alignment with content
-- **Side-by-side view**: Uses flex rows (`display: flex`) with line numbers as `flex-shrink-0` and content as `flex-1 min-w-0` to enable text wrapping
+- **Side-by-side view**: Uses unified flex rows where each row contains both original and modified sides as sibling elements
+  - **Row height alignment fix**: Both columns share the same parent flex container per row, ensuring they automatically match heights when text wraps differently
+  - **Equal width columns**: Each side uses `w-1/2` class for 50% width
+  - **Visual separator**: `border-r` class on original side creates a vertical divider between columns
+  - **Problem solved**: Prevents row height mismatches that occurred when original and modified columns rendered independently
 - **Text wrapping**: Side-by-side content uses `whitespace-pre-wrap break-words` to wrap long lines within the container (GitHub-style)
 - **Line number alignment**: Side-by-side line numbers use `align-top` to align with the top of wrapped content
 - **Grid structure (unified)**: `grid-cols-[auto_1fr]` creates two columns - auto-width for line numbers, 1fr for content
