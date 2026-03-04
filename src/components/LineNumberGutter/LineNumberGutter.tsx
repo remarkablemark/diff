@@ -5,7 +5,6 @@ import type { LineNumberGutterProps } from './LineNumberGutter.types';
 export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
   lines,
   scrollTop,
-  scrollLeft,
   className = '',
   'aria-label': ariaLabel = 'Line numbers',
 }) => {
@@ -37,14 +36,14 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
     /* v8 ignore end */
   };
 
+  // Sync only vertical scroll position (gutter should not scroll horizontally)
   useEffect(() => {
     if (scrollElementRef.current) {
       scrollElementRef.current.scrollTop = scrollTop;
-      scrollElementRef.current.scrollLeft = scrollLeft;
     }
-  }, [scrollTop, scrollLeft]);
+  }, [scrollTop]);
 
-  // Check for horizontal scrollbar when scroll position changes
+  // Check for horizontal scrollbar when content scrolls
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       checkHorizontalScrollbar();
@@ -52,7 +51,7 @@ export const LineNumberGutter: React.FC<LineNumberGutterProps> = ({
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [scrollLeft]);
+  }, []);
 
   const widthClass =
     digitCount === 3 ? 'w-[calc(2ch*3+1rem)]' : 'w-[calc(2ch*2+1rem)]';

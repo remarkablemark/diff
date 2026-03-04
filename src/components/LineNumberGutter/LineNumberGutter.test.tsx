@@ -21,7 +21,6 @@ describe('LineNumberGutter', () => {
     lines: [],
     viewMode: 'unified',
     scrollTop: 0,
-    scrollLeft: 0,
     'aria-label': 'Line numbers',
   };
 
@@ -57,40 +56,32 @@ describe('LineNumberGutter', () => {
       expect(lineElements).toHaveLength(0);
     });
 
-    it('should update scroll position when scrollTop and scrollLeft props change', () => {
+    it('should update scroll position when scrollTop props change', () => {
       const { rerender } = render(
-        <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+        <LineNumberGutter {...defaultProps} scrollTop={0} />,
       );
 
       const gutter = screen.getByLabelText('Line numbers');
       expect(gutter).toBeInTheDocument();
 
-      rerender(
-        <LineNumberGutter {...defaultProps} scrollTop={100} scrollLeft={50} />,
-      );
+      rerender(<LineNumberGutter {...defaultProps} scrollTop={100} />);
 
       expect(gutter).toBeInTheDocument();
     });
 
     it('should handle scroll position updates when ref is null', () => {
       const { rerender } = render(
-        <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+        <LineNumberGutter {...defaultProps} scrollTop={0} />,
       );
 
       expect(() => {
-        rerender(
-          <LineNumberGutter
-            {...defaultProps}
-            scrollTop={100}
-            scrollLeft={50}
-          />,
-        );
+        rerender(<LineNumberGutter {...defaultProps} scrollTop={100} />);
       }).not.toThrow();
     });
 
     it('should handle component unmounting gracefully', () => {
       const { unmount } = render(
-        <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+        <LineNumberGutter {...defaultProps} scrollTop={0} />,
       );
 
       expect(() => {
@@ -100,29 +91,23 @@ describe('LineNumberGutter', () => {
 
     it('should handle scroll position changes without throwing errors', () => {
       const { rerender } = render(
-        <LineNumberGutter {...defaultProps} scrollTop={10} scrollLeft={5} />,
+        <LineNumberGutter {...defaultProps} scrollTop={10} />,
       );
 
       expect(() => {
-        rerender(
-          <LineNumberGutter {...defaultProps} scrollTop={20} scrollLeft={10} />,
-        );
-        rerender(
-          <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
-        );
+        rerender(<LineNumberGutter {...defaultProps} scrollTop={20} />);
+        rerender(<LineNumberGutter {...defaultProps} scrollTop={0} />);
       }).not.toThrow();
     });
 
     it('should handle horizontal scrollbar detection on scroll', () => {
-      const { rerender } = render(
-        <LineNumberGutter {...defaultProps} scrollLeft={0} />,
-      );
+      const { rerender } = render(<LineNumberGutter {...defaultProps} />);
 
       const gutter = screen.getByLabelText('Line numbers');
       expect(gutter).toBeInTheDocument();
 
       expect(() => {
-        rerender(<LineNumberGutter {...defaultProps} scrollLeft={50} />);
+        rerender(<LineNumberGutter {...defaultProps} />);
       }).not.toThrow();
     });
   });

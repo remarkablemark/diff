@@ -12,8 +12,6 @@ export interface LineNumberGutterProps {
   viewMode?: ViewMode;
   /** Current vertical scroll position (for sync) */
   scrollTop: number;
-  /** Current horizontal scroll position (for sync) */
-  scrollLeft: number;
   /** Additional CSS classes */
   className?: string;
   /** Accessibility label */
@@ -23,7 +21,6 @@ export interface LineNumberGutterProps {
 export interface LineNumberGutterRef {
   /** Current scroll position */
   scrollTop: number;
-  scrollLeft: number;
   /** Scroll to specific position */
   scrollTo: (scrollTop: number, scrollLeft?: number) => void;
 }

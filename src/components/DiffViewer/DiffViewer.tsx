@@ -170,7 +170,6 @@ export default function DiffViewer({
           lines={result.lines}
           viewMode="unified"
           scrollTop={scrollPosition.top}
-          scrollLeft={scrollPosition.left}
           aria-label="Line numbers"
         />
         <div
