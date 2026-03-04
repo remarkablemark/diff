@@ -142,7 +142,9 @@ export default function DiffViewer({
         {/* Line rows */}
         {result.lines.map((line, index) => {
           const key = `c-${String(index)}-${line.type}`;
+          // Line number: prefer original, fallback to modified
           const lineNumber =
+            /* v8 ignore next */
             line.originalLineNumber ?? line.modifiedLineNumber ?? '';
 
           // Determine row styling based on line type

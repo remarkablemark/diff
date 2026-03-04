@@ -199,6 +199,25 @@ describe('DiffViewer component', () => {
     expect(lineNumberCell?.textContent).toBe('1');
   });
 
+  it('uses modifiedLineNumber when originalLineNumber is undefined for added lines', () => {
+    const result = makeResult(
+      [
+        { value: 'unchanged\n', type: 'unchanged' },
+        { value: 'added at line 2\n', type: 'added' },
+      ],
+      true,
+    );
+
+    const { container } = render(
+      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+    );
+
+    // Check that the added line shows its modified line number (2)
+    const addedLineNumber = container.querySelector('.grid > div:nth-child(3)');
+    expect(addedLineNumber).toBeInTheDocument();
+    expect(addedLineNumber?.textContent).toBe('2');
+  });
+
   it('uses TextInput gutter styling classes', () => {
     const result = makeResult(
       [
