@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { LineNumberGutter } from 'src/components/LineNumberGutter';
 import type { DiffLine } from 'src/types/diff';
 
@@ -26,25 +26,11 @@ function pairLines(lines: DiffLine[]): DiffRowPair[] {
 export default function DiffViewer({
   result,
   viewMode,
-  diffMethod = 'words',
   enableScrollSync = true,
-  gutterWidth = 'auto',
   className = '',
 }: DiffViewerProps) {
   const contentRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState({ top: 0, left: 0 });
-
-  const digitCount = useMemo(() => {
-    if (gutterWidth !== 'auto') return gutterWidth;
-
-    const maxLine = Math.max(
-      ...(result?.lines.map((line) =>
-        Math.max(line.originalLineNumber ?? 0, line.modifiedLineNumber ?? 0),
-      ) ?? [0]),
-    );
-
-    return maxLine >= 100 ? 3 : 2;
-  }, [result, gutterWidth]);
 
   const handleContentScroll = useCallback(
     (event: React.UIEvent<HTMLDivElement>) => {
@@ -181,8 +167,8 @@ export default function DiffViewer({
     <div aria-live="polite" className={className}>
       <div className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
         <LineNumberGutter
-          lineCount={result.lines.length}
-          digitCount={digitCount}
+          lines={result.lines}
+          viewMode="unified"
           scrollTop={scrollPosition.top}
           scrollLeft={scrollPosition.left}
           aria-label="Line numbers"
@@ -222,26 +208,6 @@ export default function DiffViewer({
           })}
         </div>
       </div>
-
-      {/* Additional line number gutters for Lines diff method */}
-      {diffMethod === 'lines' && (
-        <div className="mt-2 grid grid-cols-2 gap-4">
-          <div>
-            {result.lines.map((line, i) => (
-              <div key={`orig-${String(i)}`} data-testid="gutter-original">
-                {line.originalLineNumber ?? ''}
-              </div>
-            ))}
-          </div>
-          <div>
-            {result.lines.map((line, i) => (
-              <div key={`mod-${String(i)}`} data-testid="gutter-modified">
-                {line.modifiedLineNumber ?? ''}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }

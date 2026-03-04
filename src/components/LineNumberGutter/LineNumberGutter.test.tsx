@@ -1,168 +1,323 @@
 import { render, screen } from '@testing-library/react';
 
+import type { DiffLine } from '../../types/diff';
 import { LineNumberGutter } from './LineNumberGutter';
 import type { LineNumberGutterProps } from './LineNumberGutter.types';
 
 describe('LineNumberGutter', () => {
+  const createLine = (
+    text: string,
+    type: DiffLine['type'],
+    originalNum?: number,
+    modifiedNum?: number,
+  ): DiffLine => ({
+    text,
+    type,
+    originalLineNumber: originalNum,
+    modifiedLineNumber: modifiedNum,
+  });
+
   const defaultProps: LineNumberGutterProps = {
-    lineCount: 10,
-    digitCount: 2,
+    lines: [],
+    viewMode: 'unified',
     scrollTop: 0,
     scrollLeft: 0,
     'aria-label': 'Line numbers',
   };
 
-  it('should render correct number of lines', () => {
-    render(<LineNumberGutter {...defaultProps} />);
+  describe('basic rendering', () => {
+    it('should render with monospace font and right alignment', () => {
+      render(<LineNumberGutter {...defaultProps} />);
 
-    const lineElements = screen.getAllByText(/^\d+$/);
-    expect(lineElements).toHaveLength(10);
-    expect(lineElements[0]).toHaveTextContent('1');
-    expect(lineElements[9]).toHaveTextContent('10');
-  });
+      const gutter = screen.getByLabelText('Line numbers');
+      expect(gutter).toHaveClass('font-mono', 'text-right');
+    });
 
-  it('should apply correct CSS classes for 2-digit width', () => {
-    render(<LineNumberGutter {...defaultProps} digitCount={2} />);
+    it('should handle scroll events', () => {
+      render(<LineNumberGutter {...defaultProps} />);
 
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toHaveClass('w-[calc(2ch*2)]');
-  });
+      const gutter = screen.getByLabelText('Line numbers');
+      gutter.dispatchEvent(new Event('scroll'));
+      expect(gutter).toBeInTheDocument();
+    });
 
-  it('should apply correct CSS classes for 3-digit width', () => {
-    render(<LineNumberGutter {...defaultProps} digitCount={3} />);
+    it('should apply custom className', () => {
+      render(<LineNumberGutter {...defaultProps} className="custom-class" />);
 
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toHaveClass('w-[calc(2ch*3)]');
-  });
+      const gutter = screen.getByLabelText('Line numbers');
+      expect(gutter).toHaveClass('custom-class');
+    });
 
-  it('should render with monospace font and right alignment', () => {
-    render(<LineNumberGutter {...defaultProps} />);
+    it('should handle empty lines array', () => {
+      render(<LineNumberGutter {...defaultProps} lines={[]} />);
 
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toHaveClass('font-mono', 'text-right');
-  });
+      const gutter = screen.getByLabelText('Line numbers');
+      expect(gutter).toBeInTheDocument();
+      const lineElements = screen.queryAllByText(/^\d+$/);
+      expect(lineElements).toHaveLength(0);
+    });
 
-  it('should handle scroll events', () => {
-    render(<LineNumberGutter {...defaultProps} />);
+    it('should update scroll position when scrollTop and scrollLeft props change', () => {
+      const { rerender } = render(
+        <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+      );
 
-    const gutter = screen.getByLabelText('Line numbers');
+      const gutter = screen.getByLabelText('Line numbers');
+      expect(gutter).toBeInTheDocument();
 
-    // Simulate scroll event
-    gutter.dispatchEvent(new Event('scroll'));
-
-    // The scroll event should be handled by the component
-    // Since we can't easily mock the currentTarget in testing, let's check
-    // that the component renders correctly and the scroll handler exists
-    expect(gutter).toBeInTheDocument();
-  });
-
-  it('should apply custom className', () => {
-    render(<LineNumberGutter {...defaultProps} className="custom-class" />);
-
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toHaveClass('custom-class');
-  });
-
-  it('should handle zero line count', () => {
-    render(<LineNumberGutter {...defaultProps} lineCount={0} />);
-
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toBeInTheDocument();
-
-    // Check that no line numbers are rendered
-    const lineElements = screen.queryByText(/^\d+$/);
-    expect(lineElements).toBeNull();
-  });
-
-  it('should handle large line counts with 3-digit width', () => {
-    render(
-      <LineNumberGutter {...defaultProps} lineCount={150} digitCount={3} />,
-    );
-
-    const lineElements = screen.getAllByText(/^\d+$/);
-    expect(lineElements).toHaveLength(150);
-    expect(lineElements[0]).toHaveTextContent('1');
-    expect(lineElements[149]).toHaveTextContent('150');
-  });
-
-  it('should update scroll position when scrollTop and scrollLeft props change', () => {
-    const { rerender } = render(
-      <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
-    );
-
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toBeInTheDocument();
-
-    // Update scroll position
-    rerender(
-      <LineNumberGutter {...defaultProps} scrollTop={100} scrollLeft={50} />,
-    );
-
-    // The element should still be present and the scroll position should be updated
-    expect(gutter).toBeInTheDocument();
-  });
-
-  it('should handle scroll position updates when ref is null', () => {
-    // This test ensures the useEffect doesn't throw when ref is null
-    const { rerender } = render(
-      <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
-    );
-
-    expect(() => {
       rerender(
         <LineNumberGutter {...defaultProps} scrollTop={100} scrollLeft={50} />,
       );
-    }).not.toThrow();
-  });
 
-  it('should apply correct CSS classes for digit count other than 3', () => {
-    render(<LineNumberGutter {...defaultProps} digitCount={2} />);
+      expect(gutter).toBeInTheDocument();
+    });
 
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toHaveClass('w-[calc(2ch*2)]');
-  });
-
-  it('should handle component unmounting gracefully', () => {
-    const { unmount } = render(
-      <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
-    );
-
-    // This should not throw when component unmounts
-    expect(() => {
-      unmount();
-    }).not.toThrow();
-  });
-
-  it('should handle scroll position changes without throwing errors', () => {
-    const { rerender } = render(
-      <LineNumberGutter {...defaultProps} scrollTop={10} scrollLeft={5} />,
-    );
-
-    // Multiple rerenders with different scroll positions should not throw
-    expect(() => {
-      rerender(
-        <LineNumberGutter {...defaultProps} scrollTop={20} scrollLeft={10} />,
-      );
-      rerender(
+    it('should handle scroll position updates when ref is null', () => {
+      const { rerender } = render(
         <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
       );
-    }).not.toThrow();
+
+      expect(() => {
+        rerender(
+          <LineNumberGutter
+            {...defaultProps}
+            scrollTop={100}
+            scrollLeft={50}
+          />,
+        );
+      }).not.toThrow();
+    });
+
+    it('should handle component unmounting gracefully', () => {
+      const { unmount } = render(
+        <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+      );
+
+      expect(() => {
+        unmount();
+      }).not.toThrow();
+    });
+
+    it('should handle scroll position changes without throwing errors', () => {
+      const { rerender } = render(
+        <LineNumberGutter {...defaultProps} scrollTop={10} scrollLeft={5} />,
+      );
+
+      expect(() => {
+        rerender(
+          <LineNumberGutter {...defaultProps} scrollTop={20} scrollLeft={10} />,
+        );
+        rerender(
+          <LineNumberGutter {...defaultProps} scrollTop={0} scrollLeft={0} />,
+        );
+      }).not.toThrow();
+    });
+
+    it('should handle horizontal scrollbar detection on scroll', () => {
+      const { rerender } = render(
+        <LineNumberGutter {...defaultProps} scrollLeft={0} />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      expect(gutter).toBeInTheDocument();
+
+      expect(() => {
+        rerender(<LineNumberGutter {...defaultProps} scrollLeft={50} />);
+      }).not.toThrow();
+    });
   });
 
-  it('should handle horizontal scrollbar detection on scroll', () => {
-    // This test ensures the scrollbar detection logic runs without error
-    // We can't easily mock the DOM querySelector in this test environment,
-    // but we can verify the component handles scrollLeft changes
-    const { rerender } = render(
-      <LineNumberGutter {...defaultProps} scrollLeft={0} />,
-    );
+  describe('User Story 1: Unified view dual-column line numbers', () => {
+    it('T004: removed line shows original number, blank modified', () => {
+      const lines: DiffLine[] = [
+        createLine('original line', 'removed', 1, undefined),
+      ];
 
-    const gutter = screen.getByLabelText('Line numbers');
-    expect(gutter).toBeInTheDocument();
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
 
-    // Trigger scrollLeft change which should trigger scrollbar detection
-    expect(() => {
-      rerender(<LineNumberGutter {...defaultProps} scrollLeft={50} />);
-    }).not.toThrow();
+      // Should show original line number in left column
+      const originalNum = screen.getByText('1');
+      expect(originalNum).toBeInTheDocument();
+
+      // Modified column should be empty (no number displayed for removed line)
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+      expect(cells).toHaveLength(2);
+      expect(cells[0]).toHaveTextContent('1');
+      expect(cells[1]).toHaveTextContent('');
+    });
+
+    it('T005: added line shows blank original, modified number', () => {
+      const lines: DiffLine[] = [createLine('new line', 'added', undefined, 1)];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+      expect(cells).toHaveLength(2);
+      expect(cells[0]).toHaveTextContent('');
+      expect(cells[1]).toHaveTextContent('1');
+    });
+
+    it('T006: unchanged line shows both numbers side-by-side', () => {
+      const lines: DiffLine[] = [createLine('same line', 'unchanged', 1, 1)];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+      expect(cells).toHaveLength(2);
+      expect(cells[0]).toHaveTextContent('1');
+      expect(cells[1]).toHaveTextContent('1');
+    });
+
+    it('T007: line numbers offset correctly after lines added at beginning', () => {
+      const lines: DiffLine[] = [
+        createLine('added 1', 'added', undefined, 1),
+        createLine('added 2', 'added', undefined, 2),
+        createLine('original 1', 'unchanged', 1, 3),
+        createLine('original 2', 'unchanged', 2, 4),
+      ];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+
+      // First two rows: added lines (blank original, modified 1 and 2)
+      expect(cells[0]).toHaveTextContent('');
+      expect(cells[1]).toHaveTextContent('1');
+      expect(cells[2]).toHaveTextContent('');
+      expect(cells[3]).toHaveTextContent('2');
+
+      // Next two rows: unchanged lines with offset (original 1,2 | modified 3,4)
+      expect(cells[4]).toHaveTextContent('1');
+      expect(cells[5]).toHaveTextContent('3');
+      expect(cells[6]).toHaveTextContent('2');
+      expect(cells[7]).toHaveTextContent('4');
+    });
+
+    it('T008: line numbers offset correctly after lines removed from middle', () => {
+      const lines: DiffLine[] = [
+        createLine('original 1', 'unchanged', 1, 1),
+        createLine('original 2', 'unchanged', 2, 2),
+        createLine('removed 1', 'removed', 3, undefined),
+        createLine('removed 2', 'removed', 4, undefined),
+        createLine('original 3', 'unchanged', 5, 3),
+      ];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+
+      // First two rows: unchanged (1,1 | 2,2)
+      expect(cells[0]).toHaveTextContent('1');
+      expect(cells[1]).toHaveTextContent('1');
+      expect(cells[2]).toHaveTextContent('2');
+      expect(cells[3]).toHaveTextContent('2');
+
+      // Next two rows: removed (3,blank | 4,blank)
+      expect(cells[4]).toHaveTextContent('3');
+      expect(cells[5]).toHaveTextContent('');
+      expect(cells[6]).toHaveTextContent('4');
+      expect(cells[7]).toHaveTextContent('');
+
+      // Last row: unchanged with offset (5,3)
+      expect(cells[8]).toHaveTextContent('5');
+      expect(cells[9]).toHaveTextContent('3');
+    });
+
+    it('T008b: empty text edge case (one text empty)', () => {
+      // All lines are "added" when original is empty
+      const lines: DiffLine[] = [
+        createLine('line 1', 'added', undefined, 1),
+        createLine('line 2', 'added', undefined, 2),
+      ];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+
+      expect(cells[0]).toHaveTextContent('');
+      expect(cells[1]).toHaveTextContent('1');
+      expect(cells[2]).toHaveTextContent('');
+      expect(cells[3]).toHaveTextContent('2');
+    });
+
+    it('T008c: consecutive added/removed lines edge case', () => {
+      const lines: DiffLine[] = [
+        createLine('removed 1', 'removed', 1, undefined),
+        createLine('removed 2', 'removed', 2, undefined),
+        createLine('removed 3', 'removed', 3, undefined),
+        createLine('added 1', 'added', undefined, 1),
+        createLine('added 2', 'added', undefined, 2),
+      ];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+
+      // Removed lines: original numbers, blank modified
+      expect(cells[0]).toHaveTextContent('1');
+      expect(cells[1]).toHaveTextContent('');
+      expect(cells[2]).toHaveTextContent('2');
+      expect(cells[3]).toHaveTextContent('');
+      expect(cells[4]).toHaveTextContent('3');
+      expect(cells[5]).toHaveTextContent('');
+
+      // Added lines: blank original, modified numbers
+      expect(cells[6]).toHaveTextContent('');
+      expect(cells[7]).toHaveTextContent('1');
+      expect(cells[8]).toHaveTextContent('');
+      expect(cells[9]).toHaveTextContent('2');
+    });
+
+    it('should render multiple lines with correct dual-column layout', () => {
+      const lines: DiffLine[] = [
+        createLine('unchanged', 'unchanged', 1, 1),
+        createLine('removed', 'removed', 2, undefined),
+        createLine('added', 'added', undefined, 2),
+        createLine('unchanged 2', 'unchanged', 3, 3),
+      ];
+
+      render(
+        <LineNumberGutter {...defaultProps} lines={lines} viewMode="unified" />,
+      );
+
+      const gutter = screen.getByLabelText('Line numbers');
+      const cells = gutter.querySelectorAll('.grid-cols-2 span');
+
+      expect(cells).toHaveLength(8); // 4 lines × 2 columns
+
+      // Row 1: 1 | 1
+      expect(cells[0]).toHaveTextContent('1');
+      expect(cells[1]).toHaveTextContent('1');
+      // Row 2: 2 | (blank)
+      expect(cells[2]).toHaveTextContent('2');
+      expect(cells[3]).toHaveTextContent('');
+      // Row 3: (blank) | 2
+      expect(cells[4]).toHaveTextContent('');
+      expect(cells[5]).toHaveTextContent('2');
+      // Row 4: 3 | 3
+      expect(cells[6]).toHaveTextContent('3');
+      expect(cells[7]).toHaveTextContent('3');
+    });
   });
 });

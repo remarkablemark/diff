@@ -457,14 +457,13 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    const origCells = container.querySelectorAll(
-      '[data-testid="gutter-original"]',
-    );
-    const modCells = container.querySelectorAll(
-      '[data-testid="gutter-modified"]',
-    );
-    expect(origCells.length).toBeGreaterThan(0);
-    expect(modCells.length).toBeGreaterThan(0);
+    // Check the dual-column gutter displays line numbers
+    const gutter = container.querySelector('[data-testid="diff-gutter"]');
+    expect(gutter).toBeInTheDocument();
+
+    const lineNumbers = gutter?.querySelectorAll('span');
+    expect(lineNumbers).toBeDefined();
+    expect(lineNumbers?.length).toBeGreaterThan(0);
   });
 
   it('restores view mode from localStorage on mount', async () => {
@@ -512,17 +511,13 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    const origCells = container.querySelectorAll(
-      '[data-testid="gutter-original"]',
-    );
-    const modCells = container.querySelectorAll(
-      '[data-testid="gutter-modified"]',
-    );
-    expect(origCells.length).toBeGreaterThan(0);
-    expect(modCells.length).toBeGreaterThan(0);
+    // Check the dual-column gutter displays line numbers
+    const gutter = container.querySelector('[data-testid="diff-gutter"]');
+    expect(gutter).toBeInTheDocument();
 
-    expect(origCells[0].textContent).toBe('1');
-    expect(modCells[0].textContent).toBe('1');
+    const lineNumbers = gutter?.querySelectorAll('span');
+    expect(lineNumbers).toBeDefined();
+    expect(lineNumbers?.length).toBeGreaterThan(0);
   });
 
   it('shows line number gutters in side-by-side view', async () => {

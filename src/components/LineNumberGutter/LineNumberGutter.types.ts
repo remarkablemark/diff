@@ -2,11 +2,14 @@
  * LineNumberGutter component types and interfaces
  */
 
+import type { DiffLine } from '../../types/diff';
+import type { ViewMode } from '../../types/diff';
+
 export interface LineNumberGutterProps {
-  /** Total number of lines to display */
-  lineCount: number;
-  /** Current digit width for gutter sizing */
-  digitCount: 2 | 3;
+  /** Line data with metadata for dual-column display */
+  lines: DiffLine[];
+  /** View context for rendering mode */
+  viewMode?: ViewMode;
   /** Current vertical scroll position (for sync) */
   scrollTop: number;
   /** Current horizontal scroll position (for sync) */
@@ -21,8 +24,6 @@ export interface LineNumberGutterRef {
   /** Current scroll position */
   scrollTop: number;
   scrollLeft: number;
-  /** Current digit count */
-  digitCount: 2 | 3;
   /** Scroll to specific position */
   scrollTo: (scrollTop: number, scrollLeft?: number) => void;
 }

@@ -19,8 +19,8 @@
 
 **Purpose**: Verify existing project structure and dependencies
 
-- [ ] T001 Verify project dependencies installed (npm install)
-- [ ] T002 Confirm existing test infrastructure works (npm run test:ci)
+- [x] T001 Verify project dependencies installed (npm install)
+- [x] T002 Confirm existing test infrastructure works (npm run test:ci)
 
 ---
 
@@ -30,7 +30,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 Update LineNumberGutterProps interface in src/components/LineNumberGutter/LineNumberGutter.types.ts
+- [x] T003 Update LineNumberGutterProps interface in src/components/LineNumberGutter/LineNumberGutter.types.ts
   - Add `lines: DiffLine[]` prop
   - Add `viewMode?: 'unified' | 'side-by-side'` prop
   - Remove `lineCount` prop (replaced by lines.length)
@@ -50,32 +50,32 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T004 [P] [US1] Add test: removed line shows original number, blank modified in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T005 [P] [US1] Add test: added line shows blank original, modified number in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T006 [P] [US1] Add test: unchanged line shows both numbers side-by-side in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T007 [US1] Add test: line numbers offset correctly after lines added at beginning in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T008 [US1] Add test: line numbers offset correctly after lines removed from middle in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T008b [US1] Add test: empty text edge case (one text empty) in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [ ] T008c [US1] Add test: consecutive added/removed lines edge case in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T004 [P] [US1] Add test: removed line shows original number, blank modified in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T005 [P] [US1] Add test: added line shows blank original, modified number in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T006 [P] [US1] Add test: unchanged line shows both numbers side-by-side in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T007 [US1] Add test: line numbers offset correctly after lines added at beginning in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T008 [US1] Add test: line numbers offset correctly after lines removed from middle in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T008b [US1] Add test: empty text edge case (one text empty) in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [x] T008c [US1] Add test: consecutive added/removed lines edge case in src/components/LineNumberGutter/LineNumberGutter.test.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Update LineNumberGutter component signature in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T009 [P] [US1] Update LineNumberGutter component signature in src/components/LineNumberGutter/LineNumberGutter.tsx
   - Accept `lines: DiffLine[]` prop
   - Accept `viewMode` prop
   - Remove `lineCount` and `digitCount` props
-- [ ] T010 [P] [US1] Compute digitCount internally from lines array in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T011 [US1] Implement dual-column gutter rendering with CSS grid in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T010 [P] [US1] Compute digitCount internally from lines array in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T011 [US1] Implement dual-column gutter rendering with CSS grid in src/components/LineNumberGutter/LineNumberGutter.tsx
   - Left column: original line numbers
   - Right column: modified line numbers
   - Small gap with subtle vertical divider
   - Muted color for empty/missing numbers
-- [ ] T012 [US1] Handle removed lines (original number, blank modified) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T013 [US1] Handle added lines (blank original, modified number) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T014 [US1] Handle unchanged lines (both numbers) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [ ] T015 [US1] Update DiffViewer to pass lines prop to LineNumberGutter in src/components/DiffViewer/DiffViewer.tsx
+- [x] T012 [US1] Handle removed lines (original number, blank modified) in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T013 [US1] Handle added lines (blank original, modified number) in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T014 [US1] Handle unchanged lines (both numbers) in src/components/LineNumberGutter/LineNumberGutter.tsx
+- [x] T015 [US1] Update DiffViewer to pass lines prop to LineNumberGutter in src/components/DiffViewer/DiffViewer.tsx
   - Remove separate gutters for lines diff method (no longer needed)
-- [ ] T016 [US1] Add integration tests for unified view line numbers in src/components/DiffViewer/DiffViewer.test.tsx
+- [x] T016 [US1] Add integration tests for unified view line numbers in src/components/DiffViewer/DiffViewer.test.tsx
   - Test all 5 acceptance scenarios from spec.md
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
@@ -90,19 +90,19 @@
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T017 [P] [US2] Add test: side-by-side removed line shows correct original number in src/components/DiffViewer/DiffViewer.test.tsx
-- [ ] T018 [P] [US2] Add test: side-by-side added line shows correct modified number in src/components/DiffViewer/DiffViewer.test.tsx
-- [ ] T019 [US2] Add test: side-by-side unchanged line shows correct numbers in both columns in src/components/DiffViewer/DiffViewer.test.tsx
+- [x] T017 [P] [US2] Add test: side-by-side removed line shows correct original number in src/components/DiffViewer/DiffViewer.test.tsx
+- [x] T018 [P] [US2] Add test: side-by-side added line shows correct modified number in src/components/DiffViewer/DiffViewer.test.tsx
+- [x] T019 [US2] Add test: side-by-side unchanged line shows correct numbers in both columns in src/components/DiffViewer/DiffViewer.test.tsx
 
 ### Implementation for User Story 2
 
-- [ ] T020 [US2] Verify side-by-side gutter uses correct line number properties in src/components/DiffViewer/DiffViewer.tsx
+- [x] T020 [US2] Verify side-by-side gutter uses correct line number properties in src/components/DiffViewer/DiffViewer.tsx
   - Original column: `pair.original?.originalLineNumber`
   - Modified column: `pair.modified?.modifiedLineNumber`
-- [ ] T021 [US2] Apply GitHub-style visual treatment to side-by-side gutters in src/components/DiffViewer/DiffViewer.tsx
+- [x] T021 [US2] Apply GitHub-style visual treatment to side-by-side gutters in src/components/DiffViewer/DiffViewer.tsx
   - Subtle vertical divider between columns
   - Muted color for empty cells
-- [ ] T022 [US2] Ensure placeholder rows have no line numbers in src/components/DiffViewer/DiffViewer.tsx
+- [x] T022 [US2] Ensure placeholder rows have no line numbers in src/components/DiffViewer/DiffViewer.tsx
   - Removed lines: blank placeholder in modified column
   - Added lines: blank placeholder in original column
 
@@ -114,14 +114,14 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T023 [P] Run full test suite and verify 100% coverage maintained (npm run test:ci)
-- [ ] T024 Run lint and type check (npm run lint && npm run lint:tsc)
-- [ ] T025 Run build to verify production build succeeds (npm run build)
-- [ ] T026 Manual testing: verify all acceptance scenarios from spec.md
-- [ ] T027 Manual testing: compare visual appearance against GitHub diff view
-- [ ] T028 [P] Verify accessibility: gutter remains aria-hidden, content has aria-live
-- [ ] T029 Code cleanup: remove unused imports and variables
-- [ ] T030 Update quickstart.md with any new manual testing scenarios
+- [x] T023 [P] Run full test suite and verify 100% coverage maintained (npm run test:ci)
+- [x] T024 Run lint and type check (npm run lint && npm run lint:tsc)
+- [x] T025 Run build to verify production build succeeds (npm run build)
+- [x] T026 Manual testing: verify all acceptance scenarios from spec.md
+- [x] T027 Manual testing: compare visual appearance against GitHub diff view
+- [x] T028 [P] Verify accessibility: gutter remains aria-hidden, content has aria-live
+- [x] T029 Code cleanup: remove unused imports and variables
+- [x] T030 Update quickstart.md with any new manual testing scenarios
 
 ---
 
