@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import type { DiffLineResult } from 'src/types/diff';
 import { segmentsToLines } from 'src/utils/segmentsToLines';
 
-import SideBySideView from './SideBySideView';
+import { SideBySideView } from './SideBySideView';
 
 function makeResult(
   segments: DiffLineResult['segments'],

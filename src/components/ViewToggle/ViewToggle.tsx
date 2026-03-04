@@ -1,9 +1,6 @@
 import type { ViewToggleProps } from './ViewToggle.types';
 
-export default function ViewToggle({
-  activeMode,
-  onModeChange,
-}: ViewToggleProps) {
+export function ViewToggle({ activeMode, onModeChange }: ViewToggleProps) {
   return (
     <div
       className="hidden md:flex md:gap-1"

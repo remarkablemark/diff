@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import DiffMethodToggle from './DiffMethodToggle';
+import { DiffMethodToggle } from './DiffMethodToggle';
 
 describe('DiffMethodToggle', () => {
   const defaultProps = {

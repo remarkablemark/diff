@@ -1,1 +1,1 @@
-export { default } from './ViewToggle';
+export { ViewToggle } from './ViewToggle';

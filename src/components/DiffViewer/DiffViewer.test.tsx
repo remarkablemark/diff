@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import type { DiffLineResult } from 'src/types/diff';
 import { segmentsToLines } from 'src/utils/segmentsToLines';
 
-import DiffViewer from '.';
+import { DiffViewer } from './DiffViewer';
 
 function makeResult(
   segments: DiffLineResult['segments'],

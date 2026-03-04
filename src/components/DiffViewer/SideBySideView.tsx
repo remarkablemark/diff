@@ -53,7 +53,7 @@ interface SideBySideViewProps {
   lines: DiffLine[];
 }
 
-export default function SideBySideView({ lines }: SideBySideViewProps) {
+export function SideBySideView({ lines }: SideBySideViewProps) {
   const pairs = pairLines(lines);
 
   const sideBySideContentBase =

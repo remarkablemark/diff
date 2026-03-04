@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 
 import type { TextInputProps } from './TextInput.types';
 
-export default function TextInput({
+export function TextInput({
   label,
   value,
   onChange,

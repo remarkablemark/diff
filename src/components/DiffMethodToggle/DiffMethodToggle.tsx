@@ -1,6 +1,6 @@
 import type { DiffMethodToggleProps } from './DiffMethodToggle.types';
 
-export default function DiffMethodToggle({
+export function DiffMethodToggle({
   activeMethod,
   onMethodChange,
 }: DiffMethodToggleProps) {

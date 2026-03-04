@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import App from '.';
+import { App } from './App';
 
 function createMockMatchMedia(matches: boolean) {
   const listeners: (() => void)[] = [];

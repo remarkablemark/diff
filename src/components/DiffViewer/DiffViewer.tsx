@@ -2,9 +2,9 @@ import { Fragment } from 'react';
 import { getDiffLineClasses } from 'src/utils/getDiffLineClasses';
 
 import type { DiffViewerProps } from './DiffViewer.types';
-import SideBySideView from './SideBySideView';
+import { SideBySideView } from './SideBySideView';
 
-export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
+export function DiffViewer({ result, viewMode }: DiffViewerProps) {
   if (!result) {
     return null;
   }

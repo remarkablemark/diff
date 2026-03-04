@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import DiffMethodToggle from 'src/components/DiffMethodToggle';
-import DiffViewer from 'src/components/DiffViewer';
-import TextInput from 'src/components/TextInput';
-import ViewToggle from 'src/components/ViewToggle';
+import { DiffMethodToggle } from 'src/components/DiffMethodToggle';
+import { DiffViewer } from 'src/components/DiffViewer';
+import { TextInput } from 'src/components/TextInput';
+import { ViewToggle } from 'src/components/ViewToggle';
 import { useDiff } from 'src/hooks/useDiff';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { useMediaQuery } from 'src/hooks/useMediaQuery';
 import type { DiffMethod, ViewMode } from 'src/types/diff';
 
-export default function App() {
+export function App() {
   const [originalText, setOriginalText] = useState('');
   const [modifiedText, setModifiedText] = useState('');
   const [viewMode, setViewMode] = useLocalStorage<ViewMode>(

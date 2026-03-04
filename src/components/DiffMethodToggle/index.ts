@@ -1,1 +1,1 @@
-export { default } from './DiffMethodToggle';
+export { DiffMethodToggle } from './DiffMethodToggle';
