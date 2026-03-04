@@ -43,7 +43,7 @@ export default function SideBySideView({ lines }: SideBySideViewProps) {
 
             // Determine row styling for original side
             let origLineNumberClasses =
-              'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800 align-top';
+              'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
             let origContentClasses =
               'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
 
@@ -59,7 +59,7 @@ export default function SideBySideView({ lines }: SideBySideViewProps) {
 
             // Determine row styling for modified side
             let modLineNumberClasses =
-              'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800 align-top';
+              'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
             let modContentClasses =
               'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
 
