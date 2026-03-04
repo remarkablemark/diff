@@ -1,4 +1,5 @@
 import type { DiffLine } from 'src/types/diff';
+import { getDiffLineClasses } from 'src/utils/getDiffLineClasses';
 
 interface DiffRowPair {
   original: DiffLine | null;
@@ -32,6 +33,9 @@ interface SideBySideViewProps {
 export default function SideBySideView({ lines }: SideBySideViewProps) {
   const pairs = pairLines(lines);
 
+  const sideBySideContentBase =
+    'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
+
   return (
     <div aria-live="polite">
       <div className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
@@ -41,37 +45,19 @@ export default function SideBySideView({ lines }: SideBySideViewProps) {
             const originalLineNumber = pair.original?.originalLineNumber ?? '';
             const modifiedLineNumber = pair.modified?.modifiedLineNumber ?? '';
 
-            // Determine row styling for original side
-            let origLineNumberClasses =
-              'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
-            let origContentClasses =
-              'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
+            const {
+              lineNumberClasses: origLineNumberClasses,
+              contentClasses: origContentClasses,
+            } = getDiffLineClasses(pair.original?.type ?? null, {
+              contentBaseClasses: sideBySideContentBase,
+            });
 
-            if (!pair.original) {
-              // Placeholder for added lines
-              origLineNumberClasses += ' bg-gray-100 dark:bg-gray-800';
-              origContentClasses += ' bg-gray-100 dark:bg-gray-800';
-            } else if (pair.original.type === 'removed') {
-              origLineNumberClasses += ' bg-red-50 dark:bg-red-900/20';
-              origContentClasses +=
-                ' bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
-            }
-
-            // Determine row styling for modified side
-            let modLineNumberClasses =
-              'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
-            let modContentClasses =
-              'min-w-0 flex-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100 whitespace-pre-wrap break-words';
-
-            if (!pair.modified) {
-              // Placeholder for removed lines
-              modLineNumberClasses += ' bg-gray-100 dark:bg-gray-800';
-              modContentClasses += ' bg-gray-100 dark:bg-gray-800';
-            } else if (pair.modified.type === 'added') {
-              modLineNumberClasses += ' bg-green-50 dark:bg-green-900/20';
-              modContentClasses +=
-                ' bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
-            }
+            const {
+              lineNumberClasses: modLineNumberClasses,
+              contentClasses: modContentClasses,
+            } = getDiffLineClasses(pair.modified?.type ?? null, {
+              contentBaseClasses: sideBySideContentBase,
+            });
 
             return (
               <div key={key} className="flex">

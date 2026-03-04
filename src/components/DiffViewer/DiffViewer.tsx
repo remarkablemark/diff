@@ -1,4 +1,5 @@
 import { Fragment, useRef } from 'react';
+import { getDiffLineClasses } from 'src/utils/getDiffLineClasses';
 
 import type { DiffViewerProps } from './DiffViewer.types';
 import SideBySideView from './SideBySideView';
@@ -38,25 +39,9 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
             /* v8 ignore next */
             line.originalLineNumber ?? line.modifiedLineNumber ?? '';
 
-          // Determine row styling based on line type
-          let lineNumberClasses =
-            'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
-          let contentClasses =
-            'pl-2 font-mono text-sm leading-6 dark:text-gray-100';
-
-          switch (line.type) {
-            case 'added':
-              lineNumberClasses += ' bg-green-50 dark:bg-green-900/20';
-              contentClasses +=
-                ' bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
-              break;
-
-            case 'removed':
-              lineNumberClasses += ' bg-red-50 dark:bg-red-900/20';
-              contentClasses +=
-                ' bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
-              break;
-          }
+          const { lineNumberClasses, contentClasses } = getDiffLineClasses(
+            line.type,
+          );
 
           return (
             <Fragment key={key}>
