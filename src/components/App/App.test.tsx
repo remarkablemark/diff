@@ -552,13 +552,14 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Side-by-Side' }));
 
-    const origGutter = container.querySelector(
-      '[data-testid="sbs-gutter-original"]',
+    // Check for grid structure in both columns
+    const origColumn = container.querySelector(
+      '[data-testid="diff-column-original"] .grid.grid-cols-\\[auto_1fr\\]',
     );
-    const modGutter = container.querySelector(
-      '[data-testid="sbs-gutter-modified"]',
+    const modColumn = container.querySelector(
+      '[data-testid="diff-column-modified"] .grid.grid-cols-\\[auto_1fr\\]',
     );
-    expect(origGutter).toBeInTheDocument();
-    expect(modGutter).toBeInTheDocument();
+    expect(origColumn).toBeInTheDocument();
+    expect(modColumn).toBeInTheDocument();
   });
 });

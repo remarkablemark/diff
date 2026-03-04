@@ -1,5 +1,4 @@
 import { Fragment, useRef } from 'react';
-import { SideBySideGutter } from 'src/components/SideBySideGutter';
 import type { DiffLine } from 'src/types/diff';
 
 import type { DiffViewerProps } from './DiffViewer.types';
@@ -54,76 +53,89 @@ export default function DiffViewer({
     return (
       <div aria-live="polite">
         <div className="grid grid-cols-2 gap-4">
+          {/* Original column */}
           <div
             data-testid="diff-column-original"
-            className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
+            className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <SideBySideGutter pairs={pairs} column="original" />
-            <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+            <div className="grid grid-cols-[auto_1fr] bg-white font-mono text-sm leading-6 dark:bg-gray-800">
               {pairs.map((pair, index) => {
-                if (!pair.original) {
-                  return (
-                    <div
-                      key={`op-${String(index)}`}
-                      data-testid="sbs-placeholder"
-                      className="bg-gray-100 dark:bg-gray-800"
-                    >
-                      <span className="px-2">{'\u00A0'}</span>
-                    </div>
-                  );
-                }
+                const key = `orig-${String(index)}`;
+                const lineNumber = pair.original?.originalLineNumber ?? '';
 
-                if (pair.original.type === 'removed') {
-                  return (
-                    <div
-                      key={`or-${String(index)}`}
-                      className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                    >
-                      <span className="px-2">-{pair.original.text}</span>
-                    </div>
-                  );
+                // Determine row styling
+                let lineNumberClasses =
+                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800';
+                let contentClasses =
+                  'pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100';
+
+                if (!pair.original) {
+                  // Placeholder for added lines
+                  lineNumberClasses += ' bg-gray-100 dark:bg-gray-800';
+                  contentClasses += ' bg-gray-100 dark:bg-gray-800';
+                } else if (pair.original.type === 'removed') {
+                  lineNumberClasses += ' bg-red-50 dark:bg-red-900/20';
+                  contentClasses +=
+                    ' bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
                 }
 
                 return (
-                  <div key={`ou-${String(index)}`}>
-                    <span className="px-2">{pair.original.text}</span>
-                  </div>
+                  <Fragment key={key}>
+                    <div className={lineNumberClasses}>{lineNumber}</div>
+                    <div className={contentClasses}>
+                      {!pair.original ? (
+                        <span>{'\u00A0'}</span>
+                      ) : pair.original.type === 'removed' ? (
+                        <span>-{pair.original.text}</span>
+                      ) : (
+                        <span>{pair.original.text}</span>
+                      )}
+                    </div>
+                  </Fragment>
                 );
               })}
             </div>
           </div>
+
+          {/* Modified column */}
           <div
             data-testid="diff-column-modified"
-            className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
+            className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <SideBySideGutter pairs={pairs} column="modified" />
-            <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
+            <div className="grid grid-cols-[auto_1fr] bg-white font-mono text-sm leading-6 dark:bg-gray-800">
               {pairs.map((pair, index) => {
+                const key = `mod-${String(index)}`;
+                const lineNumber = pair.modified?.modifiedLineNumber ?? '';
+
+                // Determine row styling
+                let lineNumberClasses =
+                  'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400 select-none bg-gray-50 dark:bg-gray-800';
+                let contentClasses =
+                  'pl-2 font-mono text-sm leading-6 text-gray-900 dark:text-gray-100';
+
                 if (!pair.modified) {
-                  return (
-                    <div
-                      key={`mp-${String(index)}`}
-                      data-testid="sbs-placeholder"
-                      className="bg-gray-100 dark:bg-gray-800"
-                    >
-                      <span className="px-2">{'\u00A0'}</span>
-                    </div>
-                  );
+                  // Placeholder for removed lines
+                  lineNumberClasses += ' bg-gray-100 dark:bg-gray-800';
+                  contentClasses += ' bg-gray-100 dark:bg-gray-800';
+                } else if (pair.modified.type === 'added') {
+                  lineNumberClasses += ' bg-green-50 dark:bg-green-900/20';
+                  contentClasses +=
+                    ' bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
                 }
-                if (pair.modified.type === 'added') {
-                  return (
-                    <div
-                      key={`ma-${String(index)}`}
-                      className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                    >
-                      <span className="px-2">+{pair.modified.text}</span>
-                    </div>
-                  );
-                }
+
                 return (
-                  <div key={`mu-${String(index)}`}>
-                    <span className="px-2">{pair.modified.text}</span>
-                  </div>
+                  <Fragment key={key}>
+                    <div className={lineNumberClasses}>{lineNumber}</div>
+                    <div className={contentClasses}>
+                      {!pair.modified ? (
+                        <span>{'\u00A0'}</span>
+                      ) : pair.modified.type === 'added' ? (
+                        <span>+{pair.modified.text}</span>
+                      ) : (
+                        <span>{pair.modified.text}</span>
+                      )}
+                    </div>
+                  </Fragment>
                 );
               })}
             </div>

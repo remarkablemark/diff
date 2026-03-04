@@ -251,16 +251,15 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    const origGutter = container.querySelector(
-      '[data-testid="sbs-gutter-original"]',
+    // Check for grid structure in both columns
+    const origColumn = container.querySelector(
+      '[data-testid="diff-column-original"] .grid.grid-cols-\\[auto_1fr\\]',
     );
-    const modGutter = container.querySelector(
-      '[data-testid="sbs-gutter-modified"]',
+    const modColumn = container.querySelector(
+      '[data-testid="diff-column-modified"] .grid.grid-cols-\\[auto_1fr\\]',
     );
-    expect(origGutter).toBeInTheDocument();
-    expect(origGutter?.getAttribute('aria-hidden')).toBe('true');
-    expect(modGutter).toBeInTheDocument();
-    expect(modGutter?.getAttribute('aria-hidden')).toBe('true');
+    expect(origColumn).toBeInTheDocument();
+    expect(modColumn).toBeInTheDocument();
   });
 
   it('shows correct line numbers in side-by-side original column', () => {
@@ -276,11 +275,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    const origNums = container.querySelectorAll(
-      '[data-testid="sbs-original-line"]',
+    // Line numbers are first child in each row (odd children in grid)
+    const origColumn = container.querySelector(
+      '[data-testid="diff-column-original"] .grid',
     );
-    expect(origNums[0].textContent).toBe('1');
-    expect(origNums[1].textContent).toBe('2');
+    const origNums = origColumn?.querySelectorAll('div:nth-child(odd)');
+    expect(origNums).toHaveLength(2);
+    expect(origNums?.[0].textContent).toBe('1');
+    expect(origNums?.[1].textContent).toBe('2');
   });
 
   it('shows correct line numbers in side-by-side modified column', () => {
@@ -296,11 +298,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    const modNums = container.querySelectorAll(
-      '[data-testid="sbs-modified-line"]',
+    // Line numbers are first child in each row (odd children in grid)
+    const modColumn = container.querySelector(
+      '[data-testid="diff-column-modified"] .grid',
     );
-    expect(modNums[0].textContent).toBe('1');
-    expect(modNums[1].textContent).toBe('2');
+    const modNums = modColumn?.querySelectorAll('div:nth-child(odd)');
+    expect(modNums).toHaveLength(2);
+    expect(modNums?.[0].textContent).toBe('1');
+    expect(modNums?.[1].textContent).toBe('2');
   });
 
   it('renders placeholder rows for missing lines in side-by-side view', () => {
@@ -316,11 +321,14 @@ describe('DiffViewer component', () => {
       <DiffViewer result={result} viewMode="side-by-side" />,
     );
 
-    const placeholders = container.querySelectorAll(
-      '[data-testid="sbs-placeholder"]',
+    // Check for placeholder content (non-breaking space) in original column for added line
+    const origColumn = container.querySelector(
+      '[data-testid="diff-column-original"] .grid',
     );
-    expect(placeholders.length).toBeGreaterThan(0);
-    expect(placeholders[0].className).toContain('bg-gray-100');
+    const contentCells = origColumn?.querySelectorAll('div:nth-child(even)');
+    expect(contentCells).toHaveLength(2);
+    // Second content cell should be placeholder for added line
+    expect(contentCells?.[1].textContent).toBe('\u00A0');
   });
 
   describe('Scroll Synchronization Integration', () => {
