@@ -2,7 +2,8 @@
 
 **Feature Branch**: `001-fix-diff-gutter`
 **Created**: 2026-03-03
-**Status**: Draft
+**Updated**: 2026-03-03
+**Status**: Implemented
 **Input**: User description: "Fix line numbers in diff gutter"
 
 ## Clarifications
@@ -10,6 +11,8 @@
 ### Session 2026-03-03
 
 - Q: How should the two line number columns be visually separated and styled in the unified view gutter? → A: Small gap with subtle vertical divider line, muted color for empty/missing numbers (GitHub-style)
+- Q: Should long lines wrap or scroll horizontally? → A: Long lines should scroll horizontally with `whitespace-nowrap` to preserve line alignment
+- Q: What HTML structure should be used for perfect line alignment? → A: CSS grid layout with `grid-cols-2` for dual-column line numbers, `overflow-x-auto` container for horizontal scrolling
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -58,25 +61,28 @@ The side-by-side view already displays line numbers, but they should be verified
 - What happens when the diff method is "characters" or "words" but the text contains newlines? Line numbers should still be computed correctly based on newline positions within segments.
 - What happens when one text is empty? The gutter should show line numbers only for the non-empty text side.
 - What happens with consecutive added/removed lines? Each line should show its correct sequential line number on the appropriate side.
+- What happens when a line is very long (exceeds viewport width)? The line should scroll horizontally without wrapping, and the line number should stay aligned with the line.
 
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
 
-- **FR-001**: The unified diff view gutter MUST display two columns of line numbers side-by-side with GitHub-style visual treatment:
+- **FR-001**: The unified diff view MUST display line numbers in a dual-column gutter with GitHub-style visual treatment:
   - Left column: original line numbers
   - Right column: modified line numbers
-  - Small gap with subtle vertical divider between columns
+  - Small gap between columns (`gap-1` or `gap-2`)
   - Muted color for empty/missing numbers
-- **FR-002**: Each line number displayed in the gutter MUST correspond to the actual line position in the source text (original or modified), not the sequential index in the diff output
-- **FR-003**: Removed lines MUST show the correct original line number in the left column and blank in the right column
-- **FR-004**: Added lines MUST show blank in the left column and the correct modified line number in the right column
-- **FR-005**: Unchanged lines MUST show both the correct original line number (left) and correct modified line number (right)
-- **FR-006**: The gutter MUST use the `originalLineNumber` and `modifiedLineNumber` metadata from the `DiffLine` type to display accurate line numbers
+- **FR-002**: Each line number displayed MUST correspond to the actual line position in the source text (original or modified), not the sequential index in the diff output
+- **FR-003**: Removed lines MUST show the correct original line number and blank for modified
+- **FR-004**: Added lines MUST show blank for original and the correct modified line number
+- **FR-005**: Unchanged lines MUST show both the correct original line number and correct modified line number
+- **FR-006**: The diff MUST use the `originalLineNumber` and `modifiedLineNumber` metadata from the `DiffLine` type to display accurate line numbers
 - **FR-007**: The gutter width MUST dynamically adjust to accommodate the maximum digit count of line numbers without clipping
 - **FR-008**: Line numbers MUST remain correctly aligned with their corresponding diff content lines during scrolling
 - **FR-009**: The side-by-side view MUST display correct original line numbers in the original column and correct modified line numbers in the modified column
 - **FR-010**: Placeholder rows for missing lines (added lines in original column, removed lines in modified column) MUST NOT display any line number
+- **FR-011**: Long lines MUST NOT wrap; they MUST scroll horizontally using `whitespace-nowrap` CSS class
+- **FR-012**: The gutter MUST use CSS grid layout (`grid-cols-2`) for dual-column line number display
 
 ### Key Entities
 
@@ -86,14 +92,34 @@ The side-by-side view already displays line numbers, but they should be verified
 
 - The `segmentsToLines` utility already computes correct `originalLineNumber` and `modifiedLineNumber` metadata for each `DiffLine`
 - The `DiffViewer` component has access to the complete `result.lines` array with line number metadata
-- The existing `LineNumberGutter` component can be modified to accept and display dual line number columns instead of sequential indices
+- CSS grid layout provides reliable row alignment with proper `whitespace-nowrap` on content
 
-## Success Criteria _(mandatory)_
+## Implementation Notes
 
-### Measurable Outcomes
+### Component Structure
 
-- **SC-001**: Users can identify the exact source line number of any change within 2 seconds of viewing the diff
-- **SC-002**: 100% of displayed line numbers match the actual line positions in the source texts (verifiable via automated tests)
-- **SC-003**: All existing quality gates pass (lint, type check, tests, build) with no regressions
-- **SC-004**: Line number display remains correct across all three diff methods (characters, words, lines)
-- **SC-005**: Line numbers remain correctly aligned with content during horizontal scrolling (no misalignment visible)
+- **DiffViewer**: Main component rendering both unified and side-by-side views
+- **LineNumberGutter**: Dedicated component for unified view dual-column line numbers using CSS grid
+- **SideBySideGutter**: Dedicated component for side-by-side view line number columns
+
+### HTML Structure
+
+```html
+<!-- Unified View -->
+<div class="grid grid-cols-[auto_1fr]">
+  <!-- LineNumberGutter -->
+  <div class="grid grid-cols-2 gap-1"><span>1</span><span>2</span></div>
+  <!-- Content -->
+  <div class="whitespace-nowrap">line content</div>
+</div>
+
+<!-- Side-by-Side View -->
+<div class="grid grid-cols-2">
+  <!-- Original Column -->
+  <div class="line-number">1</div>
+  <div class="content whitespace-nowrap">original</div>
+  <!-- Modified Column -->
+  <div class="line-number">1</div>
+  <div class="content whitespace-nowrap">modified</div>
+</div>
+```
