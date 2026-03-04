@@ -41,41 +41,24 @@ describe('DiffMethodToggle', () => {
     expect(wordsButton.className).not.toContain('bg-blue-500');
   });
 
-  it('calls onMethodChange with "characters" when Characters is clicked', async () => {
-    const user = userEvent.setup();
-    const onMethodChange = vi.fn();
-    render(
-      <DiffMethodToggle {...defaultProps} onMethodChange={onMethodChange} />,
-    );
+  it.each([
+    { buttonName: 'Characters', expectedValue: 'characters' },
+    { buttonName: 'Words', expectedValue: 'words' },
+    { buttonName: 'Lines', expectedValue: 'lines' },
+  ])(
+    'calls onMethodChange with "$expectedValue" when $buttonName is clicked',
+    async ({ buttonName, expectedValue }) => {
+      const user = userEvent.setup();
+      const onMethodChange = vi.fn();
+      render(
+        <DiffMethodToggle {...defaultProps} onMethodChange={onMethodChange} />,
+      );
 
-    await user.click(screen.getByRole('button', { name: 'Characters' }));
+      await user.click(screen.getByRole('button', { name: buttonName }));
 
-    expect(onMethodChange).toHaveBeenCalledWith('characters');
-  });
-
-  it('calls onMethodChange with "words" when Words is clicked', async () => {
-    const user = userEvent.setup();
-    const onMethodChange = vi.fn();
-    render(
-      <DiffMethodToggle {...defaultProps} onMethodChange={onMethodChange} />,
-    );
-
-    await user.click(screen.getByRole('button', { name: 'Words' }));
-
-    expect(onMethodChange).toHaveBeenCalledWith('words');
-  });
-
-  it('calls onMethodChange with "lines" when Lines is clicked', async () => {
-    const user = userEvent.setup();
-    const onMethodChange = vi.fn();
-    render(
-      <DiffMethodToggle {...defaultProps} onMethodChange={onMethodChange} />,
-    );
-
-    await user.click(screen.getByRole('button', { name: 'Lines' }));
-
-    expect(onMethodChange).toHaveBeenCalledWith('lines');
-  });
+      expect(onMethodChange).toHaveBeenCalledWith(expectedValue);
+    },
+  );
 
   it('is keyboard accessible via Enter key', async () => {
     const user = userEvent.setup();

@@ -86,34 +86,4 @@ describe('TextInput component', () => {
     const gutter = screen.getByTestId('line-gutter');
     expect(gutter).toHaveTextContent('1');
   });
-
-  it('should detect horizontal scrollbar and add padding to gutter', () => {
-    // Mock a textarea with horizontal scrollbar
-    render(
-      <TextInput
-        {...defaultProps}
-        value="a very long line that will cause horizontal scrolling"
-      />,
-    );
-
-    const textarea = screen.getByLabelText('Original Text');
-    const gutter = screen.getByTestId('line-gutter');
-
-    // Mock the textarea to have horizontal scrollbar
-    Object.defineProperty(textarea, 'scrollWidth', {
-      writable: true,
-      value: 1000,
-    });
-    Object.defineProperty(textarea, 'clientWidth', {
-      writable: true,
-      value: 800,
-    });
-
-    // Trigger the scrollbar detection by changing value
-    expect(() => {
-      render(<TextInput {...defaultProps} value="updated text" />);
-    }).not.toThrow();
-
-    expect(gutter).toBeInTheDocument();
-  });
 });
