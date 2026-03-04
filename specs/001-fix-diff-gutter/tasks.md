@@ -44,6 +44,9 @@
 - [x] T007 Update SideBySideGutter to remove scrollTop prop
   - Remove `scrollTop` prop from component signature
   - Remove scroll sync useEffect
+- [x] T007b Remove SideBySideGutter component entirely
+  - Restructure side-by-side view to render line numbers inline (same as unified view)
+  - Delete SideBySideGutter component files
 
 ### Tests
 
@@ -51,6 +54,7 @@
   - Update tests to query for grid cells instead of separate gutter
   - Update line number assertions to use `:nth-child(odd)` selector
   - Update scroll sync tests to use grid container instead of `.overflow-x-auto`
+  - Update side-by-side tests to verify inline gutter structure
 - [x] T009 Update App.test.tsx tests for new grid structure
   - Update gutter tests to query for grid structure
   - Update line number assertions
@@ -65,13 +69,18 @@
 - [x] T011 Run lint and type check (npm run lint && npm run lint:tsc)
 - [x] T012 Run build to verify production build succeeds (npm run build)
 - [x] T013 Fix React key warning by using Fragment with proper key
-- [x] T014 Code cleanup: remove unused imports (LineNumberGutter, useCallback, useState)
+- [x] T014 Code cleanup: remove unused imports (LineNumberGutter, SideBySideGutter, useCallback, useState)
 - [x] T015 Identify uncovered code (LineNumberGutter component - no longer used)
 - [x] T016 Remove unused LineNumberGutter component (4 files deleted)
   - `src/components/LineNumberGutter/LineNumberGutter.tsx`
   - `src/components/LineNumberGutter/LineNumberGutter.test.tsx`
   - `src/components/LineNumberGutter/LineNumberGutter.types.ts`
   - `src/components/LineNumberGutter/index.ts`
+- [x] T017 Remove unused SideBySideGutter component (4 files deleted)
+  - `src/components/SideBySideGutter/SideBySideGutter.tsx`
+  - `src/components/SideBySideGutter/SideBySideGutter.test.tsx`
+  - `src/components/SideBySideGutter/SideBySideGutter.types.ts`
+  - `src/components/SideBySideGutter/index.ts`
 
 ---
 
@@ -96,21 +105,21 @@
 
 **Files Modified**:
 
-- `src/components/DiffViewer/DiffViewer.tsx` - Restructured unified view rendering
+- `src/components/DiffViewer/DiffViewer.tsx` - Restructured unified and side-by-side view rendering
 - `src/components/DiffViewer/DiffViewer.test.tsx` - Updated tests for new structure
 - `src/components/App/App.test.tsx` - Updated tests for new structure
-- `src/components/SideBySideGutter/SideBySideGutter.tsx` - Removed scroll sync
-- `src/components/SideBySideGutter/SideBySideGutter.test.tsx` - Updated tests
-- `src/components/SideBySideGutter/SideBySideGutter.types.ts` - Removed scrollTop prop
 
 **Files Deleted**:
 
 - `src/components/LineNumberGutter/` (entire directory - 4 files)
+- `src/components/SideBySideGutter/` (entire directory - 4 files)
 
 **Key Changes**:
 
-1. Unified view now renders line numbers inline as first column of grid rows
-2. Each row is a Fragment containing: `<div>line number</div>` + `<div>content</div>`
-3. Grid structure ensures automatic height matching between line numbers and content
-4. Removed unused scroll synchronization logic
-5. Removed unused LineNumberGutter component (dead code elimination)
+1. Unified view renders line numbers inline as first column of grid rows
+2. Side-by-side view renders line numbers inline in both columns (original and modified)
+3. Each row is a Fragment containing: `<div>line number</div>` + `<div>content</div>`
+4. Grid structure ensures automatic height matching between line numbers and content
+5. Removed unused scroll synchronization logic
+6. Removed unused LineNumberGutter component (dead code elimination)
+7. Removed unused SideBySideGutter component (dead code elimination)

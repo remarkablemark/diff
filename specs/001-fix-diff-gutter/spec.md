@@ -98,9 +98,9 @@ The side-by-side view already displays line numbers, but they should be verified
 
 ### Component Structure
 
-- **DiffViewer**: Main component rendering both unified and side-by-side views. For unified view, renders line numbers inline as the first column of each grid row
-- **SideBySideGutter**: Dedicated component for side-by-side view line number columns
-- **LineNumberGutter**: ~~Removed~~ - Was replaced by inline line numbers in unified view (refactored in commit 69f06a1)
+- **DiffViewer**: Main component rendering both unified and side-by-side views. Renders line numbers inline as the first column of each grid row for both view modes
+- **SideBySideGutter**: ~~Removed~~ - Was replaced by inline line numbers in side-by-side view (refactored in commit 49c4e28)
+- **LineNumberGutter**: ~~Removed~~ - Was replaced by inline line numbers in unified view (refactored in commit 8171732)
 
 ### HTML Structure
 
@@ -114,21 +114,30 @@ The side-by-side view already displays line numbers, but they should be verified
   <div class="content whitespace-nowrap">more content...</div>
 </div>
 
-<!-- Side-by-Side View -->
+<!-- Side-by-Side View - Both columns use inline gutters -->
 <div class="grid grid-cols-2 gap-4">
   <!-- Original Column -->
-  <div class="line-number">1</div>
-  <div class="content whitespace-nowrap">original</div>
+  <div class="grid grid-cols-[auto_1fr]">
+    <div class="line-number">1</div>
+    <div class="content whitespace-nowrap">original</div>
+    <div class="line-number">2</div>
+    <div class="content whitespace-nowrap">removed</div>
+  </div>
   <!-- Modified Column -->
-  <div class="line-number">1</div>
-  <div class="content whitespace-nowrap">modified</div>
+  <div class="grid grid-cols-[auto_1fr]">
+    <div class="line-number">1</div>
+    <div class="content whitespace-nowrap">modified</div>
+    <div class="line-number">2</div>
+    <div class="content whitespace-nowrap">added</div>
+  </div>
 </div>
 ```
 
 ### Key Implementation Details
 
 - **Unified view**: Line numbers are rendered inline as the first column of each grid row, ensuring perfect height alignment with content
+- **Side-by-side view**: Both original and modified columns render line numbers inline using the same grid pattern as unified view
 - **Grid structure**: `grid-cols-[auto_1fr]` creates two columns - auto-width for line numbers, 1fr for content
 - **Row pairing**: Each diff line renders as a Fragment containing two div children (line number cell + content cell)
-- **Styling**: Line number cells use `text-right`, `pr-2`, `font-mono` for right-aligned monospace numbers; content cells use `pl-2`, `font-mono`
-- **Color coding**: Line number cells inherit background colors from their corresponding content (red for removed, green for added, white for unchanged)
+- **Styling**: Line number cells use `text-right`, `px-2`, `font-mono` for right-aligned monospace numbers; content cells use `pl-2`, `font-mono`
+- **Color coding**: Line number cells inherit background colors from their corresponding content (red for removed, green for added, gray for placeholders)
