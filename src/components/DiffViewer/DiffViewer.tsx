@@ -1,12 +1,10 @@
-import { Fragment, useRef } from 'react';
+import { Fragment } from 'react';
 import { getDiffLineClasses } from 'src/utils/getDiffLineClasses';
 
 import type { DiffViewerProps } from './DiffViewer.types';
 import SideBySideView from './SideBySideView';
 
 export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
-
   if (!result) {
     return null;
   }
@@ -27,10 +25,7 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
 
   return (
     <div aria-live="polite">
-      <div
-        ref={contentRef}
-        className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
-      >
+      <div className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
         {/* Line rows */}
         {result.lines.map((line, index) => {
           const key = `c-${String(index)}-${line.type}`;

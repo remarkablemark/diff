@@ -89,7 +89,7 @@ describe('DiffViewer component', () => {
     );
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     const diffOutput = container.querySelector('[aria-live="polite"]');
@@ -102,7 +102,7 @@ describe('DiffViewer component', () => {
     const result = makeResult([{ value: 'test', type: 'unchanged' }], false);
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     const liveRegion = container.querySelector('[aria-live="polite"]');
@@ -120,7 +120,7 @@ describe('DiffViewer component', () => {
     );
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check for line numbers in the grid (first column cells)
@@ -143,7 +143,7 @@ describe('DiffViewer component', () => {
     );
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check that line numbers are rendered in the first column (odd children)
@@ -156,7 +156,7 @@ describe('DiffViewer component', () => {
     const result = makeResult([{ value: 'removed\n', type: 'removed' }], true);
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check that line number is rendered for removed line (first child = first line number)
@@ -169,7 +169,7 @@ describe('DiffViewer component', () => {
     const result = makeResult([{ value: 'added\n', type: 'added' }], true);
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check that line number is rendered for added line (first child = first line number)
@@ -188,7 +188,7 @@ describe('DiffViewer component', () => {
     );
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check that the added line shows its modified line number (2)
@@ -207,7 +207,7 @@ describe('DiffViewer component', () => {
     );
 
     const { container } = render(
-      <DiffViewer result={result} viewMode="unified" diffMethod="words" />,
+      <DiffViewer result={result} viewMode="unified" />,
     );
 
     // Check that line number cells have font-mono styling
