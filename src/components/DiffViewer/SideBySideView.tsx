@@ -8,21 +8,44 @@ interface DiffRowPair {
 
 function pairLines(lines: DiffLine[]): DiffRowPair[] {
   const pairs: DiffRowPair[] = [];
-  for (const line of lines) {
-    switch (line.type) {
-      case 'unchanged':
-        pairs.push({ original: line, modified: line });
-        break;
+  let i = 0;
 
-      case 'removed':
-        pairs.push({ original: line, modified: null });
-        break;
+  while (i < lines.length) {
+    const line = lines[i];
 
-      default:
-        pairs.push({ original: null, modified: line });
-        break;
+    if (line.type === 'unchanged') {
+      pairs.push({ original: line, modified: line });
+      i++;
+    } else if (line.type === 'removed') {
+      const removedLines: DiffLine[] = [line];
+      let j = i + 1;
+
+      while (j < lines.length && lines[j].type === 'removed') {
+        removedLines.push(lines[j]);
+        j++;
+      }
+
+      const addedLines: DiffLine[] = [];
+      while (j < lines.length && lines[j].type === 'added') {
+        addedLines.push(lines[j]);
+        j++;
+      }
+
+      const maxLength = Math.max(removedLines.length, addedLines.length);
+      for (let k = 0; k < maxLength; k++) {
+        pairs.push({
+          original: removedLines[k] ?? null,
+          modified: addedLines[k] ?? null,
+        });
+      }
+
+      i = j;
+    } else {
+      pairs.push({ original: null, modified: line });
+      i++;
     }
   }
+
   return pairs;
 }
 
