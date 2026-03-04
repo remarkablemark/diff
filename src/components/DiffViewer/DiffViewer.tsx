@@ -40,7 +40,7 @@ export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
 
           // Determine row styling based on line type
           let lineNumberClasses =
-            'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
+            'w-8 px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
           let contentClasses =
             'pl-2 font-mono text-sm leading-6 dark:text-gray-100';
 
