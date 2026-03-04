@@ -7,12 +7,8 @@ export interface DiffViewerProps {
   viewMode: ViewMode;
   /** The diff method being used */
   diffMethod?: DiffMethod;
-  /** Enable scroll synchronization (default: true) */
-  enableScrollSync?: boolean;
   /** Explicit gutter width control */
   gutterWidth?: 'auto' | 2 | 3;
-  /** Additional CSS classes */
-  className?: string;
 }
 
 export interface DiffViewerRef {
