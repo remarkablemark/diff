@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { LineNumberGutter } from 'src/components/LineNumberGutter';
+import { SideBySideGutter } from 'src/components/SideBySideGutter';
 import type { DiffLine } from 'src/types/diff';
 
 import type { DiffViewerProps } from './DiffViewer.types';
@@ -66,19 +67,11 @@ export default function DiffViewer({
             data-testid="diff-column-original"
             className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <div
-              data-testid="sbs-gutter-original"
-              aria-hidden="true"
-              className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
-            >
-              {pairs.map((pair, i) => (
-                <div key={`og-${String(i)}`} className="px-2 text-right">
-                  <span data-testid="sbs-original-line">
-                    {pair.original?.originalLineNumber ?? ''}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <SideBySideGutter
+              pairs={pairs}
+              column="original"
+              scrollTop={scrollPosition.top}
+            />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
               {pairs.map((pair, i) => {
                 if (!pair.original) {
@@ -114,19 +107,11 @@ export default function DiffViewer({
             data-testid="diff-column-modified"
             className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <div
-              data-testid="sbs-gutter-modified"
-              aria-hidden="true"
-              className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
-            >
-              {pairs.map((pair, i) => (
-                <div key={`mg-${String(i)}`} className="px-2 text-right">
-                  <span data-testid="sbs-modified-line">
-                    {pair.modified?.modifiedLineNumber ?? ''}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <SideBySideGutter
+              pairs={pairs}
+              column="modified"
+              scrollTop={scrollPosition.top}
+            />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
               {pairs.map((pair, i) => {
                 if (!pair.modified) {
