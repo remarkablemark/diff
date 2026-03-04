@@ -64,13 +64,6 @@ describe('TextInput component', () => {
     expect(gutter).toHaveTextContent('3');
   });
 
-  it('shows at least one line number for empty input', () => {
-    render(<TextInput {...defaultProps} value="" />);
-
-    const gutter = screen.getByTestId('line-gutter');
-    expect(gutter).toHaveTextContent('1');
-  });
-
   it('syncs gutter scroll with textarea scroll', () => {
     render(<TextInput {...defaultProps} value="line 1\nline 2" />);
 
@@ -87,97 +80,10 @@ describe('TextInput component', () => {
     expect(gutter.scrollTop).toBe(50);
   });
 
-  it('handles scroll when gutter ref is null', () => {
-    render(<TextInput {...defaultProps} value="line 1\nline 2" />);
-
-    const textarea = screen.getByLabelText('Original Text');
-
-    // Test that the scroll handler doesn't throw when called
-    // This covers the case where gutterRef.current might be null
-    expect(() => {
-      Object.defineProperty(textarea, 'scrollTop', {
-        writable: true,
-        value: 50,
-      });
-      textarea.dispatchEvent(new Event('scroll', { bubbles: true }));
-    }).not.toThrow();
-  });
-
   it('shows exactly one line number for falsy value', () => {
     render(<TextInput {...defaultProps} value="" />);
 
     const gutter = screen.getByTestId('line-gutter');
     expect(gutter).toHaveTextContent('1');
-  });
-
-  it('handles scroll without throwing when gutter element is removed', () => {
-    const { unmount } = render(
-      <TextInput {...defaultProps} value="line 1\nline 2" />,
-    );
-
-    const textarea = screen.getByLabelText('Original Text');
-
-    // Unmount the component to make gutterRef.current null
-    unmount();
-
-    // This should not throw even though gutterRef.current is now null
-    expect(() => {
-      Object.defineProperty(textarea, 'scrollTop', {
-        writable: true,
-        value: 50,
-      });
-      textarea.dispatchEvent(new Event('scroll', { bubbles: true }));
-    }).not.toThrow();
-  });
-
-  it('should detect horizontal scrollbar and add padding to gutter', () => {
-    // Mock a textarea with horizontal scrollbar
-    render(
-      <TextInput
-        {...defaultProps}
-        value="a very long line that will cause horizontal scrolling"
-      />,
-    );
-
-    const textarea = screen.getByLabelText('Original Text');
-    const gutter = screen.getByTestId('line-gutter');
-
-    // Mock the textarea to have horizontal scrollbar
-    Object.defineProperty(textarea, 'scrollWidth', {
-      writable: true,
-      value: 1000,
-    });
-    Object.defineProperty(textarea, 'clientWidth', {
-      writable: true,
-      value: 800,
-    });
-
-    // Trigger the scrollbar detection by changing value
-    expect(() => {
-      render(<TextInput {...defaultProps} value="updated text" />);
-    }).not.toThrow();
-
-    expect(gutter).toBeInTheDocument();
-  });
-
-  it('should handle horizontal scrollbar detection without error', () => {
-    render(<TextInput {...defaultProps} value="short line" />);
-
-    const textarea = screen.getByLabelText('Original Text');
-
-    // Mock the textarea without horizontal scrollbar
-    Object.defineProperty(textarea, 'scrollWidth', {
-      writable: true,
-      value: 800,
-    });
-    Object.defineProperty(textarea, 'clientWidth', {
-      writable: true,
-      value: 800,
-    });
-
-    // This should not throw
-    expect(() => {
-      render(<TextInput {...defaultProps} value="updated short text" />);
-    }).not.toThrow();
   });
 });

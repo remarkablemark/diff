@@ -1,0 +1,150 @@
+# Tasks: Fix Line Numbers in Diff Gutter
+
+**Input**: Design documents from `/specs/001-fix-diff-gutter/`
+**Prerequisites**: plan.md, spec.md, research.md, data-model.md
+
+**Tests**: Tests are REQUIRED per Constitution Principle II (Full Test Coverage)
+
+**Organization**: Tasks are grouped by implementation phase
+
+---
+
+## Phase 1: Setup (Shared Infrastructure)
+
+**Purpose**: Verify existing project structure and dependencies
+
+- [x] T001 Verify project dependencies installed (npm install)
+- [x] T002 Confirm existing test infrastructure works (npm run test:ci)
+
+---
+
+## Phase 2: Implementation - Unified View Grid Restructure
+
+**Goal**: Restructure unified diff view to use CSS grid rows where each row contains both line number and content as sibling cells
+
+### Implementation
+
+- [x] T003 Update DiffViewer.tsx to restructure unified view rendering
+  - Remove separate LineNumberGutter component usage for unified view
+  - Change grid structure to render line numbers inline as first column of each row
+  - Each diff line renders as Fragment with two div children (line number cell + content cell)
+  - Use `grid-cols-[auto_1fr]` for two-column layout
+- [x] T004 Implement line number cell styling
+  - Right-aligned with `text-right` and `pr-2`
+  - Monospace font with `font-mono`
+  - Background colors matching content (red/green/white)
+- [x] T005 Implement content cell styling
+  - Left-aligned with `pl-2`
+  - Monospace font with `font-mono`
+  - Preserve +/- prefix with separate span elements
+- [x] T006 Remove unused scroll sync logic from unified view
+  - Remove `enableScrollSync` prop usage (no longer needed with inline line numbers)
+  - Remove `handleContentScroll` callback
+  - Remove `scrollPosition` state
+- [x] T007 Update SideBySideGutter to remove scrollTop prop
+  - Remove `scrollTop` prop from component signature
+  - Remove scroll sync useEffect
+- [x] T007b Remove SideBySideGutter component entirely
+  - Restructure side-by-side view to render line numbers inline (same as unified view)
+  - Delete SideBySideGutter component files
+
+### Tests
+
+- [x] T008 Update DiffViewer.test.tsx tests for new grid structure
+  - Update tests to query for grid cells instead of separate gutter
+  - Update line number assertions to use `:nth-child(odd)` selector
+  - Update scroll sync tests to use grid container instead of `.overflow-x-auto`
+  - Update side-by-side tests to verify inline gutter structure
+- [x] T009 Update App.test.tsx tests for new grid structure
+  - Update gutter tests to query for grid structure
+  - Update line number assertions
+
+---
+
+## Phase 3: Polish & Validation
+
+**Purpose**: Ensure code quality and completeness
+
+- [x] T010 Run full test suite and verify all tests pass (npm run test)
+- [x] T011 Run lint and type check (npm run lint && npm run lint:tsc)
+- [x] T012 Run build to verify production build succeeds (npm run build)
+- [x] T013 Fix React key warning by using Fragment with proper key
+- [x] T014 Code cleanup: remove unused imports (LineNumberGutter, SideBySideGutter, useCallback, useState)
+- [x] T015 Identify uncovered code (LineNumberGutter component - no longer used)
+- [x] T016 Remove unused LineNumberGutter component (4 files deleted)
+  - `src/components/LineNumberGutter/LineNumberGutter.tsx`
+  - `src/components/LineNumberGutter/LineNumberGutter.test.tsx`
+  - `src/components/LineNumberGutter/LineNumberGutter.types.ts`
+  - `src/components/LineNumberGutter/index.ts`
+- [x] T017 Remove unused SideBySideGutter component (4 files deleted)
+  - `src/components/SideBySideGutter/SideBySideGutter.tsx`
+  - `src/components/SideBySideGutter/SideBySideGutter.test.tsx`
+  - `src/components/SideBySideGutter/SideBySideGutter.types.ts`
+  - `src/components/SideBySideGutter/index.ts`
+
+---
+
+## Phase 4: Side-by-Side Text Wrapping Fix
+
+**Goal**: Enable text wrapping for long lines in side-by-side view to prevent content cutoff
+
+### Implementation
+
+- [x] T018 Update side-by-side view to use flex layout instead of grid
+  - Change from `grid-cols-[auto_1fr]` to flex rows
+  - Add `flex-shrink-0` to line number cells (prevent shrinking)
+  - Add `flex-1 min-w-0` to content cells (allow shrinking below natural width)
+- [x] T019 Enable text wrapping on content cells
+  - Add `whitespace-pre-wrap` (wrap while preserving whitespace)
+  - Add `break-words` (break long words that exceed container width)
+- [x] T020 Add vertical alignment to line numbers
+  - Add `align-top` to align line numbers with top of wrapped content
+
+### Tests
+
+- [x] T021 Update DiffViewer.test.tsx tests for flex-based structure
+  - Update queries from grid selectors to flex row selectors
+  - Update text content assertions to include +/- prefixes
+
+---
+
+## Dependencies & Execution Order
+
+### Phase Dependencies
+
+- **Phase 1 (Setup)**: No dependencies
+- **Phase 2 (Implementation)**: Depends on Phase 1 completion
+- **Phase 3 (Polish)**: Depends on Phase 2 completion
+
+### Implementation Notes
+
+- The key insight is that line numbers and content must be in the same grid row to share height
+- Using CSS `grid-cols-[auto_1fr]` creates automatic height matching
+- Line numbers are rendered inline, eliminating the need for a separate gutter component
+- This approach is simpler and more robust than trying to sync heights between separate elements
+
+---
+
+## Completed Implementation Summary
+
+**Files Modified**:
+
+- `src/components/DiffViewer/DiffViewer.tsx` - Restructured unified and side-by-side view rendering
+- `src/components/DiffViewer/DiffViewer.test.tsx` - Updated tests for new structure
+- `src/components/App/App.test.tsx` - Updated tests for new structure
+
+**Files Deleted**:
+
+- `src/components/LineNumberGutter/` (entire directory - 4 files)
+- `src/components/SideBySideGutter/` (entire directory - 4 files)
+
+**Key Changes**:
+
+1. Unified view renders line numbers inline as first column of grid rows
+2. Side-by-side view renders line numbers inline in both columns (original and modified)
+3. Each row is a flex container containing: `<div>line number</div>` + `<div>content</div>`
+4. Grid structure (unified) and flex structure (side-by-side) ensure automatic height matching
+5. Side-by-side view uses `whitespace-pre-wrap break-words` for text wrapping (GitHub-style)
+6. Removed unused scroll synchronization logic
+7. Removed unused LineNumberGutter component (dead code elimination)
+8. Removed unused SideBySideGutter component (dead code elimination)

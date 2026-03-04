@@ -1,61 +1,10 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { LineNumberGutter } from 'src/components/LineNumberGutter';
-import type { DiffLine } from 'src/types/diff';
+import { Fragment } from 'react';
+import { getDiffLineClasses } from 'src/utils/getDiffLineClasses';
 
 import type { DiffViewerProps } from './DiffViewer.types';
+import SideBySideView from './SideBySideView';
 
-interface DiffRowPair {
-  original: DiffLine | null;
-  modified: DiffLine | null;
-}
-
-function pairLines(lines: DiffLine[]): DiffRowPair[] {
-  const pairs: DiffRowPair[] = [];
-  for (const line of lines) {
-    if (line.type === 'unchanged') {
-      pairs.push({ original: line, modified: line });
-    } else if (line.type === 'removed') {
-      pairs.push({ original: line, modified: null });
-    } else {
-      pairs.push({ original: null, modified: line });
-    }
-  }
-  return pairs;
-}
-
-export default function DiffViewer({
-  result,
-  viewMode,
-  diffMethod = 'words',
-  enableScrollSync = true,
-  gutterWidth = 'auto',
-  className = '',
-}: DiffViewerProps) {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState({ top: 0, left: 0 });
-
-  const digitCount = useMemo(() => {
-    if (gutterWidth !== 'auto') return gutterWidth;
-
-    const maxLine = Math.max(
-      ...(result?.lines.map((line) =>
-        Math.max(line.originalLineNumber ?? 0, line.modifiedLineNumber ?? 0),
-      ) ?? [0]),
-    );
-
-    return maxLine >= 100 ? 3 : 2;
-  }, [result, gutterWidth]);
-
-  const handleContentScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement>) => {
-      const element = event.currentTarget;
-      if (enableScrollSync) {
-        setScrollPosition({ top: element.scrollTop, left: element.scrollLeft });
-      }
-    },
-    [enableScrollSync],
-  );
-
+export default function DiffViewer({ result, viewMode }: DiffViewerProps) {
   if (!result) {
     return null;
   }
@@ -71,177 +20,39 @@ export default function DiffViewer({
   }
 
   if (viewMode === 'side-by-side') {
-    const pairs = pairLines(result.lines);
-
-    return (
-      <div aria-live="polite">
-        <div className="grid grid-cols-2 gap-4">
-          <div
-            data-testid="diff-column-original"
-            className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
-          >
-            <div
-              data-testid="sbs-gutter-original"
-              aria-hidden="true"
-              className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
-            >
-              {pairs.map((pair, i) => (
-                <div key={`og-${String(i)}`} className="px-2 text-right">
-                  <span data-testid="sbs-original-line">
-                    {pair.original?.originalLineNumber ?? ''}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-              {pairs.map((pair, i) => {
-                if (!pair.original) {
-                  return (
-                    <div
-                      key={`op-${String(i)}`}
-                      data-testid="sbs-placeholder"
-                      className="bg-gray-100 dark:bg-gray-800"
-                    >
-                      <span className="px-2">{'\u00A0'}</span>
-                    </div>
-                  );
-                }
-                if (pair.original.type === 'removed') {
-                  return (
-                    <div
-                      key={`or-${String(i)}`}
-                      className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                    >
-                      <span className="px-2">-{pair.original.text}</span>
-                    </div>
-                  );
-                }
-                return (
-                  <div key={`ou-${String(i)}`}>
-                    <span className="px-2">{pair.original.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div
-            data-testid="diff-column-modified"
-            className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
-          >
-            <div
-              data-testid="sbs-gutter-modified"
-              aria-hidden="true"
-              className="flex shrink-0 flex-col bg-gray-50 font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500"
-            >
-              {pairs.map((pair, i) => (
-                <div key={`mg-${String(i)}`} className="px-2 text-right">
-                  <span data-testid="sbs-modified-line">
-                    {pair.modified?.modifiedLineNumber ?? ''}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-              {pairs.map((pair, i) => {
-                if (!pair.modified) {
-                  return (
-                    <div
-                      key={`mp-${String(i)}`}
-                      data-testid="sbs-placeholder"
-                      className="bg-gray-100 dark:bg-gray-800"
-                    >
-                      <span className="px-2">{'\u00A0'}</span>
-                    </div>
-                  );
-                }
-                if (pair.modified.type === 'added') {
-                  return (
-                    <div
-                      key={`ma-${String(i)}`}
-                      className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                    >
-                      <span className="px-2">+{pair.modified.text}</span>
-                    </div>
-                  );
-                }
-                return (
-                  <div key={`mu-${String(i)}`}>
-                    <span className="px-2">{pair.modified.text}</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <SideBySideView lines={result.lines} />;
   }
 
   return (
-    <div aria-live="polite" className={className}>
+    <div aria-live="polite">
       <div className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
-        <LineNumberGutter
-          lineCount={result.lines.length}
-          digitCount={digitCount}
-          scrollTop={scrollPosition.top}
-          scrollLeft={scrollPosition.left}
-          aria-label="Line numbers"
-        />
-        <div
-          ref={contentRef}
-          className="flex-1 overflow-x-auto bg-white p-0 font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
-          onScroll={handleContentScroll}
-        >
-          {result.lines.map((line, i) => {
-            const key = `c-${String(i)}-${line.type}`;
-            if (line.type === 'added') {
-              return (
-                <div
-                  key={key}
-                  className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                >
-                  <span className="px-2">+{line.text}</span>
-                </div>
-              );
-            }
-            if (line.type === 'removed') {
-              return (
-                <div
-                  key={key}
-                  className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                >
-                  <span className="px-2">-{line.text}</span>
-                </div>
-              );
-            }
-            return (
-              <div key={key}>
-                <span className="px-2">{line.text}</span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+        {/* Line rows */}
+        {result.lines.map((line, index) => {
+          const key = `c-${String(index)}-${line.type}`;
+          // Line number: prefer original, fallback to modified
+          const lineNumber =
+            /* v8 ignore next */
+            line.originalLineNumber ?? line.modifiedLineNumber ?? '';
 
-      {/* Additional line number gutters for Lines diff method */}
-      {diffMethod === 'lines' && (
-        <div className="mt-2 grid grid-cols-2 gap-4">
-          <div>
-            {result.lines.map((line, i) => (
-              <div key={`orig-${String(i)}`} data-testid="gutter-original">
-                {line.originalLineNumber ?? ''}
+          const { lineNumberClasses, contentClasses } = getDiffLineClasses(
+            line.type,
+          );
+
+          return (
+            <Fragment key={key}>
+              {/* Line number cell */}
+              <div className={lineNumberClasses}>{lineNumber}</div>
+
+              {/* Content cell */}
+              <div className={contentClasses}>
+                {line.type === 'added' && <span className="mr-1">+</span>}
+                {line.type === 'removed' && <span className="mr-1">-</span>}
+                <span>{line.text}</span>
               </div>
-            ))}
-          </div>
-          <div>
-            {result.lines.map((line, i) => (
-              <div key={`mod-${String(i)}`} data-testid="gutter-modified">
-                {line.modifiedLineNumber ?? ''}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+            </Fragment>
+          );
+        })}
+      </div>
     </div>
   );
 }

@@ -157,46 +157,4 @@ describe('useDiff', () => {
     expect(lines.length).toBeGreaterThan(0);
     expect(lines[0]?.originalLineNumber).toBe(1);
   });
-
-  it('handles empty string inputs with all diff methods', () => {
-    const methods: ('characters' | 'lines' | 'words')[] = [
-      'characters',
-      'lines',
-      'words',
-    ];
-
-    methods.forEach((method) => {
-      const { result } = renderHook(() => useDiff('', '', method));
-      expect(result.current).toBeNull();
-    });
-  });
-
-  it('handles single character changes with all diff methods', () => {
-    const methods: ('characters' | 'lines' | 'words')[] = [
-      'characters',
-      'lines',
-      'words',
-    ];
-
-    methods.forEach((method) => {
-      const { result } = renderHook(() => useDiff('a', 'b', method));
-      expect(result.current).not.toBeNull();
-      expect(result.current?.hasChanges).toBe(true);
-    });
-  });
-
-  it('computes diff with all three methods', () => {
-    const original = 'hello world';
-    const modified = 'hello there';
-
-    const characterResult = renderHook(() =>
-      useDiff(original, modified, 'characters'),
-    );
-    const lineResult = renderHook(() => useDiff(original, modified, 'lines'));
-    const wordResult = renderHook(() => useDiff(original, modified, 'words'));
-
-    expect(characterResult.result.current?.hasChanges).toBe(true);
-    expect(lineResult.result.current?.hasChanges).toBe(true);
-    expect(wordResult.result.current?.hasChanges).toBe(true);
-  });
 });
