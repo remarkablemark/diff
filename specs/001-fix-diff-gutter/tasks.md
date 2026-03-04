@@ -84,6 +84,30 @@
 
 ---
 
+## Phase 4: Side-by-Side Text Wrapping Fix
+
+**Goal**: Enable text wrapping for long lines in side-by-side view to prevent content cutoff
+
+### Implementation
+
+- [x] T018 Update side-by-side view to use flex layout instead of grid
+  - Change from `grid-cols-[auto_1fr]` to flex rows
+  - Add `flex-shrink-0` to line number cells (prevent shrinking)
+  - Add `flex-1 min-w-0` to content cells (allow shrinking below natural width)
+- [x] T019 Enable text wrapping on content cells
+  - Add `whitespace-pre-wrap` (wrap while preserving whitespace)
+  - Add `break-words` (break long words that exceed container width)
+- [x] T020 Add vertical alignment to line numbers
+  - Add `align-top` to align line numbers with top of wrapped content
+
+### Tests
+
+- [x] T021 Update DiffViewer.test.tsx tests for flex-based structure
+  - Update queries from grid selectors to flex row selectors
+  - Update text content assertions to include +/- prefixes
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -118,8 +142,9 @@
 
 1. Unified view renders line numbers inline as first column of grid rows
 2. Side-by-side view renders line numbers inline in both columns (original and modified)
-3. Each row is a Fragment containing: `<div>line number</div>` + `<div>content</div>`
-4. Grid structure ensures automatic height matching between line numbers and content
-5. Removed unused scroll synchronization logic
-6. Removed unused LineNumberGutter component (dead code elimination)
-7. Removed unused SideBySideGutter component (dead code elimination)
+3. Each row is a flex container containing: `<div>line number</div>` + `<div>content</div>`
+4. Grid structure (unified) and flex structure (side-by-side) ensure automatic height matching
+5. Side-by-side view uses `whitespace-pre-wrap break-words` for text wrapping (GitHub-style)
+6. Removed unused scroll synchronization logic
+7. Removed unused LineNumberGutter component (dead code elimination)
+8. Removed unused SideBySideGutter component (dead code elimination)
