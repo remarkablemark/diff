@@ -5,13 +5,7 @@
 
 **Tests**: Tests are REQUIRED per Constitution Principle II (Full Test Coverage)
 
-**Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
-
-## Format: `[ID] [P?] [Story] Description`
-
-- **[P]**: Can run in parallel (different files, no dependencies)
-- **[Story]**: Which user story this task belongs to (e.g., US1, US2)
-- Include exact file paths in descriptions
+**Organization**: Tasks are grouped by implementation phase
 
 ---
 
@@ -24,104 +18,54 @@
 
 ---
 
-## Phase 2: Foundational (Blocking Prerequisites)
+## Phase 2: Implementation - Unified View Grid Restructure
 
-**Purpose**: Core infrastructure that MUST be complete before ANY user story can be implemented
+**Goal**: Restructure unified diff view to use CSS grid rows where each row contains both line number and content as sibling cells
 
-**⚠️ CRITICAL**: No user story work can begin until this phase is complete
+### Implementation
 
-- [x] T003 Update LineNumberGutterProps interface in src/components/LineNumberGutter/LineNumberGutter.types.ts
-  - Add `lines: DiffLine[]` prop
-  - Add `viewMode?: 'unified' | 'side-by-side'` prop
-  - Remove `lineCount` prop (replaced by lines.length)
-  - Remove `digitCount` prop (computed internally)
+- [x] T003 Update DiffViewer.tsx to restructure unified view rendering
+  - Remove separate LineNumberGutter component usage for unified view
+  - Change grid structure to render line numbers inline as first column of each row
+  - Each diff line renders as Fragment with two div children (line number cell + content cell)
+  - Use `grid-cols-[auto_1fr]` for two-column layout
+- [x] T004 Implement line number cell styling
+  - Right-aligned with `text-right` and `pr-2`
+  - Monospace font with `font-mono`
+  - Background colors matching content (red/green/white)
+- [x] T005 Implement content cell styling
+  - Left-aligned with `pl-2`
+  - Monospace font with `font-mono`
+  - Preserve +/- prefix with separate span elements
+- [x] T006 Remove unused scroll sync logic from unified view
+  - Remove `enableScrollSync` prop usage (no longer needed with inline line numbers)
+  - Remove `handleContentScroll` callback
+  - Remove `scrollPosition` state
+- [x] T007 Update SideBySideGutter to remove scrollTop prop
+  - Remove `scrollTop` prop from component signature
+  - Remove scroll sync useEffect
 
-**Checkpoint**: Foundation ready - user story implementation can now begin
+### Tests
 
----
-
-## Phase 3: User Story 1 - Correct Line Numbers in Unified Diff View (Priority: P1) 🎯 MVP
-
-**Goal**: Unified view gutter displays dual columns with actual source line numbers (original | modified) using GitHub-style visual treatment
-
-**Independent Test**: Paste two multi-line texts with additions/removals, verify gutter shows correct line numbers matching source positions
-
-### Tests for User Story 1 ⚠️
-
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
-
-- [x] T004 [P] [US1] Add test: removed line shows original number, blank modified in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T005 [P] [US1] Add test: added line shows blank original, modified number in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T006 [P] [US1] Add test: unchanged line shows both numbers side-by-side in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T007 [US1] Add test: line numbers offset correctly after lines added at beginning in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T008 [US1] Add test: line numbers offset correctly after lines removed from middle in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T008b [US1] Add test: empty text edge case (one text empty) in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-- [x] T008c [US1] Add test: consecutive added/removed lines edge case in src/components/LineNumberGutter/LineNumberGutter.test.tsx
-
-### Implementation for User Story 1
-
-- [x] T009 [P] [US1] Update LineNumberGutter component signature in src/components/LineNumberGutter/LineNumberGutter.tsx
-  - Accept `lines: DiffLine[]` prop
-  - Accept `viewMode` prop
-  - Remove `lineCount` and `digitCount` props
-- [x] T010 [P] [US1] Compute digitCount internally from lines array in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [x] T011 [US1] Implement dual-column gutter rendering with CSS grid in src/components/LineNumberGutter/LineNumberGutter.tsx
-  - Left column: original line numbers
-  - Right column: modified line numbers
-  - Small gap with subtle vertical divider
-  - Muted color for empty/missing numbers
-- [x] T012 [US1] Handle removed lines (original number, blank modified) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [x] T013 [US1] Handle added lines (blank original, modified number) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [x] T014 [US1] Handle unchanged lines (both numbers) in src/components/LineNumberGutter/LineNumberGutter.tsx
-- [x] T015 [US1] Update DiffViewer to pass lines prop to LineNumberGutter in src/components/DiffViewer/DiffViewer.tsx
-  - Remove separate gutters for lines diff method (no longer needed)
-- [x] T016 [US1] Add integration tests for unified view line numbers in src/components/DiffViewer/DiffViewer.test.tsx
-  - Test all 5 acceptance scenarios from spec.md
-
-**Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
+- [x] T008 Update DiffViewer.test.tsx tests for new grid structure
+  - Update tests to query for grid cells instead of separate gutter
+  - Update line number assertions to use `:nth-child(odd)` selector
+  - Update scroll sync tests to use grid container instead of `.overflow-x-auto`
+- [x] T009 Update App.test.tsx tests for new grid structure
+  - Update gutter tests to query for grid structure
+  - Update line number assertions
 
 ---
 
-## Phase 4: User Story 2 - Correct Line Numbers in Side-by-Side Diff View (Priority: P2)
+## Phase 3: Polish & Validation
 
-**Goal**: Side-by-side view columns display correct source line numbers consistently with unified view
+**Purpose**: Ensure code quality and completeness
 
-**Independent Test**: Switch to side-by-side view with texts that have additions/removals, verify each column shows correct line numbers
-
-### Tests for User Story 2 ⚠️
-
-- [x] T017 [P] [US2] Add test: side-by-side removed line shows correct original number in src/components/DiffViewer/DiffViewer.test.tsx
-- [x] T018 [P] [US2] Add test: side-by-side added line shows correct modified number in src/components/DiffViewer/DiffViewer.test.tsx
-- [x] T019 [US2] Add test: side-by-side unchanged line shows correct numbers in both columns in src/components/DiffViewer/DiffViewer.test.tsx
-
-### Implementation for User Story 2
-
-- [x] T020 [US2] Verify side-by-side gutter uses correct line number properties in src/components/DiffViewer/DiffViewer.tsx
-  - Original column: `pair.original?.originalLineNumber`
-  - Modified column: `pair.modified?.modifiedLineNumber`
-- [x] T021 [US2] Apply GitHub-style visual treatment to side-by-side gutters in src/components/DiffViewer/DiffViewer.tsx
-  - Subtle vertical divider between columns
-  - Muted color for empty cells
-- [x] T022 [US2] Ensure placeholder rows have no line numbers in src/components/DiffViewer/DiffViewer.tsx
-  - Removed lines: blank placeholder in modified column
-  - Added lines: blank placeholder in original column
-
-**Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
-
----
-
-## Phase 5: Polish & Cross-Cutting Concerns
-
-**Purpose**: Improvements that affect multiple user stories
-
-- [x] T023 [P] Run full test suite and verify 100% coverage maintained (npm run test:ci)
-- [x] T024 Run lint and type check (npm run lint && npm run lint:tsc)
-- [x] T025 Run build to verify production build succeeds (npm run build)
-- [x] T026 Manual testing: verify all acceptance scenarios from spec.md
-- [x] T027 Manual testing: compare visual appearance against GitHub diff view
-- [x] T028 [P] Verify accessibility: gutter remains aria-hidden, content has aria-live
-- [x] T029 Code cleanup: remove unused imports and variables
-- [x] T030 Update quickstart.md with any new manual testing scenarios
+- [x] T010 Run full test suite and verify all tests pass (npm run test)
+- [x] T011 Run lint and type check (npm run lint && npm run lint:tsc)
+- [x] T012 Run build to verify production build succeeds (npm run build)
+- [x] T013 Fix React key warning by using Fragment with proper key
+- [x] T014 Code cleanup: remove unused imports (LineNumberGutter, useCallback, useState)
 
 ---
 
@@ -129,91 +73,32 @@
 
 ### Phase Dependencies
 
-- **Setup (Phase 1)**: No dependencies - can start immediately
-- **Foundational (Phase 2)**: Depends on Setup completion - BLOCKS all user stories
-- **User Stories (Phase 3+)**: All depend on Foundational phase completion
-  - User stories can then proceed in parallel (if staffed)
-  - Or sequentially in priority order (P1 → P2)
-- **Polish (Phase 5)**: Depends on all user stories being complete
+- **Phase 1 (Setup)**: No dependencies
+- **Phase 2 (Implementation)**: Depends on Phase 1 completion
+- **Phase 3 (Polish)**: Depends on Phase 2 completion
 
-### User Story Dependencies
+### Implementation Notes
 
-- **User Story 1 (P1)**: Can start after Foundational (Phase 2) - No dependencies on other stories
-- **User Story 2 (P2)**: Can start after Foundational (Phase 2) - Independent of US1 but shares foundational types
-
-### Within Each User Story
-
-- Tests MUST be written and FAIL before implementation
-- Component signature updates before implementation
-- Core rendering logic before integration
-- Story complete before moving to next priority
-
-### Parallel Opportunities
-
-- **Phase 1**: T001 and T002 can run in parallel
-- **Phase 2**: T003 is standalone (blocks all stories)
-- **Phase 3 (US1)**:
-  - T004, T005, T006 (tests) can run in parallel
-  - T009, T010 (component signature) can run in parallel
-  - T011, T012, T013, T014 (rendering logic) should be sequential
-- **Phase 4 (US2)**:
-  - T017, T018, T019 (tests) can run in parallel
-  - T020, T021, T022 (implementation) should be sequential
-- **Phase 5**: T023, T024, T025, T028 can run in parallel
+- The key insight is that line numbers and content must be in the same grid row to share height
+- Using CSS `grid-cols-[auto_1fr]` creates automatic height matching
+- Line numbers are rendered inline, eliminating the need for a separate gutter component
+- This approach is simpler and more robust than trying to sync heights between separate elements
 
 ---
 
-## Parallel Example: User Story 1 Tests
+## Completed Implementation Summary
 
-```bash
-# Launch all tests for User Story 1 together:
-Task: "Add test: removed line shows original number, blank modified"
-Task: "Add test: added line shows blank original, modified number"
-Task: "Add test: unchanged line shows both numbers side-by-side"
-```
+**Files Modified**:
+- `src/components/DiffViewer/DiffViewer.tsx` - Restructured unified view rendering
+- `src/components/DiffViewer/DiffViewer.test.tsx` - Updated tests for new structure
+- `src/components/App/App.test.tsx` - Updated tests for new structure
+- `src/components/SideBySideGutter/SideBySideGutter.tsx` - Removed scroll sync
+- `src/components/SideBySideGutter/SideBySideGutter.test.tsx` - Updated tests
+- `src/components/SideBySideGutter/SideBySideGutter.types.ts` - Removed scrollTop prop
 
----
-
-## Implementation Strategy
-
-### MVP First (User Story 1 Only)
-
-1. Complete Phase 1: Setup
-2. Complete Phase 2: Foundational (CRITICAL - blocks all stories)
-3. Complete Phase 3: User Story 1
-4. **STOP and VALIDATE**:
-   - Run `npm run test:ci` - all tests pass, 100% coverage
-   - Run `npm run lint` - zero errors
-   - Run `npm run lint:tsc` - zero errors
-   - Manual testing: verify all 5 acceptance scenarios from spec.md
-5. Commit and create PR
-
-### Incremental Delivery
-
-1. Complete Setup + Foundational → Foundation ready
-2. Add User Story 1 → Test independently → Deploy/Demo (MVP!)
-3. Add User Story 2 → Test independently → Deploy/Demo
-4. Each story adds value without breaking previous stories
-
-### Single Developer Flow
-
-1. T001-T003: Setup and foundation (30 min)
-2. T004-T008: Write US1 tests first, watch them fail (45 min)
-3. T009-T016: Implement US1, watch tests pass (2 hours)
-4. T017-T019: Write US2 tests, watch them fail (30 min)
-5. T020-T022: Implement US2, watch tests pass (1 hour)
-6. T023-T030: Polish and validation (45 min)
-
-**Total estimated time**: ~5-6 hours
-
----
-
-## Notes
-
-- [P] tasks = different files, no dependencies
-- [Story] label maps task to specific user story for traceability
-- Each user story should be independently completable and testable
-- Verify tests fail before implementing
-- Commit after each task or logical group
-- Stop at any checkpoint to validate story independently
-- Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+**Key Changes**:
+1. Unified view now renders line numbers inline as first column of grid rows
+2. Each row is a Fragment containing: `<div>line number</div>` + `<div>content</div>`
+3. Grid structure ensures automatic height matching between line numbers and content
+4. Removed unused scroll synchronization logic
+5. All tests updated and passing

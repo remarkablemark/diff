@@ -13,6 +13,7 @@
 - Q: How should the two line number columns be visually separated and styled in the unified view gutter? → A: Small gap with subtle vertical divider line, muted color for empty/missing numbers (GitHub-style)
 - Q: Should long lines wrap or scroll horizontally? → A: Long lines should scroll horizontally with `whitespace-nowrap` to preserve line alignment
 - Q: What HTML structure should be used for perfect line alignment? → A: CSS grid layout with `grid-cols-2` for dual-column line numbers, `overflow-x-auto` container for horizontal scrolling
+- Q: How can we ensure line numbers take the same height as content when text wraps? → A: Use CSS grid rows where each row contains both line number and content as sibling cells in the same grid row, ensuring they automatically share the same height
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -98,23 +99,26 @@ The side-by-side view already displays line numbers, but they should be verified
 
 ### Component Structure
 
-- **DiffViewer**: Main component rendering both unified and side-by-side views
-- **LineNumberGutter**: Dedicated component for unified view dual-column line numbers using CSS grid
+- **DiffViewer**: Main component rendering both unified and side-by-side views. For unified view, renders line numbers inline as the first column of each grid row
 - **SideBySideGutter**: Dedicated component for side-by-side view line number columns
 
 ### HTML Structure
 
 ```html
-<!-- Unified View -->
+<!-- Unified View - Grid rows with inline line numbers -->
 <div class="grid grid-cols-[auto_1fr]">
-  <!-- LineNumberGutter -->
-  <div class="grid grid-cols-2 gap-1"><span>1</span><span>2</span></div>
-  <!-- Content -->
-  <div class="whitespace-nowrap">line content</div>
+  <!-- Header row -->
+  <div>Line</div>
+  <div>Diff</div>
+  <!-- Data rows: each row contains line number + content -->
+  <div class="line-number">1</div>
+  <div class="content whitespace-nowrap">line content</div>
+  <div class="line-number">2</div>
+  <div class="content whitespace-nowrap">more content...</div>
 </div>
 
 <!-- Side-by-Side View -->
-<div class="grid grid-cols-2">
+<div class="grid grid-cols-2 gap-4">
   <!-- Original Column -->
   <div class="line-number">1</div>
   <div class="content whitespace-nowrap">original</div>
@@ -123,3 +127,11 @@ The side-by-side view already displays line numbers, but they should be verified
   <div class="content whitespace-nowrap">modified</div>
 </div>
 ```
+
+### Key Implementation Details
+
+- **Unified view**: Line numbers are rendered inline as the first column of each grid row, ensuring perfect height alignment with content
+- **Grid structure**: `grid-cols-[auto_1fr]` creates two columns - auto-width for line numbers, 1fr for content
+- **Row pairing**: Each diff line renders as a Fragment containing two div children (line number cell + content cell)
+- **Styling**: Line number cells use `text-right`, `pr-2`, `font-mono` for right-aligned monospace numbers; content cells use `pl-2`, `font-mono`
+- **Color coding**: Line number cells inherit background colors from their corresponding content (red for removed, green for added, white for unchanged)

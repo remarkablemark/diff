@@ -5,7 +5,7 @@
 
 ## Summary
 
-Fix the unified diff view gutter to display actual source line numbers (original and modified) instead of sequential indices. The gutter must show two columns side-by-side with GitHub-style visual treatment (small gap, subtle divider, muted colors for missing numbers). This requires modifying the `LineNumberGutter` component to render dual line number columns from `DiffLine` metadata.
+Fix the unified diff view to ensure line numbers always match the height of their corresponding content lines, even when text wraps. The solution restructures the grid layout so each row contains both the line number and content as sibling cells, ensuring they automatically share the same height. Line numbers are rendered inline as the first column of each grid row.
 
 ## Technical Context
 

@@ -23,7 +23,7 @@ TypeScript 5 (strict mode): Follow standard conventions
 
 ## Recent Changes
 
-- 001-fix-diff-gutter: Added TypeScript 5 (strict mode) + React 19, diff library (v8)
+- 001-fix-diff-gutter: Restructured DiffViewer to use CSS grid rows with inline line numbers, ensuring line numbers always match content height when text wraps. Removed separate LineNumberGutter component from unified view and unused scroll sync logic.
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
