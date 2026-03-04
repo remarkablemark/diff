@@ -14,8 +14,6 @@ export interface SideBySideGutterProps {
   pairs: DiffRowPair[];
   /** Which column to display: 'original' or 'modified' */
   column: 'original' | 'modified';
-  /** Current vertical scroll position (for sync) */
-  scrollTop: number;
   /** Additional CSS classes */
   className?: string;
   /** Accessibility label */

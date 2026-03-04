@@ -20,7 +20,6 @@ describe('SideBySideGutter', () => {
   const defaultProps: SideBySideGutterProps = {
     pairs: [],
     column: 'original',
-    scrollTop: 0,
     'aria-label': 'Line numbers',
   };
 
@@ -48,23 +47,8 @@ describe('SideBySideGutter', () => {
       expect(gutter).toHaveClass('custom-class');
     });
 
-    it('should update scroll position when scrollTop props change', () => {
-      const { rerender } = render(
-        <SideBySideGutter {...defaultProps} scrollTop={0} />,
-      );
-
-      const gutter = screen.getByLabelText('Line numbers');
-      expect(gutter).toBeInTheDocument();
-
-      rerender(<SideBySideGutter {...defaultProps} scrollTop={100} />);
-
-      expect(gutter).toBeInTheDocument();
-    });
-
     it('should handle component unmounting gracefully', () => {
-      const { unmount } = render(
-        <SideBySideGutter {...defaultProps} scrollTop={0} />,
-      );
+      const { unmount } = render(<SideBySideGutter {...defaultProps} />);
 
       expect(() => {
         unmount();

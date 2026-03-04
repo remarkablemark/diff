@@ -440,9 +440,14 @@ describe('App component', () => {
     await user.type(original, 'line1\nline2');
     await user.type(modified, 'line1\nchanged');
 
-    const gutter = container.querySelector('[data-testid="diff-gutter"]');
-    expect(gutter).toBeInTheDocument();
-    expect(gutter?.getAttribute('aria-hidden')).toBe('true');
+    // Check that the grid structure with line numbers exists
+    const grid = container.querySelector('.grid.grid-cols-\\[auto_1fr\\]');
+    expect(grid).toBeInTheDocument();
+    // Check that line number cells are present
+    const lineNumberCells = container.querySelectorAll(
+      '.grid > div:nth-child(odd)',
+    );
+    expect(lineNumberCells.length).toBeGreaterThan(0);
   });
 
   it('displays correct line numbers for multi-line diff', async () => {
@@ -457,13 +462,15 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    // Check the dual-column gutter displays line numbers
-    const gutter = container.querySelector('[data-testid="diff-gutter"]');
-    expect(gutter).toBeInTheDocument();
+    // Check that line numbers are displayed in the grid
+    const grid = container.querySelector('.grid.grid-cols-\\[auto_1fr\\]');
+    expect(grid).toBeInTheDocument();
 
-    const lineNumbers = gutter?.querySelectorAll('span');
-    expect(lineNumbers).toBeDefined();
-    expect(lineNumbers?.length).toBeGreaterThan(0);
+    const lineNumberCells = container.querySelectorAll(
+      '.grid > div:nth-child(odd)',
+    );
+    expect(lineNumberCells).toBeDefined();
+    expect(lineNumberCells.length).toBeGreaterThan(0);
   });
 
   it('restores view mode from localStorage on mount', async () => {
@@ -494,9 +501,14 @@ describe('App component', () => {
     await user.type(original, 'line1\nline2');
     await user.type(modified, 'line1\nchanged');
 
-    const gutter = container.querySelector('[data-testid="diff-gutter"]');
-    expect(gutter).toBeInTheDocument();
-    expect(gutter?.getAttribute('aria-hidden')).toBe('true');
+    // Check that the grid structure with line numbers exists
+    const grid = container.querySelector('.grid.grid-cols-\\[auto_1fr\\]');
+    expect(grid).toBeInTheDocument();
+    // Check that line number cells are present
+    const lineNumberCells = container.querySelectorAll(
+      '.grid > div:nth-child(odd)',
+    );
+    expect(lineNumberCells.length).toBeGreaterThan(0);
   });
 
   it('displays correct line numbers for multi-line diff', async () => {
@@ -511,13 +523,15 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Lines' }));
 
-    // Check the dual-column gutter displays line numbers
-    const gutter = container.querySelector('[data-testid="diff-gutter"]');
-    expect(gutter).toBeInTheDocument();
+    // Check that line numbers are displayed in the grid
+    const grid = container.querySelector('.grid.grid-cols-\\[auto_1fr\\]');
+    expect(grid).toBeInTheDocument();
 
-    const lineNumbers = gutter?.querySelectorAll('span');
-    expect(lineNumbers).toBeDefined();
-    expect(lineNumbers?.length).toBeGreaterThan(0);
+    const lineNumberCells = container.querySelectorAll(
+      '.grid > div:nth-child(odd)',
+    );
+    expect(lineNumberCells).toBeDefined();
+    expect(lineNumberCells.length).toBeGreaterThan(0);
   });
 
   it('shows line number gutters in side-by-side view', async () => {

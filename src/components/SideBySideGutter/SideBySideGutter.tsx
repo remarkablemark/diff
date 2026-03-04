@@ -1,24 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
 import type { SideBySideGutterProps } from './SideBySideGutter.types';
 
 export function SideBySideGutter({
   pairs,
   column,
-  scrollTop,
   className = '',
   'aria-label': ariaLabel = 'Line numbers',
 }: SideBySideGutterProps) {
   const scrollElementRef = useRef<HTMLDivElement>(null);
-
-  // Sync vertical scroll position
-  useEffect(() => {
-    /* v8 ignore start */
-    if (scrollElementRef.current) {
-      scrollElementRef.current.scrollTop = scrollTop;
-    }
-    /* v8 ignore end */
-  }, [scrollTop]);
 
   return (
     <div

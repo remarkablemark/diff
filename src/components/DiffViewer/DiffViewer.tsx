@@ -1,5 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
-import { LineNumberGutter } from 'src/components/LineNumberGutter';
+import { Fragment, useRef } from 'react';
 import { SideBySideGutter } from 'src/components/SideBySideGutter';
 import type { DiffLine } from 'src/types/diff';
 
@@ -31,21 +30,9 @@ function pairLines(lines: DiffLine[]): DiffRowPair[] {
 export default function DiffViewer({
   result,
   viewMode,
-  enableScrollSync = true,
   className = '',
 }: DiffViewerProps) {
   const contentRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState({ top: 0, left: 0 });
-
-  const handleContentScroll = useCallback(
-    (event: React.UIEvent<HTMLDivElement>) => {
-      const element = event.currentTarget;
-      if (enableScrollSync) {
-        setScrollPosition({ top: element.scrollTop, left: element.scrollLeft });
-      }
-    },
-    [enableScrollSync],
-  );
 
   if (!result) {
     return null;
@@ -71,11 +58,7 @@ export default function DiffViewer({
             data-testid="diff-column-original"
             className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <SideBySideGutter
-              pairs={pairs}
-              column="original"
-              scrollTop={scrollPosition.top}
-            />
+            <SideBySideGutter pairs={pairs} column="original" />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
               {pairs.map((pair, index) => {
                 if (!pair.original) {
@@ -113,11 +96,7 @@ export default function DiffViewer({
             data-testid="diff-column-modified"
             className="flex overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
           >
-            <SideBySideGutter
-              pairs={pairs}
-              column="modified"
-              scrollTop={scrollPosition.top}
-            />
+            <SideBySideGutter pairs={pairs} column="modified" />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
               {pairs.map((pair, index) => {
                 if (!pair.modified) {
@@ -156,51 +135,47 @@ export default function DiffViewer({
 
   return (
     <div aria-live="polite" className={className}>
-      <div className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
-        <LineNumberGutter
-          lines={result.lines}
-          viewMode="unified"
-          scrollTop={scrollPosition.top}
-          aria-label="Line numbers"
-        />
-        <div
-          ref={contentRef}
-          className="flex-1 overflow-x-auto bg-white p-0 font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
-          onScroll={handleContentScroll}
-        >
-          {result.lines.map((line, index) => {
-            const key = `c-${String(index)}-${line.type}`;
+      <div
+        ref={contentRef}
+        className="grid h-full grid-cols-[auto_1fr] gap-0 overflow-hidden rounded-md border border-gray-300 dark:border-gray-600"
+      >
+        {/* Line rows */}
+        {result.lines.map((line, index) => {
+          const key = `c-${String(index)}-${line.type}`;
+          const lineNumber =
+            line.originalLineNumber ?? line.modifiedLineNumber ?? '';
 
-            switch (line.type) {
-              case 'added':
-                return (
-                  <div
-                    key={key}
-                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                  >
-                    <span className="px-2">+{line.text}</span>
-                  </div>
-                );
+          // Determine row styling based on line type
+          let numberClasses =
+            'border-t border-gray-200 bg-white py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400';
+          let contentClasses =
+            'border-t border-gray-200 bg-white py-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100';
 
-              case 'removed':
-                return (
-                  <div
-                    key={key}
-                    className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                  >
-                    <span className="px-2">-{line.text}</span>
-                  </div>
-                );
+          if (line.type === 'added') {
+            numberClasses =
+              'border-t border-gray-200 bg-green-50 py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-green-900/20 dark:text-gray-400';
+            contentClasses =
+              'border-t border-gray-200 bg-green-100 py-1 pl-2 font-mono text-sm leading-6 text-green-800 dark:border-gray-700 dark:bg-green-900/30 dark:text-green-300';
+          } else if (line.type === 'removed') {
+            numberClasses =
+              'border-t border-gray-200 bg-red-50 py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-red-900/20 dark:text-gray-400';
+            contentClasses =
+              'border-t border-gray-200 bg-red-100 py-1 pl-2 font-mono text-sm leading-6 text-red-800 dark:border-gray-700 dark:bg-red-900/30 dark:text-red-300';
+          }
 
-              default:
-                return (
-                  <div key={key}>
-                    <span className="px-2">{line.text}</span>
-                  </div>
-                );
-            }
-          })}
-        </div>
+          return (
+            <Fragment key={key}>
+              {/* Line number cell */}
+              <div className={numberClasses}>{lineNumber}</div>
+              {/* Content cell */}
+              <div className={contentClasses}>
+                {line.type === 'added' && <span className="mr-1">+</span>}
+                {line.type === 'removed' && <span className="mr-1">-</span>}
+                <span>{line.text}</span>
+              </div>
+            </Fragment>
+          );
+        })}
       </div>
     </div>
   );
