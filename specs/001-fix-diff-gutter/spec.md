@@ -2,7 +2,6 @@
 
 **Feature Branch**: `001-fix-diff-gutter`
 **Created**: 2026-03-03
-**Updated**: 2026-03-03
 **Status**: Implemented
 **Input**: User description: "Fix line numbers in diff gutter"
 
@@ -101,15 +100,13 @@ The side-by-side view already displays line numbers, but they should be verified
 
 - **DiffViewer**: Main component rendering both unified and side-by-side views. For unified view, renders line numbers inline as the first column of each grid row
 - **SideBySideGutter**: Dedicated component for side-by-side view line number columns
+- **LineNumberGutter**: ~~Removed~~ - Was replaced by inline line numbers in unified view (refactored in commit 69f06a1)
 
 ### HTML Structure
 
 ```html
 <!-- Unified View - Grid rows with inline line numbers -->
 <div class="grid grid-cols-[auto_1fr]">
-  <!-- Header row -->
-  <div>Line</div>
-  <div>Diff</div>
   <!-- Data rows: each row contains line number + content -->
   <div class="line-number">1</div>
   <div class="content whitespace-nowrap">line content</div>

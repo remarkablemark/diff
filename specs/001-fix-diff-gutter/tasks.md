@@ -66,6 +66,12 @@
 - [x] T012 Run build to verify production build succeeds (npm run build)
 - [x] T013 Fix React key warning by using Fragment with proper key
 - [x] T014 Code cleanup: remove unused imports (LineNumberGutter, useCallback, useState)
+- [x] T015 Identify uncovered code (LineNumberGutter component - no longer used)
+- [x] T016 Remove unused LineNumberGutter component (4 files deleted)
+  - `src/components/LineNumberGutter/LineNumberGutter.tsx`
+  - `src/components/LineNumberGutter/LineNumberGutter.test.tsx`
+  - `src/components/LineNumberGutter/LineNumberGutter.types.ts`
+  - `src/components/LineNumberGutter/index.ts`
 
 ---
 
@@ -89,6 +95,7 @@
 ## Completed Implementation Summary
 
 **Files Modified**:
+
 - `src/components/DiffViewer/DiffViewer.tsx` - Restructured unified view rendering
 - `src/components/DiffViewer/DiffViewer.test.tsx` - Updated tests for new structure
 - `src/components/App/App.test.tsx` - Updated tests for new structure
@@ -96,9 +103,14 @@
 - `src/components/SideBySideGutter/SideBySideGutter.test.tsx` - Updated tests
 - `src/components/SideBySideGutter/SideBySideGutter.types.ts` - Removed scrollTop prop
 
+**Files Deleted**:
+
+- `src/components/LineNumberGutter/` (entire directory - 4 files)
+
 **Key Changes**:
+
 1. Unified view now renders line numbers inline as first column of grid rows
 2. Each row is a Fragment containing: `<div>line number</div>` + `<div>content</div>`
 3. Grid structure ensures automatic height matching between line numbers and content
 4. Removed unused scroll synchronization logic
-5. All tests updated and passing
+5. Removed unused LineNumberGutter component (dead code elimination)
