@@ -27,8 +27,15 @@ describe('SideBySideView component', () => {
     const diffOutput = container.querySelector('[aria-live="polite"]');
     expect(diffOutput).toBeInTheDocument();
 
-    const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
-    expect(columns).toHaveLength(2);
+    const originalColumns = container.querySelectorAll(
+      '[data-testid="diff-column-original"]',
+    );
+    expect(originalColumns.length).toBe(3);
+
+    const modifiedColumns = container.querySelectorAll(
+      '[data-testid="diff-column-modified"]',
+    );
+    expect(modifiedColumns.length).toBe(3);
   });
 
   it('renders line number gutters in side-by-side view', () => {
@@ -43,15 +50,16 @@ describe('SideBySideView component', () => {
 
     const { container } = render(<SideBySideView lines={result.lines} />);
 
-    // Check for flex rows in both columns
-    const origColumn = container.querySelector(
+    // Check for rows with both original and modified columns
+    const originalColumns = container.querySelectorAll(
       '[data-testid="diff-column-original"]',
     );
-    const modColumn = container.querySelector(
+    expect(originalColumns.length).toBe(3);
+
+    const modifiedColumns = container.querySelectorAll(
       '[data-testid="diff-column-modified"]',
     );
-    expect(origColumn).toBeInTheDocument();
-    expect(modColumn).toBeInTheDocument();
+    expect(modifiedColumns.length).toBe(3);
   });
 
   it('shows correct line numbers in side-by-side original column', () => {
@@ -65,14 +73,14 @@ describe('SideBySideView component', () => {
 
     const { container } = render(<SideBySideView lines={result.lines} />);
 
-    // Line numbers are in flex rows
-    const origColumn = container.querySelector(
+    const originalColumns = container.querySelectorAll(
       '[data-testid="diff-column-original"]',
     );
-    const rows = origColumn?.querySelectorAll('.flex');
-    expect(rows).toHaveLength(2);
-    expect(rows?.[0].textContent).toBe('1same');
-    expect(rows?.[1].textContent).toBe('2-old');
+    expect(originalColumns).toHaveLength(2);
+
+    // Check line numbers and content in original column
+    expect(originalColumns[0].textContent).toBe('1same');
+    expect(originalColumns[1].textContent).toBe('2-old');
   });
 
   it('shows correct line numbers in side-by-side modified column', () => {
@@ -86,14 +94,14 @@ describe('SideBySideView component', () => {
 
     const { container } = render(<SideBySideView lines={result.lines} />);
 
-    // Line numbers are in flex rows
-    const modColumn = container.querySelector(
+    const modifiedColumns = container.querySelectorAll(
       '[data-testid="diff-column-modified"]',
     );
-    const rows = modColumn?.querySelectorAll('.flex');
-    expect(rows).toHaveLength(2);
-    expect(rows?.[0].textContent).toBe('1same');
-    expect(rows?.[1].textContent).toBe('2+new');
+    expect(modifiedColumns).toHaveLength(2);
+
+    // Check line numbers and content in modified column
+    expect(modifiedColumns[0].textContent).toBe('1same');
+    expect(modifiedColumns[1].textContent).toBe('2+new');
   });
 
   it('renders placeholder rows for missing lines in side-by-side view', () => {
@@ -107,13 +115,15 @@ describe('SideBySideView component', () => {
 
     const { container } = render(<SideBySideView lines={result.lines} />);
 
-    // Check for placeholder content in original column for added line
-    const origColumn = container.querySelector(
+    const originalColumns = container.querySelectorAll(
       '[data-testid="diff-column-original"]',
     );
-    const rows = origColumn?.querySelectorAll('.flex');
-    expect(rows).toHaveLength(2);
-    // Second row should be placeholder for added line
-    expect(rows?.[1].textContent).toBe('\u00A0');
+    expect(originalColumns).toHaveLength(2);
+
+    // First row: original side shows removed line
+    expect(originalColumns[0].textContent).toBe('1-old');
+
+    // Second row: original side should be placeholder for added line
+    expect(originalColumns[1].textContent).toBe('\u00A0');
   });
 });

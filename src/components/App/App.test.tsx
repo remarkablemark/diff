@@ -173,8 +173,15 @@ describe('App component', () => {
     });
     await user.click(sideBySideButton);
 
-    const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
-    expect(columns).toHaveLength(2);
+    const origColumns = container.querySelectorAll(
+      '[data-testid="diff-column-original"]',
+    );
+    const modColumns = container.querySelectorAll(
+      '[data-testid="diff-column-modified"]',
+    );
+    expect(origColumns.length).toBeGreaterThan(0);
+    expect(modColumns.length).toBeGreaterThan(0);
+    expect(origColumns.length).toBe(modColumns.length);
   });
 
   it('forces unified view on mobile regardless of toggle state', async () => {
@@ -426,8 +433,14 @@ describe('App component', () => {
     await user.type(original, 'hello');
     await user.type(modified, 'world');
 
-    const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
-    expect(columns).toHaveLength(2);
+    const origColumns = container.querySelectorAll(
+      '[data-testid="diff-column-original"]',
+    );
+    const modColumns = container.querySelectorAll(
+      '[data-testid="diff-column-modified"]',
+    );
+    expect(origColumns.length).toBeGreaterThan(0);
+    expect(modColumns.length).toBeGreaterThan(0);
   });
 
   it('shows line number gutter in unified diff view', async () => {
@@ -487,8 +500,14 @@ describe('App component', () => {
     await user.type(original, 'hello');
     await user.type(modified, 'world');
 
-    const columns = container.querySelectorAll('[data-testid^="diff-column-"]');
-    expect(columns).toHaveLength(2);
+    const origColumns = container.querySelectorAll(
+      '[data-testid="diff-column-original"]',
+    );
+    const modColumns = container.querySelectorAll(
+      '[data-testid="diff-column-modified"]',
+    );
+    expect(origColumns.length).toBeGreaterThan(0);
+    expect(modColumns.length).toBeGreaterThan(0);
   });
 
   it('shows line number gutter in unified diff view', async () => {
@@ -552,14 +571,14 @@ describe('App component', () => {
 
     await user.click(screen.getByRole('button', { name: 'Side-by-Side' }));
 
-    // Check for flex rows in both columns
-    const origColumn = container.querySelector(
+    const origColumns = container.querySelectorAll(
       '[data-testid="diff-column-original"]',
     );
-    const modColumn = container.querySelector(
+    const modColumns = container.querySelectorAll(
       '[data-testid="diff-column-modified"]',
     );
-    expect(origColumn).toBeInTheDocument();
-    expect(modColumn).toBeInTheDocument();
+    expect(origColumns.length).toBeGreaterThan(0);
+    expect(modColumns.length).toBeGreaterThan(0);
+    expect(origColumns.length).toBe(modColumns.length);
   });
 });
