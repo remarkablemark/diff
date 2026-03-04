@@ -13,12 +13,16 @@ interface DiffRowPair {
 function pairLines(lines: DiffLine[]): DiffRowPair[] {
   const pairs: DiffRowPair[] = [];
   for (const line of lines) {
-    if (line.type === 'unchanged') {
-      pairs.push({ original: line, modified: line });
-    } else if (line.type === 'removed') {
-      pairs.push({ original: line, modified: null });
-    } else {
-      pairs.push({ original: null, modified: line });
+    switch (line.type) {
+      case 'unchanged':
+        pairs.push({ original: line, modified: line });
+        break;
+      case 'removed':
+        pairs.push({ original: line, modified: null });
+        break;
+      default:
+        pairs.push({ original: null, modified: line });
+        break;
     }
   }
   return pairs;
@@ -73,11 +77,11 @@ export default function DiffViewer({
               scrollTop={scrollPosition.top}
             />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-              {pairs.map((pair, i) => {
+              {pairs.map((pair, index) => {
                 if (!pair.original) {
                   return (
                     <div
-                      key={`op-${String(i)}`}
+                      key={`op-${String(index)}`}
                       data-testid="sbs-placeholder"
                       className="bg-gray-100 dark:bg-gray-800"
                     >
@@ -85,18 +89,20 @@ export default function DiffViewer({
                     </div>
                   );
                 }
+
                 if (pair.original.type === 'removed') {
                   return (
                     <div
-                      key={`or-${String(i)}`}
+                      key={`or-${String(index)}`}
                       className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
                     >
                       <span className="px-2">-{pair.original.text}</span>
                     </div>
                   );
                 }
+
                 return (
-                  <div key={`ou-${String(i)}`}>
+                  <div key={`ou-${String(index)}`}>
                     <span className="px-2">{pair.original.text}</span>
                   </div>
                 );
@@ -113,11 +119,11 @@ export default function DiffViewer({
               scrollTop={scrollPosition.top}
             />
             <div className="flex-1 overflow-x-auto bg-white font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-              {pairs.map((pair, i) => {
+              {pairs.map((pair, index) => {
                 if (!pair.modified) {
                   return (
                     <div
-                      key={`mp-${String(i)}`}
+                      key={`mp-${String(index)}`}
                       data-testid="sbs-placeholder"
                       className="bg-gray-100 dark:bg-gray-800"
                     >
@@ -128,7 +134,7 @@ export default function DiffViewer({
                 if (pair.modified.type === 'added') {
                   return (
                     <div
-                      key={`ma-${String(i)}`}
+                      key={`ma-${String(index)}`}
                       className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
                     >
                       <span className="px-2">+{pair.modified.text}</span>
@@ -136,7 +142,7 @@ export default function DiffViewer({
                   );
                 }
                 return (
-                  <div key={`mu-${String(i)}`}>
+                  <div key={`mu-${String(index)}`}>
                     <span className="px-2">{pair.modified.text}</span>
                   </div>
                 );
@@ -162,33 +168,37 @@ export default function DiffViewer({
           className="flex-1 overflow-x-auto bg-white p-0 font-mono text-sm leading-6 text-gray-900 dark:bg-gray-800 dark:text-gray-100"
           onScroll={handleContentScroll}
         >
-          {result.lines.map((line, i) => {
-            const key = `c-${String(i)}-${line.type}`;
-            if (line.type === 'added') {
-              return (
-                <div
-                  key={key}
-                  className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-                >
-                  <span className="px-2">+{line.text}</span>
-                </div>
-              );
+          {result.lines.map((line, index) => {
+            const key = `c-${String(index)}-${line.type}`;
+
+            switch (line.type) {
+              case 'added':
+                return (
+                  <div
+                    key={key}
+                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                  >
+                    <span className="px-2">+{line.text}</span>
+                  </div>
+                );
+
+              case 'removed':
+                return (
+                  <div
+                    key={key}
+                    className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                  >
+                    <span className="px-2">-{line.text}</span>
+                  </div>
+                );
+
+              default:
+                return (
+                  <div key={key}>
+                    <span className="px-2">{line.text}</span>
+                  </div>
+                );
             }
-            if (line.type === 'removed') {
-              return (
-                <div
-                  key={key}
-                  className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
-                >
-                  <span className="px-2">-{line.text}</span>
-                </div>
-              );
-            }
-            return (
-              <div key={key}>
-                <span className="px-2">{line.text}</span>
-              </div>
-            );
           })}
         </div>
       </div>
