@@ -148,27 +148,30 @@ export default function DiffViewer({
             line.originalLineNumber ?? line.modifiedLineNumber ?? '';
 
           // Determine row styling based on line type
-          let numberClasses =
-            'border-t border-gray-200 bg-white py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400';
+          let lineNumberClasses =
+            'px-2 text-right font-mono text-sm leading-6 text-gray-500 dark:text-gray-400';
           let contentClasses =
-            'border-t border-gray-200 bg-white py-1 pl-2 font-mono text-sm leading-6 text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100';
+            'pl-2 font-mono text-sm leading-6 dark:text-gray-100';
 
-          if (line.type === 'added') {
-            numberClasses =
-              'border-t border-gray-200 bg-green-50 py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-green-900/20 dark:text-gray-400';
-            contentClasses =
-              'border-t border-gray-200 bg-green-100 py-1 pl-2 font-mono text-sm leading-6 text-green-800 dark:border-gray-700 dark:bg-green-900/30 dark:text-green-300';
-          } else if (line.type === 'removed') {
-            numberClasses =
-              'border-t border-gray-200 bg-red-50 py-1 pr-2 text-right font-mono text-sm leading-6 text-gray-500 dark:border-gray-700 dark:bg-red-900/20 dark:text-gray-400';
-            contentClasses =
-              'border-t border-gray-200 bg-red-100 py-1 pl-2 font-mono text-sm leading-6 text-red-800 dark:border-gray-700 dark:bg-red-900/30 dark:text-red-300';
+          switch (line.type) {
+            case 'added':
+              lineNumberClasses += ' bg-green-50 dark:bg-green-900/20';
+              contentClasses +=
+                ' bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
+              break;
+
+            case 'removed':
+              lineNumberClasses += ' bg-red-50 dark:bg-red-900/20';
+              contentClasses +=
+                ' bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+              break;
           }
 
           return (
             <Fragment key={key}>
               {/* Line number cell */}
-              <div className={numberClasses}>{lineNumber}</div>
+              <div className={lineNumberClasses}>{lineNumber}</div>
+
               {/* Content cell */}
               <div className={contentClasses}>
                 {line.type === 'added' && <span className="mr-1">+</span>}
