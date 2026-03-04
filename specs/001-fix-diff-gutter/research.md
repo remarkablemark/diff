@@ -42,20 +42,22 @@
 
 ---
 
-### Decision 3: Scroll Synchronization
+### Decision 3: No Scroll Synchronization Needed
 
-**What was chosen**: Reuse existing `useScrollSync` hook pattern for gutter-content alignment.
+**What was chosen**: Remove scroll synchronization logic. Gutter and content share the same scroll container naturally via CSS grid layout.
 
 **Why chosen**:
 
-- Existing hook already handles scroll position synchronization
-- Proven pattern in codebase (tested in `TextInput` component)
-- No new dependencies or complexity
+- No `max-height` constraint exists on the diff container
+- Content expands to fit all lines (no vertical scrolling)
+- Only horizontal scrolling for long lines (handled by grid layout)
+- Eliminates `useRef`, `useState`, and `useEffect` complexity
+- Aligns with Constitution Principle V (Simplicity)
 
 **Alternatives considered**:
 
-- Native CSS `position: sticky`: Rejected; doesn't handle horizontal scroll sync
-- Ref-based direct DOM manipulation: Rejected; React anti-pattern
+- Keep existing scroll sync pattern: Rejected as unnecessary complexity
+- Add `max-height` with scrollable container: Rejected; changes UX, not required by spec
 
 ---
 
@@ -84,7 +86,7 @@
 - Props interface in separate `.types.ts` file
 - Co-located test file with full coverage
 - Avoid `useMemo` unless profiling shows performance issues (YAGNI)
-- `useRef` for DOM access (scroll synchronization)
+- Direct CSS grid layout (no DOM refs needed)
 
 ### Accessibility
 
