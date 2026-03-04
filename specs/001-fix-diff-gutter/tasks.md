@@ -30,7 +30,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Update LineNumberGutterProps interface in src/components/LineNumberGutter/LineNumberGutter.types.ts
+- [ ] T003 Update LineNumberGutterProps interface in src/components/LineNumberGutter/LineNumberGutter.types.ts
   - Add `lines: DiffLine[]` prop
   - Add `viewMode?: 'unified' | 'side-by-side'` prop
   - Remove `lineCount` prop (replaced by lines.length)
@@ -55,6 +55,8 @@
 - [ ] T006 [P] [US1] Add test: unchanged line shows both numbers side-by-side in src/components/LineNumberGutter/LineNumberGutter.test.tsx
 - [ ] T007 [US1] Add test: line numbers offset correctly after lines added at beginning in src/components/LineNumberGutter/LineNumberGutter.test.tsx
 - [ ] T008 [US1] Add test: line numbers offset correctly after lines removed from middle in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [ ] T008b [US1] Add test: empty text edge case (one text empty) in src/components/LineNumberGutter/LineNumberGutter.test.tsx
+- [ ] T008c [US1] Add test: consecutive added/removed lines edge case in src/components/LineNumberGutter/LineNumberGutter.test.tsx
 
 ### Implementation for User Story 1
 

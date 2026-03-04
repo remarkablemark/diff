@@ -63,8 +63,11 @@ The side-by-side view already displays line numbers, but they should be verified
 
 ### Functional Requirements
 
-- **FR-001**: The unified diff view gutter MUST display two columns of line numbers side-by-side — left column for original line numbers, right column for modified line numbers
-- **FR-001b**: The two line number columns MUST be separated by a small gap with a subtle vertical divider line, and empty/missing numbers MUST use a muted color (GitHub-style visual treatment)
+- **FR-001**: The unified diff view gutter MUST display two columns of line numbers side-by-side with GitHub-style visual treatment:
+  - Left column: original line numbers
+  - Right column: modified line numbers
+  - Small gap with subtle vertical divider between columns
+  - Muted color for empty/missing numbers
 - **FR-002**: Each line number displayed in the gutter MUST correspond to the actual line position in the source text (original or modified), not the sequential index in the diff output
 - **FR-003**: Removed lines MUST show the correct original line number in the left column and blank in the right column
 - **FR-004**: Added lines MUST show blank in the left column and the correct modified line number in the right column
@@ -93,4 +96,4 @@ The side-by-side view already displays line numbers, but they should be verified
 - **SC-002**: 100% of displayed line numbers match the actual line positions in the source texts (verifiable via automated tests)
 - **SC-003**: All existing quality gates pass (lint, type check, tests, build) with no regressions
 - **SC-004**: Line number display remains correct across all three diff methods (characters, words, lines)
-- **SC-005**: Line numbers remain correctly aligned with content during vertical scrolling (no misalignment visible)
+- **SC-005**: Line numbers remain correctly aligned with content during horizontal scrolling (no misalignment visible)

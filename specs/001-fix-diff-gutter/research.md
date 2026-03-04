@@ -112,13 +112,13 @@
 
 ## Implementation Risks & Mitigations
 
-| Risk                           | Likelihood | Impact | Mitigation                                                               |
-| ------------------------------ | ---------- | ------ | ------------------------------------------------------------------------ |
-| Scroll misalignment            | Medium     | High   | Extensive testing with various content lengths; use `useScrollSync` hook |
-| Line number computation errors | Low        | High   | Rely on existing `segmentsToLines` tests; add regression tests           |
-| Visual regression              | Medium     | Medium | Manual testing; compare against GitHub diff view                         |
-| Performance with large diffs   | Low        | Medium | Use `useMemo` for line number arrays; monitor render times               |
-| Accessibility regression       | Low        | High   | Verify aria attributes unchanged; screen reader testing                  |
+| Risk                            | Likelihood | Impact | Mitigation                                                              |
+| ------------------------------- | ---------- | ------ | ----------------------------------------------------------------------- |
+| CSS grid misalignment           | Medium     | High   | Test with varying line lengths; verify gutter-content row heights match |
+| Line number computation errors  | Low        | High   | Rely on existing `segmentsToLines` tests; add regression tests          |
+| Visual regression               | Medium     | Medium | Manual testing; compare against GitHub diff view                        |
+| Digit width causes layout shift | Low        | Medium | Test with 1-4 digit line numbers; verify stable gutter width            |
+| Accessibility regression        | Low        | High   | Verify aria attributes unchanged; screen reader testing                 |
 
 ---
 
