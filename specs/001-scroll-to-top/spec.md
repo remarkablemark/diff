@@ -14,6 +14,7 @@
 - Q: What should the button's physical shape and size be? → A: Circular (40-48px diameter)
 - Q: What accessibility features should the button support? → A: Full WCAG 2.1 AA (keyboard, focus, ARIA, screen reader)
 - Q: What spacing/offset should the button have from the bottom and right edges? → A: 16px offset (Tailwind p-4)
+- Q: Should the button have cursor pointer and hover effects? → A: Yes - cursor pointer and hover background color change
 
 ## User Scenarios & Testing
 
@@ -82,7 +83,7 @@ As a user navigating long content, I want the scroll-to-top button to remain in 
 - **FR-003**: System MUST display the scroll-to-top button only when the viewport width is at or above the XL breakpoint
 - **FR-004**: System MUST position the scroll-to-top button in a fixed location at the bottom-right corner of the viewport with 16px offset from both bottom and right edges
 - **FR-005**: System MUST scroll the page to the top when the user clicks the scroll-to-top button
-- **FR-006**: System MUST provide visual feedback indicating the button is clickable (hover state)
+- **FR-006**: System MUST provide visual feedback indicating the button is clickable: cursor pointer on hover and background color change on hover
 - **FR-007**: System MUST respect user preferences for reduced motion when animating the scroll behavior
 - **FR-008**: System MUST display an upward arrow icon (Unicode or HTML entity) as the button content
 - **FR-009**: System MUST render the button as a circular shape (40-48px diameter) with styling consistent with the existing design system
