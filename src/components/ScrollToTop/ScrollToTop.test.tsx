@@ -224,7 +224,7 @@ describe('ScrollToTop', () => {
       render(<ScrollToTop />);
 
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('hover:bg-gray-300', 'cursor-pointer');
+      expect(button).toHaveClass('hover:bg-blue-500', 'cursor-pointer');
     });
 
     it('supports dark mode', () => {
@@ -236,7 +236,7 @@ describe('ScrollToTop', () => {
       render(<ScrollToTop />);
 
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('dark:bg-gray-700', 'dark:hover:bg-gray-600');
+      expect(button).toHaveClass('dark:hover:bg-blue-600', 'dark:bg-gray-700');
     });
 
     it('displays upward arrow icon', () => {
