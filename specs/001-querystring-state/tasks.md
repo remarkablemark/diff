@@ -63,11 +63,11 @@
 ### Implementation for User Story 1
 
 - [x] T014 [US1] Implement useQueryState hook in `src/hooks/useQueryState.ts` (state → URL encoding with debounce)
-- [ ] T015 [US1] Update App component in `src/components/App/App.tsx` to use useQueryState for state management
-- [ ] T016 [US1] Verify debounced URL updates (500ms delay) work correctly
-- [ ] T017 [US1] Verify replaceState is used (not pushState) to avoid history pollution
-- [ ] T018 [US1] Verify all parameters (original, modified, method, view) are encoded correctly
-- [ ] T018a [US1] Write tests for preserving unrelated query parameters in `src/utils/queryString.test.ts` (verify existing params not overwritten during state updates)
+- [x] T015 [US1] Update App component in `src/components/App/App.tsx` to use useQueryState for state management
+- [x] T016 [US1] Verify debounced URL updates (500ms delay) work correctly
+- [x] T017 [US1] Verify replaceState is used (not pushState) to avoid history pollution
+- [x] T018 [US1] Verify all parameters (original, modified, method, view) are encoded correctly
+- [x] T018a [US1] Write tests for preserving unrelated query parameters in `src/utils/queryString.test.ts` (verify existing params not overwritten during state updates)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - changing any setting updates the URL
 
