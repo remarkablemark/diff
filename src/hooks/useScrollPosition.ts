@@ -55,11 +55,12 @@ export function useScrollPosition(
     return snapshotRef.current;
   }, [getThresholdInPixels]);
 
-  /* v8 ignore next -- @preserve */
+  /* v8 ignore start */
   const getServerSnapshot = useCallback(
     () => ({ scrollY: 0, isScrolledPastThreshold: false }),
     [],
   );
+  /* v8 ignore end */
 
   const { scrollY, isScrolledPastThreshold } = useSyncExternalStore(
     subscribe,

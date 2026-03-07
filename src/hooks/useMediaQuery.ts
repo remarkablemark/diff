@@ -21,8 +21,9 @@ export function useMediaQuery(query: string): boolean {
     [query],
   );
 
-  /* v8 ignore next -- @preserve */
+  /* v8 ignore start */
   const getServerSnapshot = useCallback(() => false, []);
+  /* v8 ignore end */
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 }
