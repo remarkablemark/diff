@@ -1,17 +1,11 @@
 import { useCallback, useRef, useSyncExternalStore } from 'react';
 
-/**
- * Options for useScrollPosition hook.
- */
-export interface UseScrollPositionOptions {
+interface UseScrollPositionOptions {
   /** Scroll threshold for visibility (e.g., '50vh' or numeric pixels) */
   threshold: number | '50vh';
 }
 
-/**
- * Return value from useScrollPosition hook.
- */
-export interface UseScrollPositionReturn {
+interface UseScrollPositionReturn {
   /** Whether the page is scrolled past the threshold */
   isScrolledPastThreshold: boolean;
   /** Current vertical scroll position in pixels */
