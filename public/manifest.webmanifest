@@ -1,0 +1,16 @@
+{
+  "name": "Diff",
+  "short_name": "Diff",
+  "description": "Compare the diff between 2 texts",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
