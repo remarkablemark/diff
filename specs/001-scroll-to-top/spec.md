@@ -11,7 +11,7 @@
 
 - Q: What icon or content should the scroll-to-top button display? → A: Upward arrow icon using Unicode or HTML entity
 - Q: What scroll threshold should trigger button visibility? → A: 50vh (half viewport height)
-- Q: What should the button's physical shape and size be? → A: Circular (40-48px diameter)
+- Q: What should the button's physical shape and size be? → A: Circular (48px)
 - Q: What accessibility features should the button support? → A: Full WCAG 2.1 AA (keyboard, focus, ARIA, screen reader)
 - Q: What spacing/offset should the button have from the bottom and right edges? → A: 16px offset (Tailwind p-4)
 - Q: Should the button have cursor pointer and hover effects? → A: Yes - cursor pointer and hover background color change
@@ -86,7 +86,7 @@ As a user navigating long content, I want the scroll-to-top button to remain in 
 - **FR-006**: System MUST provide visual feedback indicating the button is clickable: cursor pointer on hover and background color change on hover
 - **FR-007**: System MUST respect user preferences for reduced motion when animating the scroll behavior
 - **FR-008**: System MUST display an upward arrow icon (Unicode or HTML entity) as the button content
-- **FR-009**: System MUST render the button as a circular shape (40-48px diameter) with styling consistent with the existing design system
+- **FR-009**: System MUST render the button as a circular shape (48px)
 - **FR-010**: System MUST support WCAG 2.1 AA accessibility: keyboard navigation (Enter/Space), visible focus ring, ARIA label "Scroll to top", and screen reader compatibility
 
 ### Key Entities
@@ -102,5 +102,5 @@ As a user navigating long content, I want the scroll-to-top button to remain in 
 - **SC-001**: Users can return to the top of the page with a single click from any scroll position
 - **SC-002**: The scroll-to-top button appears within 100 milliseconds of scrolling past the threshold
 - **SC-003**: Page scroll animation to top completes within 500 milliseconds
-- **SC-004**: 100% of users can successfully locate and activate the scroll-to-top feature on screens above XL breakpoint
+- **SC-004**: Button is clickable and activates scroll-to-top functionality in all interaction test scenarios
 - **SC-005**: Button visibility correctly responds to viewport resize events within 50 milliseconds
