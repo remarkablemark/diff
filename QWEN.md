@@ -4,6 +4,9 @@ Auto-generated from all feature plans. Last updated: 2026-03-03
 
 ## Active Technologies
 
+- TypeScript 5 (strict mode) + React 19, Tailwind CSS 4 (001-scroll-to-top)
+- N/A (no persistence) (001-scroll-to-top)
+
 - TypeScript 5 (strict mode) + React 19, diff library (v8) (001-fix-diff-gutter)
 
 ## Project Structure
@@ -22,6 +25,8 @@ npm test && npm run lint
 TypeScript 5 (strict mode): Follow standard conventions
 
 ## Recent Changes
+
+- 001-scroll-to-top: Added TypeScript 5 (strict mode) + React 19, Tailwind CSS 4
 
 - 001-fix-diff-gutter: Restructured DiffViewer to use CSS grid rows with inline line numbers, ensuring line numbers always match content height when text wraps. Removed separate LineNumberGutter component from unified view and unused scroll sync logic.
 
