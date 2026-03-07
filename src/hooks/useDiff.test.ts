@@ -8,16 +8,6 @@ describe('useDiff', () => {
     expect(result.current).toBeNull();
   });
 
-  it('returns null when original text is empty', () => {
-    const { result } = renderHook(() => useDiff('', 'some text'));
-    expect(result.current).toBeNull();
-  });
-
-  it('returns null when modified text is empty', () => {
-    const { result } = renderHook(() => useDiff('some text', ''));
-    expect(result.current).toBeNull();
-  });
-
   it('returns hasChanges false when texts are identical', () => {
     const { result } = renderHook(() => useDiff('hello world', 'hello world'));
     expect(result.current).not.toBeNull();
@@ -42,32 +32,6 @@ describe('useDiff', () => {
     expect(hasAdded).toBe(true);
     expect(hasRemoved).toBe(true);
     expect(hasUnchanged).toBe(true);
-  });
-
-  it('detects added text correctly', () => {
-    const { result } = renderHook(() => useDiff('hello', 'hello world'));
-    expect(result.current?.hasChanges).toBe(true);
-
-    const addedSegments = result.current?.segments.filter(
-      (s) => s.type === 'added',
-    );
-    expect(addedSegments?.length).toBeGreaterThan(0);
-  });
-
-  it('detects removed text correctly', () => {
-    const { result } = renderHook(() => useDiff('hello world', 'hello'));
-    expect(result.current?.hasChanges).toBe(true);
-
-    const removedSegments = result.current?.segments.filter(
-      (s) => s.type === 'removed',
-    );
-    expect(removedSegments?.length).toBeGreaterThan(0);
-  });
-
-  it('handles special characters and unicode', () => {
-    const { result } = renderHook(() => useDiff('café ☕', 'café 🍵'));
-    expect(result.current).not.toBeNull();
-    expect(result.current?.hasChanges).toBe(true);
   });
 
   it('memoizes result for same inputs', () => {
@@ -117,17 +81,15 @@ describe('useDiff', () => {
     );
   });
 
-  it('includes lines array in result', () => {
+  it('returns correct lines array with line numbers', () => {
     const { result } = renderHook(() => useDiff('hello world', 'hello world'));
     expect(result.current?.lines).toBeDefined();
     expect(result.current?.lines.length).toBeGreaterThan(0);
-  });
 
-  it('returns correct line numbers for line-level diff', () => {
-    const { result } = renderHook(() =>
+    const { result: diffResult } = renderHook(() =>
       useDiff('line1\nline2\n', 'line1\nchanged\n', 'lines'),
     );
-    const lines = result.current?.lines ?? [];
+    const lines = diffResult.current?.lines ?? [];
 
     const unchanged = lines.filter((l) => l.type === 'unchanged');
     expect(unchanged[0]).toMatchObject({

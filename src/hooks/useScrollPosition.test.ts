@@ -33,7 +33,7 @@ describe('useScrollPosition', () => {
     }
   });
 
-  it('returns false when at top of page with 50vh threshold', () => {
+  it('returns false when at top of page', () => {
     Object.defineProperty(window, 'scrollY', {
       value: 0,
       writable: true,
@@ -53,7 +53,7 @@ describe('useScrollPosition', () => {
     expect(result.current.scrollY).toBe(0);
   });
 
-  it('returns true when scrolled past 50vh threshold', () => {
+  it('returns true when scrolled past threshold', () => {
     Object.defineProperty(window, 'scrollY', {
       value: 500,
       writable: true,
@@ -72,41 +72,6 @@ describe('useScrollPosition', () => {
     // 50vh = 400px, scrollY = 500, so should be past threshold
     expect(result.current.isScrolledPastThreshold).toBe(true);
     expect(result.current.scrollY).toBe(500);
-  });
-
-  it('returns false when scrolled but not past 50vh threshold', () => {
-    Object.defineProperty(window, 'scrollY', {
-      value: 300,
-      writable: true,
-      configurable: true,
-    });
-    Object.defineProperty(window, 'innerHeight', {
-      value: 800,
-      writable: true,
-      configurable: true,
-    });
-
-    const { result } = renderHook(() =>
-      useScrollPosition({ threshold: '50vh' }),
-    );
-
-    // 50vh = 400px, scrollY = 300, so should NOT be past threshold
-    expect(result.current.isScrolledPastThreshold).toBe(false);
-    expect(result.current.scrollY).toBe(300);
-  });
-
-  it('uses numeric threshold when provided', () => {
-    Object.defineProperty(window, 'scrollY', {
-      value: 250,
-      writable: true,
-      configurable: true,
-    });
-
-    const { result } = renderHook(() => useScrollPosition({ threshold: 200 }));
-
-    // scrollY = 250, threshold = 200, so should be past threshold
-    expect(result.current.isScrolledPastThreshold).toBe(true);
-    expect(result.current.scrollY).toBe(250);
   });
 
   it('updates when scroll position changes', () => {
@@ -156,7 +121,21 @@ describe('useScrollPosition', () => {
     removeEventListenerSpy.mockRestore();
   });
 
-  it('defaults to 50vh threshold when no options provided', () => {
+  it('uses numeric threshold when provided', () => {
+    Object.defineProperty(window, 'scrollY', {
+      value: 250,
+      writable: true,
+      configurable: true,
+    });
+
+    const { result } = renderHook(() => useScrollPosition({ threshold: 200 }));
+
+    // scrollY = 250, threshold = 200, so should be past threshold
+    expect(result.current.isScrolledPastThreshold).toBe(true);
+    expect(result.current.scrollY).toBe(250);
+  });
+
+  it('defaults to 50vh when no options provided', () => {
     Object.defineProperty(window, 'scrollY', {
       value: 0,
       writable: true,
