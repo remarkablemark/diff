@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-fix-diff-gutter`
 **Created**: 2026-03-03
-**Status**: Completed
+**Status**: Done
 **Input**: User description: "Fix line numbers in diff gutter"
 
 ## Clarifications

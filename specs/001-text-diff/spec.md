@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-text-diff`
 **Created**: 2026-02-07
-**Status**: Completed
+**Status**: Done
 **Input**: User description: "check diff between 2 text inputs"
 
 ## Clarifications

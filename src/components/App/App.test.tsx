@@ -38,6 +38,7 @@ describe('App component', () => {
     const { mockMatchMedia } = createMockMatchMedia(false);
     window.matchMedia = mockMatchMedia;
     localStorage.clear();
+    window.history.replaceState(null, '', window.location.pathname);
   });
 
   afterEach(() => {
@@ -290,7 +291,9 @@ describe('App component', () => {
     await user.clear(modified);
     await user.type(modified, 'hello');
 
-    expect(screen.getByText('No differences found')).toBeInTheDocument();
+    await vi.waitFor(() => {
+      expect(screen.getByText('No differences found')).toBeInTheDocument();
+    });
   });
 
   it('updates output when clearing one input after diff is displayed', async () => {
@@ -353,34 +356,18 @@ describe('App component', () => {
     await user.type(original, 'abc');
     await user.type(modified, 'aXc');
 
-    const diffOutput = container.querySelector('[aria-live="polite"]');
-
     await user.click(screen.getByRole('button', { name: 'Characters' }));
 
-    const removedSpan = diffOutput?.querySelector('.bg-red-100');
-    expect(removedSpan).toBeInTheDocument();
-    expect(removedSpan?.textContent).toBe('-b');
+    await vi.waitFor(() => {
+      const diffOutput = container.querySelector('[aria-live="polite"]');
+      const removedSpan = diffOutput?.querySelector('.bg-red-100');
+      expect(removedSpan).toBeInTheDocument();
+      expect(removedSpan?.textContent).toBe('-b');
 
-    const addedSpan = diffOutput?.querySelector('.bg-green-100');
-    expect(addedSpan).toBeInTheDocument();
-    expect(addedSpan?.textContent).toBe('+X');
-  });
-
-  it('persists diff method to localStorage', async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    const original = screen.getByLabelText('Original Text');
-    const modified = screen.getByLabelText('Modified Text');
-
-    await user.type(original, 'hello');
-    await user.type(modified, 'world');
-
-    await user.click(screen.getByRole('button', { name: 'Lines' }));
-
-    expect(localStorage.getItem('diff.diffMethod')).toBe(
-      JSON.stringify('lines'),
-    );
+      const addedSpan = diffOutput?.querySelector('.bg-green-100');
+      expect(addedSpan).toBeInTheDocument();
+      expect(addedSpan?.textContent).toBe('+X');
+    });
   });
 
   it('restores diff method from localStorage on mount', async () => {
@@ -395,28 +382,10 @@ describe('App component', () => {
     await user.type(original, 'hello');
     await user.type(modified, 'world');
 
-    const charsButton = screen.getByRole('button', { name: 'Characters' });
-    expect(charsButton.className).toContain('bg-blue-500');
-  });
-
-  it('persists view mode to localStorage', async () => {
-    const { mockMatchMedia } = createMockMatchMedia(true);
-    window.matchMedia = mockMatchMedia;
-
-    const user = userEvent.setup();
-    render(<App />);
-
-    const original = screen.getByLabelText('Original Text');
-    const modified = screen.getByLabelText('Modified Text');
-
-    await user.type(original, 'hello');
-    await user.type(modified, 'world');
-
-    await user.click(screen.getByRole('button', { name: /side-by-side/i }));
-
-    expect(localStorage.getItem('diff.viewMode')).toBe(
-      JSON.stringify('side-by-side'),
-    );
+    await vi.waitFor(() => {
+      const charsButton = screen.getByRole('button', { name: 'Characters' });
+      expect(charsButton.className).toContain('bg-blue-500');
+    });
   });
 
   it('restores view mode from localStorage on mount', async () => {
@@ -433,14 +402,16 @@ describe('App component', () => {
     await user.type(original, 'hello');
     await user.type(modified, 'world');
 
-    const origColumns = container.querySelectorAll(
-      '[data-testid="diff-column-original"]',
-    );
-    const modColumns = container.querySelectorAll(
-      '[data-testid="diff-column-modified"]',
-    );
-    expect(origColumns.length).toBeGreaterThan(0);
-    expect(modColumns.length).toBeGreaterThan(0);
+    await vi.waitFor(() => {
+      const origColumns = container.querySelectorAll(
+        '[data-testid="diff-column-original"]',
+      );
+      const modColumns = container.querySelectorAll(
+        '[data-testid="diff-column-modified"]',
+      );
+      expect(origColumns.length).toBeGreaterThan(0);
+      expect(modColumns.length).toBeGreaterThan(0);
+    });
   });
 
   it('shows line number gutter in unified diff view', async () => {

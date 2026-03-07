@@ -2,7 +2,7 @@
 
 **Feature Branch**: `003-diff-line-numbers`
 **Created**: 2026-02-08
-**Status**: Completed
+**Status**: Done
 **Input**: User description: "diff line numbers"
 
 ## Clarifications
