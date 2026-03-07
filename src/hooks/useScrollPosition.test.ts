@@ -152,4 +152,33 @@ describe('useScrollPosition', () => {
     expect(result.current.scrollY).toBe(0);
     expect(result.current.isScrolledPastThreshold).toBe(false);
   });
+
+  it('falls back to pageYOffset when scrollY is zero', () => {
+    const originalDescriptor = Object.getOwnPropertyDescriptor(
+      window,
+      'scrollY',
+    );
+
+    delete (window as { scrollY?: number }).scrollY;
+
+    Object.defineProperty(window, 'pageYOffset', {
+      value: 300,
+      writable: true,
+      configurable: true,
+    });
+    Object.defineProperty(window, 'innerHeight', {
+      value: 800,
+      writable: true,
+      configurable: true,
+    });
+
+    const { result } = renderHook(() => useScrollPosition({ threshold: 200 }));
+
+    expect(result.current.scrollY).toBe(300);
+    expect(result.current.isScrolledPastThreshold).toBe(true);
+
+    if (originalDescriptor) {
+      Object.defineProperty(window, 'scrollY', originalDescriptor);
+    }
+  });
 });

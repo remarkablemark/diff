@@ -119,4 +119,25 @@ describe('useDiff', () => {
     expect(lines.length).toBeGreaterThan(0);
     expect(lines[0]?.originalLineNumber).toBe(1);
   });
+
+  it('returns null when original text is empty', () => {
+    const { result } = renderHook(() => useDiff('', 'some text'));
+    expect(result.current).toBeNull();
+  });
+
+  it('returns null when modified text is empty', () => {
+    const { result } = renderHook(() => useDiff('some text', ''));
+    expect(result.current).toBeNull();
+  });
+
+  it('handles changes with all segment types (added, removed, unchanged)', () => {
+    const { result } = renderHook(() =>
+      useDiff('keep this remove', 'keep this add', 'words'),
+    );
+    const segments = result.current?.segments ?? [];
+
+    expect(segments.some((s) => s.type === 'unchanged')).toBe(true);
+    expect(segments.some((s) => s.type === 'added')).toBe(true);
+    expect(segments.some((s) => s.type === 'removed')).toBe(true);
+  });
 });

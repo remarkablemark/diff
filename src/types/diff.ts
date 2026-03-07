@@ -40,3 +40,15 @@ export interface DiffLineResult extends DiffResult {
   /** Line-based representation of the diff, derived from segments */
   lines: DiffLine[];
 }
+
+/** Application state that can be serialized to/from URL query parameters */
+export interface QueryState {
+  /** Left-side diff text (original) */
+  original: string;
+  /** Right-side diff text (modified) */
+  modified: string;
+  /** Comparison algorithm selection */
+  method: DiffMethod;
+  /** Display mode/layout option */
+  view: ViewMode;
+}

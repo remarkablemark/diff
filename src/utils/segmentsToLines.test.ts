@@ -284,4 +284,40 @@ describe('segmentsToLines', () => {
       },
     ]);
   });
+
+  it('increments line numbers correctly for unchanged segments with trailing newline', () => {
+    const segments: DiffSegment[] = [
+      { value: 'line1\nline2\n', type: 'unchanged' },
+    ];
+    const lines = segmentsToLines(segments);
+
+    expect(lines[0].originalLineNumber).toBe(1);
+    expect(lines[0].modifiedLineNumber).toBe(1);
+    expect(lines[1].originalLineNumber).toBe(2);
+    expect(lines[1].modifiedLineNumber).toBe(2);
+  });
+
+  it('increments only original line number for removed segments with trailing newline', () => {
+    const segments: DiffSegment[] = [
+      { value: 'line1\nline2\n', type: 'removed' },
+    ];
+    const lines = segmentsToLines(segments);
+
+    expect(lines[0].originalLineNumber).toBe(1);
+    expect(lines[0].modifiedLineNumber).toBeUndefined();
+    expect(lines[1].originalLineNumber).toBe(2);
+    expect(lines[1].modifiedLineNumber).toBeUndefined();
+  });
+
+  it('increments only modified line number for added segments with trailing newline', () => {
+    const segments: DiffSegment[] = [
+      { value: 'line1\nline2\n', type: 'added' },
+    ];
+    const lines = segmentsToLines(segments);
+
+    expect(lines[0].originalLineNumber).toBeUndefined();
+    expect(lines[0].modifiedLineNumber).toBe(1);
+    expect(lines[1].originalLineNumber).toBeUndefined();
+    expect(lines[1].modifiedLineNumber).toBe(2);
+  });
 });
