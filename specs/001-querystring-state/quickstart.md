@@ -20,7 +20,6 @@ Add URL query string-based state persistence to enable sharing and bookmarking d
 
 ```bash
 npm install lz-string
-npm install --save-dev @types/lz-string
 ```
 
 ### 2. Implementation Order
