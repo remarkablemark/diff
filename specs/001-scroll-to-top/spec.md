@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-scroll-to-top`
 **Created**: 2026-03-06
-**Status**: Completed
+**Status**: Done
 **Input**: User description: "scroll to top button fixed to bottom-right above XL breakpoint"
 
 ## Clarifications

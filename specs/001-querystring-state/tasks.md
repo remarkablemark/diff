@@ -56,9 +56,9 @@
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
 - [x] T010 [P] [US1] Write tests for useQueryState hook (URL update behavior) in `src/hooks/useQueryState.test.ts`
-- [ ] T011 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (text changes trigger URL update)
-- [ ] T012 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (method changes trigger URL update)
-- [ ] T013 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (view changes trigger URL update)
+- [x] T011 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (text changes trigger URL update)
+- [x] T012 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (method changes trigger URL update)
+- [x] T013 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (view changes trigger URL update)
 
 ### Implementation for User Story 1
 
@@ -81,19 +81,19 @@
 
 ### Tests for User Story 2 (MANDATORY - TDD Required)
 
-- [ ] T019 [P] [US2] Write tests for useQueryState hook (URL → state restoration) in `src/hooks/useQueryState.test.ts`
-- [ ] T020 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (state restoration from URL on mount)
-- [ ] T021 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (URL params override localStorage)
-- [ ] T022 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (popstate events update state)
+- [x] T019 [P] [US2] Write tests for useQueryState hook (URL → state restoration) in `src/hooks/useQueryState.test.ts`
+- [x] T020 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (state restoration from URL on mount)
+- [x] T021 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (URL params override localStorage)
+- [x] T022 [P] [US2] Write tests for App component in `src/components/App/App.test.tsx` (popstate events update state)
 
 ### Implementation for User Story 2
 
-- [ ] T023 [US2] Implement URL reading on mount in useQueryState hook in `src/hooks/useQueryState.ts`
-- [ ] T024 [US2] Implement localStorage fallback logic in useQueryState hook in `src/hooks/useQueryState.ts`
-- [ ] T025 [US2] Implement popstate event listener in useQueryState hook in `src/hooks/useQueryState.ts` (back/forward navigation)
-- [ ] T026 [US2] Verify URL parameters take precedence over localStorage values
-- [ ] T027 [US2] Verify decompression works for original/modified parameters
-- [ ] T028 [US2] Verify enum validation works for method/view parameters
+- [x] T023 [US2] Implement URL reading on mount in useQueryState hook in `src/hooks/useQueryState.ts`
+- [x] T024 [US2] Implement localStorage fallback logic in useQueryState hook in `src/hooks/useQueryState.ts`
+- [x] T025 [US2] Implement popstate event listener in useQueryState hook in `src/hooks/useQueryState.ts` (back/forward navigation)
+- [x] T026 [US2] Verify URL parameters take precedence over localStorage values
+- [x] T027 [US2] Verify decompression works for original/modified parameters
+- [x] T028 [US2] Verify enum validation works for method/view parameters
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work - save to URL and load from URL
 
@@ -107,19 +107,19 @@
 
 ### Tests for User Story 3 (MANDATORY - TDD Required)
 
-- [ ] T029 [P] [US3] Write tests for query string utilities in `src/utils/queryString.test.ts` (missing parameters use defaults)
-- [ ] T030 [P] [US3] Write tests for query string utilities in `src/utils/queryString.test.ts` (invalid enum values use defaults)
-- [ ] T031 [P] [US3] Write tests for compression utilities in `src/utils/compression.test.ts` (corrupted data returns empty string)
-- [ ] T032 [P] [US3] Write tests for App component in `src/components/App/App.test.tsx` (invalid URLs fall back to defaults)
+- [x] T029 [P] [US3] Write tests for query string utilities in `src/utils/queryString.test.ts` (missing parameters use defaults)
+- [x] T030 [P] [US3] Write tests for query string utilities in `src/utils/queryString.test.ts` (invalid enum values use defaults)
+- [x] T031 [P] [US3] Write tests for compression utilities in `src/utils/compression.test.ts` (corrupted data returns empty string)
+- [x] T032 [P] [US3] Write tests for App component in `src/components/App/App.test.tsx` (invalid URLs fall back to defaults)
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Implement validation logic in decodeQueryState in `src/utils/queryString.ts`
-- [ ] T034 [US3] Implement error handling in decompressText in `src/utils/compression.ts`
-- [ ] T035 [US3] Verify empty URL (no parameters) loads with defaults
-- [ ] T036 [US3] Verify corrupted compressed data is handled gracefully
-- [ ] T037 [US3] Verify invalid method/view values fall back to defaults
-- [ ] T038 [US3] Verify partial state (some params missing) works correctly
+- [x] T033 [US3] Implement validation logic in decodeQueryState in `src/utils/queryString.ts`
+- [x] T034 [US3] Implement error handling in decompressText in `src/utils/compression.ts`
+- [x] T035 [US3] Verify empty URL (no parameters) loads with defaults
+- [x] T036 [US3] Verify corrupted compressed data is handled gracefully
+- [x] T037 [US3] Verify invalid method/view values fall back to defaults
+- [x] T038 [US3] Verify partial state (some params missing) works correctly
 
 **Checkpoint**: All user stories should now be independently functional with robust error handling
 
@@ -129,15 +129,15 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T039 [P] Write tests for URL length warning in `src/hooks/useQueryState.test.ts` (verify warning shown when URL exceeds 2000 chars)
-- [ ] T039a [P] Implement URL length warning when compressed URL exceeds 2000 characters in `src/hooks/useQueryState.ts`
-- [ ] T040 [P] Add barrel exports in `src/utils/index.ts` for new utilities
-- [ ] T041 [P] Add barrel exports in `src/hooks/index.ts` for useQueryState
-- [ ] T042 Verify 100% test coverage across all new files (`npm run test:ci`)
-- [ ] T043 Run linting and fix any issues (`npm run lint:fix`)
-- [ ] T044 Run type checking and fix any issues (`npm run lint:tsc`)
-- [ ] T045 Verify production build succeeds (`npm run build`)
-- [ ] T046 Manual testing per quickstart.md validation steps
+- [x] T039 [P] Write tests for URL length warning in `src/hooks/useQueryState.test.ts` (verify warning shown when URL exceeds 2000 chars)
+- [x] T039a [P] Implement URL length warning when compressed URL exceeds 2000 characters in `src/hooks/useQueryState.ts`
+- [x] T040 [P] ~~Add barrel exports in `src/utils/index.ts` for new utilities~~ (N/A - codebase uses direct imports)
+- [x] T041 [P] ~~Add barrel exports in `src/hooks/index.ts` for useQueryState~~ (N/A - codebase uses direct imports)
+- [x] T042 Verify 100% test coverage across all new files (`npm run test:ci`)
+- [x] T043 Run linting and fix any issues (`npm run lint:fix`)
+- [x] T044 Run type checking and fix any issues (`npm run lint:tsc`)
+- [x] T045 Verify production build succeeds (`npm run build`)
+- [x] T046 Manual testing per quickstart.md validation steps
 
 ---
 

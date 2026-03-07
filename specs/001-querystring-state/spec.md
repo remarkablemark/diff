@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-querystring-state`  
 **Created**: 2026-03-07  
-**Status**: Draft  
+**Status**: Done
 **Input**: User description: "save/load from querystring"
 
 ## Clarifications

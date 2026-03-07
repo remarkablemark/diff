@@ -2,7 +2,7 @@
 
 **Branch**: `001-fix-line-number-scrolling`  
 **Date**: 2026-02-26  
-**Status**: Completed
+**Status**: Done
 
 ## Overview
 

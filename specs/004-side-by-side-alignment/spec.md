@@ -2,7 +2,7 @@
 
 **Feature Branch**: `004-side-by-side-alignment`
 **Created**: 2026-03-04
-**Status**: Completed
+**Status**: Done
 **Input**: User observation: "Would it make sense in SideBySideView to align the original and modified diff next to each other?"
 
 ## Problem Statement
