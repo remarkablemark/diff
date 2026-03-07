@@ -79,7 +79,7 @@ A user navigates to a URL with malformed, incomplete, or missing query parameter
 
 ### Edge Cases
 
-- What happens when the encoded state exceeds URL length limits (typically 2000-8000 characters depending on browser)? → System compresses text values using lz-string and shows warning if still too large
+- What happens when the encoded state exceeds URL length limits (typically 2000-8000 characters depending on browser)? → System compresses text values using lz-string and shows warning if compressed URL exceeds 2000 characters (conservative limit for cross-browser compatibility)
 - How does the system handle special characters, unicode, or emoji in the diff text? → Handled via lz-string compression and standard URL encoding
 - What happens when query parameters are manually edited to invalid values? → System ignores invalid parameters and uses default values
 - How does the system handle concurrent state updates (rapid user input causing multiple URL updates)? → Debouncing prevents excessive updates (300-500ms delay after last change)
@@ -96,7 +96,7 @@ A user navigates to a URL with malformed, incomplete, or missing query parameter
 - **FR-004**: System MUST use query parameter names: `original` (left text), `modified` (right text), `method` (comparison algorithm), `view` (display mode)
 - **FR-005**: System MUST use default values when query parameters are missing or invalid
 - **FR-006**: System MUST update the browser URL using replaceState (not pushState) to avoid polluting browser history
-- **FR-007**: System MUST show a warning message when compressed state exceeds browser URL length limits
+- **FR-007**: System MUST show a warning message when compressed state exceeds 2000 characters (conservative browser URL length limit)
 - **FR-008**: System MUST preserve all query string parameters when updating individual state values
 
 ### Key Entities _(include if feature involves data)_

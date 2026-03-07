@@ -93,12 +93,13 @@ src/
 ├── hooks/
 │   ├── useDiff.ts             # Existing (no changes)
 │   ├── useLocalStorage.ts     # Existing (no changes)
-│   └── useQueryState.ts       # NEW: Custom hook for URL state management
+│   └── useQueryState.ts       # NEW: Custom hook for URL state management (uses debounce utility)
 ├── types/
 │   └── diff.ts                # Existing (may add QueryState type)
 └── utils/
     ├── queryString.ts         # NEW: URL encoding/decoding utilities
-    └── compression.ts         # NEW: lz-string wrapper utilities
+    ├── compression.ts         # NEW: lz-string wrapper utilities
+    └── debounce.ts            # NEW: Generic debounce utility (used by useQueryState)
 
 tests/ (colocated with source files)
 ├── components/App/App.test.tsx          # Update with URL state tests

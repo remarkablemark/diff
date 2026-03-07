@@ -23,7 +23,7 @@
 **Purpose**: Project initialization and dependency installation
 
 - [ ] T001 Install lz-string dependency via `npm install lz-string`
-- [ ] T002 Verify TypeScript types are available from lz-string package
+- [ ] T002 Verify TypeScript types are available from lz-string package (check that `import { compress, decompress } from 'lz-string'` has type definitions and `npm run lint:tsc` passes)
 
 ---
 
@@ -67,6 +67,7 @@
 - [ ] T016 [US1] Verify debounced URL updates (500ms delay) work correctly
 - [ ] T017 [US1] Verify replaceState is used (not pushState) to avoid history pollution
 - [ ] T018 [US1] Verify all parameters (original, modified, method, view) are encoded correctly
+- [ ] T018a [US1] Write tests for preserving unrelated query parameters in `src/utils/queryString.test.ts` (verify existing params not overwritten during state updates)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - changing any setting updates the URL
 
@@ -128,7 +129,8 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T039 [P] Add URL length warning when compressed URL exceeds 2000 characters
+- [ ] T039 [P] Write tests for URL length warning in `src/hooks/useQueryState.test.ts` (verify warning shown when URL exceeds 2000 chars)
+- [ ] T039a [P] Implement URL length warning when compressed URL exceeds 2000 characters in `src/hooks/useQueryState.ts`
 - [ ] T040 [P] Add barrel exports in `src/utils/index.ts` for new utilities
 - [ ] T041 [P] Add barrel exports in `src/hooks/index.ts` for useQueryState
 - [ ] T042 Verify 100% test coverage across all new files (`npm run test:ci`)
