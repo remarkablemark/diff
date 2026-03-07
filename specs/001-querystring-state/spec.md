@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "save/load from querystring"
 
+## Clarifications
+
+### Session 2026-03-07
+
+- Q: When should the URL update during rapid user input (e.g., typing in text fields)? → A: Debounce URL updates (wait for pause in typing, e.g., 300-500ms after last change)
+- Q: How should the system handle scenarios where the state data is too large to fit in the URL? → A: Compress state data using lz-string before encoding; show warning if still too large
+- Q: Which specific application settings should be persisted in the URL? → A: Diff texts + comparison method/algorithm selection. URL parameters take precedence over localStorage values when both exist.
+- Q: How should URL updates affect the browser's history stack? → A: Replace current history entry (replaceState) - keeps history clean, no undo via back button
+- Q: What naming convention should be used for query parameters? → A: Short descriptive names using keys: `original`, `modified`, `method`, `view`. Compress values of `original` and `modified` using lz-string. Do not compress `method` and `view` values.
+
 ## User Scenarios & Testing _(mandatory)_
 
 <!--
@@ -68,36 +78,41 @@ A user navigates to a URL with malformed, incomplete, or missing query parameter
 
 ### Edge Cases
 
-- What happens when the encoded state exceeds URL length limits (typically 2000-8000 characters depending on browser)?
-- How does the system handle special characters, unicode, or emoji in the diff text?
-- What happens when query parameters are manually edited to invalid values?
-- How does the system handle concurrent state updates (rapid user input causing multiple URL updates)?
-- What happens when the user uses browser back/forward navigation with different query string states?
-- How does the system handle URL encoding/decoding for characters that have special meaning in URLs (?, &, =, #, etc.)?
+- What happens when the encoded state exceeds URL length limits (typically 2000-8000 characters depending on browser)? → System compresses text values using lz-string and shows warning if still too large
+- How does the system handle special characters, unicode, or emoji in the diff text? → Handled via lz-string compression and standard URL encoding
+- What happens when query parameters are manually edited to invalid values? → System ignores invalid parameters and uses default values
+- How does the system handle concurrent state updates (rapid user input causing multiple URL updates)? → Debouncing prevents excessive updates (300-500ms delay after last change)
+- What happens when the user uses browser back/forward navigation with different query string states? → System uses replaceState to avoid polluting browser history; back/forward navigation works with intentional page navigations
+- How does the system handle URL encoding/decoding for characters that have special meaning in URLs (?, &, =, #, etc.)? → Standard URL encoding applied after lz-string compression
 
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
 
-- **FR-001**: System MUST encode current application state into URL query string parameters whenever state changes
-- **FR-002**: System MUST decode query string parameters on page load and restore application state
-- **FR-003**: System MUST handle URL encoding/decoding to ensure special characters are properly escaped
-- **FR-004**: System MUST preserve all query string parameters when updating individual state values
+- **FR-001**: System MUST encode current application state into URL query string parameters using debounced updates (300-500ms after last change)
+- **FR-002**: System MUST decode query string parameters on page load and restore application state, with URL parameters taking precedence over localStorage
+- **FR-003**: System MUST compress `original` and `modified` parameter values using lz-string before URL encoding; `method` and `view` parameters remain uncompressed
+- **FR-004**: System MUST use query parameter names: `original` (left text), `modified` (right text), `method` (comparison algorithm), `view` (display mode)
 - **FR-005**: System MUST use default values when query parameters are missing or invalid
-- **FR-006**: System MUST update the browser URL without triggering a page reload
-- **FR-007**: System MUST support browser back/forward navigation with different query string states
+- **FR-006**: System MUST update the browser URL using replaceState (not pushState) to avoid polluting browser history
+- **FR-007**: System MUST show a warning message when compressed state exceeds browser URL length limits
+- **FR-008**: System MUST preserve all query string parameters when updating individual state values
 
 ### Key Entities _(include if feature involves data)_
 
-- **Application State**: Represents the current configuration of the diff tool, including input text values, selected comparison method, display options, and any other user-configurable settings
-- **Query Parameters**: Key-value pairs in the URL query string that encode the application state in a shareable, bookmarkable format
+- **Application State**: Represents the current configuration of the diff tool, specifically: original text (left), modified text (right), comparison method/algorithm, and view/display mode
+- **Query Parameters**: Four key-value pairs in the URL query string:
+  - `original`: Left-side diff text (lz-string compressed)
+  - `modified`: Right-side diff text (lz-string compressed)
+  - `method`: Comparison algorithm selection (uncompressed)
+  - `view`: Display mode/layout option (uncompressed)
 
 ## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
 - **SC-001**: Users can share their diff configuration by copying the URL, and recipients can restore the exact same state by navigating to that URL
-- **SC-002**: URL updates occur within 100ms of state changes to provide immediate feedback
+- **SC-002**: URL updates occur within 300-500ms after user stops typing (debounced) to balance responsiveness with performance
 - **SC-003**: Application successfully restores state from valid query parameters 100% of the time
 - **SC-004**: Application handles invalid or missing query parameters gracefully without errors or broken functionality
 - **SC-005**: Users can bookmark a configured state and return to it days later with all settings preserved
