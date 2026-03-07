@@ -138,6 +138,7 @@
 - [x] T044 Run type checking and fix any issues (`npm run lint:tsc`)
 - [x] T045 Verify production build succeeds (`npm run build`)
 - [x] T046 Manual testing per quickstart.md validation steps
+- [x] T047 Remove unused `useLocalStorage` hook and test file (dead code cleanup)
 
 ---
 
@@ -236,7 +237,7 @@ With multiple developers:
 
 ## Task Summary
 
-**Total Tasks**: 46
+**Total Tasks**: 47
 
 **Tasks by Phase**:
 
@@ -245,7 +246,7 @@ With multiple developers:
 - Phase 3 (User Story 1): 9 tasks (4 tests + 5 implementation)
 - Phase 4 (User Story 2): 10 tasks (4 tests + 6 implementation)
 - Phase 5 (User Story 3): 10 tasks (4 tests + 6 implementation)
-- Phase 6 (Polish): 8 tasks
+- Phase 6 (Polish): 9 tasks
 
 **Parallel Opportunities**: 28 tasks marked [P] can run in parallel with others in their phase
 

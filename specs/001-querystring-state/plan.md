@@ -92,7 +92,6 @@ src/
 │   └── App/                    # Update to integrate URL state sync
 ├── hooks/
 │   ├── useDiff.ts             # Existing (no changes)
-│   ├── useLocalStorage.ts     # Existing (no changes)
 │   └── useQueryState.ts       # NEW: Custom hook for URL state management (uses debounce utility)
 ├── types/
 │   └── diff.ts                # Existing (may add QueryState type)
