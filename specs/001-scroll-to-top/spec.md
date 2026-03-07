@@ -5,6 +5,13 @@
 **Status**: Draft
 **Input**: User description: "scroll to top button fixed to bottom-right above XL breakpoint"
 
+## Clarifications
+
+### Session 2026-03-06
+
+- Q: What icon or content should the scroll-to-top button display? → A: Upward arrow icon using Unicode or HTML entity
+- Q: What scroll threshold should trigger button visibility? → A: 50vh (half viewport height)
+
 ## User Scenarios & Testing
 
 ### User Story 1 - Scroll to Top from Bottom of Page (Priority: P1)
@@ -61,24 +68,26 @@ As a user navigating long content, I want the scroll-to-top button to remain in 
 - What happens when the user resizes the browser window crossing the XL breakpoint threshold? (Button visibility should update appropriately)
 - How does the button behave with browser zoom enabled? (Should remain visible and functional at various zoom levels)
 - What happens if the user has reduced motion preferences enabled? (Scroll animation should respect user preferences)
+- How does the 50vh threshold adapt when viewport height changes? (Threshold should recalculate dynamically on resize)
 
 ## Requirements
 
 ### Functional Requirements
 
-- **FR-001**: System MUST display a scroll-to-top button when the page is scrolled beyond a minimum threshold distance from the top
+- **FR-001**: System MUST display a scroll-to-top button when the page is scrolled beyond a minimum threshold distance from the top (50vh - half viewport height)
 - **FR-002**: System MUST hide the scroll-to-top button when the page is at or near the top position
 - **FR-003**: System MUST display the scroll-to-top button only when the viewport width is at or above the XL breakpoint
 - **FR-004**: System MUST position the scroll-to-top button in a fixed location at the bottom-right corner of the viewport
 - **FR-005**: System MUST scroll the page to the top when the user clicks the scroll-to-top button
 - **FR-006**: System MUST provide visual feedback indicating the button is clickable (hover state)
 - **FR-007**: System MUST respect user preferences for reduced motion when animating the scroll behavior
+- **FR-008**: System MUST display an upward arrow icon (Unicode or HTML entity) as the button content
 
 ### Key Entities
 
 - **Scroll Position**: The current vertical offset of the page content relative to the viewport top
 - **Viewport Breakpoint**: The minimum screen width threshold (XL) at which the button becomes available
-- **Scroll Threshold**: The minimum scroll distance at which the button appears
+- **Scroll Threshold**: The minimum scroll distance at which the button appears (50vh - half viewport height)
 
 ## Success Criteria
 
