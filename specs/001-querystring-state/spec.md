@@ -14,6 +14,7 @@
 - Q: Which specific application settings should be persisted in the URL? → A: Diff texts + comparison method/algorithm selection. URL parameters take precedence over localStorage values when both exist.
 - Q: How should URL updates affect the browser's history stack? → A: Replace current history entry (replaceState) - keeps history clean, no undo via back button
 - Q: What naming convention should be used for query parameters? → A: Short descriptive names using keys: `original`, `modified`, `method`, `view`. Compress values of `original` and `modified` using lz-string. Do not compress `method` and `view` values.
+- Q: What are the allowed values for method and view query parameters? → A: `method` accepts: `characters`, `words` (default), `lines`. `view` accepts: `unified` (default), `side-by-side`.
 
 ## User Scenarios & Testing _(mandatory)_
 
@@ -104,8 +105,8 @@ A user navigates to a URL with malformed, incomplete, or missing query parameter
 - **Query Parameters**: Four key-value pairs in the URL query string:
   - `original`: Left-side diff text (lz-string compressed)
   - `modified`: Right-side diff text (lz-string compressed)
-  - `method`: Comparison algorithm selection (uncompressed)
-  - `view`: Display mode/layout option (uncompressed)
+  - `method`: Comparison algorithm selection (uncompressed). Allowed values: `characters`, `words`, `lines`. Default: `words`
+  - `view`: Display mode/layout option (uncompressed). Allowed values: `unified`, `side-by-side`. Default: `unified`
 
 ## Success Criteria _(mandatory)_
 
