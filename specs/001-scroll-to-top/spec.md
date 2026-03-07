@@ -11,6 +11,9 @@
 
 - Q: What icon or content should the scroll-to-top button display? → A: Upward arrow icon using Unicode or HTML entity
 - Q: What scroll threshold should trigger button visibility? → A: 50vh (half viewport height)
+- Q: What should the button's physical shape and size be? → A: Circular (40-48px diameter)
+- Q: What accessibility features should the button support? → A: Full WCAG 2.1 AA (keyboard, focus, ARIA, screen reader)
+- Q: What spacing/offset should the button have from the bottom and right edges? → A: 16px offset (Tailwind p-4)
 
 ## User Scenarios & Testing
 
@@ -77,11 +80,13 @@ As a user navigating long content, I want the scroll-to-top button to remain in 
 - **FR-001**: System MUST display a scroll-to-top button when the page is scrolled beyond a minimum threshold distance from the top (50vh - half viewport height)
 - **FR-002**: System MUST hide the scroll-to-top button when the page is at or near the top position
 - **FR-003**: System MUST display the scroll-to-top button only when the viewport width is at or above the XL breakpoint
-- **FR-004**: System MUST position the scroll-to-top button in a fixed location at the bottom-right corner of the viewport
+- **FR-004**: System MUST position the scroll-to-top button in a fixed location at the bottom-right corner of the viewport with 16px offset from both bottom and right edges
 - **FR-005**: System MUST scroll the page to the top when the user clicks the scroll-to-top button
 - **FR-006**: System MUST provide visual feedback indicating the button is clickable (hover state)
 - **FR-007**: System MUST respect user preferences for reduced motion when animating the scroll behavior
 - **FR-008**: System MUST display an upward arrow icon (Unicode or HTML entity) as the button content
+- **FR-009**: System MUST render the button as a circular shape (40-48px diameter) with styling consistent with the existing design system
+- **FR-010**: System MUST support WCAG 2.1 AA accessibility: keyboard navigation (Enter/Space), visible focus ring, ARIA label "Scroll to top", and screen reader compatibility
 
 ### Key Entities
 
