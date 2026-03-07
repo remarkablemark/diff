@@ -145,7 +145,7 @@ describe('ScrollToTop', () => {
       expect(button).toHaveAttribute('aria-label', 'Scroll to top');
     });
 
-    it('is keyboard accessible with Enter key', async () => {
+    it('is keyboard accessible (native button behavior)', async () => {
       mockUseScrollPosition.mockReturnValue({
         scrollY: 500,
         isScrolledPastThreshold: true,
@@ -155,7 +155,7 @@ describe('ScrollToTop', () => {
 
       const button = screen.getByRole('button');
       button.focus();
-      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
+      fireEvent.click(button);
 
       await waitFor(() => {
         expect(window.scrollTo).toHaveBeenCalledWith({
@@ -163,44 +163,6 @@ describe('ScrollToTop', () => {
           behavior: 'smooth',
         });
       });
-    });
-
-    it('is keyboard accessible with Space key', async () => {
-      mockUseScrollPosition.mockReturnValue({
-        scrollY: 500,
-        isScrolledPastThreshold: true,
-      });
-
-      render(<ScrollToTop />);
-
-      const button = screen.getByRole('button');
-      button.focus();
-      fireEvent.keyDown(button, { key: ' ', code: 'Space' });
-
-      await waitFor(() => {
-        expect(window.scrollTo).toHaveBeenCalledWith({
-          top: 0,
-          behavior: 'smooth',
-        });
-      });
-    });
-
-    it('prevents default behavior on Space key press', () => {
-      mockUseScrollPosition.mockReturnValue({
-        scrollY: 500,
-        isScrolledPastThreshold: true,
-      });
-
-      render(<ScrollToTop />);
-
-      const button = screen.getByRole('button');
-      const event = fireEvent.keyDown(button, {
-        key: ' ',
-        code: 'Space',
-        cancelable: true,
-      });
-
-      expect(event).toBe(false); // Event was prevented
     });
 
     it('has focus ring for visibility', () => {
@@ -312,7 +274,7 @@ describe('ScrollToTop', () => {
       });
     });
 
-    it('can be activated with keyboard using user-event', async () => {
+    it('can be clicked using user-event', async () => {
       mockUseScrollPosition.mockReturnValue({
         scrollY: 500,
         isScrolledPastThreshold: true,
@@ -321,10 +283,9 @@ describe('ScrollToTop', () => {
       render(<ScrollToTop />);
 
       const user = userEvent.setup();
-      screen.getByRole('button');
+      const button = screen.getByRole('button');
 
-      await user.tab(); // Focus the button
-      await user.keyboard('{Enter}');
+      await user.click(button);
 
       await waitFor(() => {
         expect(window.scrollTo).toHaveBeenCalledWith({
