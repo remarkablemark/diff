@@ -22,8 +22,8 @@
 
 **Purpose**: Project initialization and dependency installation
 
-- [ ] T001 Install lz-string dependency via `npm install lz-string`
-- [ ] T002 Verify TypeScript types are available from lz-string package (check that `import { compress, decompress } from 'lz-string'` has type definitions and `npm run lint:tsc` passes)
+- [x] T001 Install lz-string dependency via `npm install lz-string`
+- [x] T002 Verify TypeScript types are available from lz-string package (check that `import { compress, decompress } from 'lz-string'` has type definitions and `npm run lint:tsc` passes)
 
 ---
 
