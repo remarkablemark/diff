@@ -26,8 +26,8 @@ Single project structure with tests co-located:
 
 **Purpose**: Verify project structure and tooling
 
-- [ ] T001 Verify project structure matches plan (src/components/, src/hooks/)
-- [ ] T002 Verify npm scripts available (lint, lint:tsc, test, build)
+- [x] T001 Verify project structure matches plan (src/components/, src/hooks/)
+- [x] T002 Verify npm scripts available (lint, lint:tsc, test, build)
 
 ---
 
@@ -37,8 +37,8 @@ Single project structure with tests co-located:
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Create useScrollPosition hook in src/hooks/useScrollPosition.ts
-- [ ] T004 [P] Create useScrollPosition test in src/hooks/useScrollPosition.test.ts
+- [x] T003 [P] Create useScrollPosition hook in src/hooks/useScrollPosition.ts
+- [x] T004 [P] Create useScrollPosition test in src/hooks/useScrollPosition.test.ts
 
 **Checkpoint**: Foundation ready - user story implementation can now begin
 
@@ -54,14 +54,14 @@ Single project structure with tests co-located:
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T005 [P] [US1] Create ScrollToTop component test file in src/components/ScrollToTop/ScrollToTop.test.tsx
+- [x] T005 [P] [US1] Create ScrollToTop component test file in src/components/ScrollToTop/ScrollToTop.test.tsx
 
 ### Implementation for User Story 1
 
-- [ ] T006 [P] [US1] Create ScrollToTop component in src/components/ScrollToTop/ScrollToTop.tsx
-- [ ] T007 [P] [US1] Create ScrollToTop types in src/components/ScrollToTop/ScrollToTop.types.ts
-- [ ] T008 [P] [US1] Create index export in src/components/ScrollToTop/index.ts
-- [ ] T009 [US1] Integrate ScrollToTop into App in src/components/App/App.tsx
+- [x] T006 [P] [US1] Create ScrollToTop component in src/components/ScrollToTop/ScrollToTop.tsx
+- [x] T007 [P] [US1] Create ScrollToTop types in src/components/ScrollToTop/ScrollToTop.types.ts
+- [x] T008 [P] [US1] Create index export in src/components/ScrollToTop/index.ts
+- [x] T009 [US1] Integrate ScrollToTop into App in src/components/App/App.tsx
 
 **Checkpoint**: User Story 1 complete - core scroll-to-top functionality works
 
@@ -75,11 +75,11 @@ Single project structure with tests co-located:
 
 ### Tests for User Story 2
 
-- [ ] T010 [P] [US2] Add responsive visibility tests to ScrollToTop.test.tsx (hidden below XL, visible at XL)
+- [x] T010 [P] [US2] Add responsive visibility tests to ScrollToTop.test.tsx (hidden below XL, visible at XL)
 
 ### Implementation for User Story 2
 
-- [ ] T011 [US2] Add responsive visibility (hidden xl:block) to ScrollToTop.tsx
+- [x] T011 [US2] Add responsive visibility (hidden xl:block) to ScrollToTop.tsx
 
 **Checkpoint**: User Stories 1 AND 2 complete - responsive scroll-to-top works
 
@@ -93,19 +93,19 @@ Single project structure with tests co-located:
 
 ### Tests for User Story 3
 
-- [ ] T012 [P] [US3] Add accessibility tests to ScrollToTop.test.tsx (keyboard, ARIA, focus)
-- [ ] T013 [P] [US3] Add positioning tests to ScrollToTop.test.tsx (fixed, bottom-right, circular)
+- [x] T012 [P] [US3] Add accessibility tests to ScrollToTop.test.tsx (keyboard, ARIA, focus)
+- [x] T013 [P] [US3] Add positioning tests to ScrollToTop.test.tsx (fixed, bottom-right, circular)
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Add fixed positioning and offset (fixed bottom-4 right-4) to ScrollToTop.tsx
-- [ ] T015 [US3] Add circular shape (rounded-full h-12 w-12) to ScrollToTop.tsx
-- [ ] T016 [US3] Add upward arrow icon (Unicode ▲) to ScrollToTop.tsx
-- [ ] T017 [US3] Add hover states (cursor-pointer, bg change) to ScrollToTop.tsx
-- [ ] T018 [US3] Add focus ring (focus:ring-2 focus:ring-blue-500) to ScrollToTop.tsx
-- [ ] T019 [US3] Add ARIA label (aria-label="Scroll to top") to ScrollToTop.tsx
-- [ ] T020 [US3] Add keyboard handler (onKeyDown for Enter/Space) to ScrollToTop.tsx
-- [ ] T021 [US3] Add reduced motion support (prefers-reduced-motion) to ScrollToTop.tsx
+- [x] T014 [US3] Add fixed positioning and offset (fixed bottom-4 right-4) to ScrollToTop.tsx
+- [x] T015 [US3] Add circular shape (rounded-full h-12 w-12) to ScrollToTop.tsx
+- [x] T016 [US3] Add upward arrow icon (Unicode ▲) to ScrollToTop.tsx
+- [x] T017 [US3] Add hover states (cursor-pointer, bg change) to ScrollToTop.tsx
+- [x] T018 [US3] Add focus ring (focus:ring-2 focus:ring-blue-500) to ScrollToTop.tsx
+- [x] T019 [US3] Add ARIA label (aria-label="Scroll to top") to ScrollToTop.tsx
+- [x] T020 [US3] Add keyboard handler (onKeyDown for Enter/Space) to ScrollToTop.tsx
+- [x] T021 [US3] Add reduced motion support (prefers-reduced-motion) to ScrollToTop.tsx
 
 **Checkpoint**: All user stories complete - fully accessible, responsive scroll-to-top button
 
@@ -115,12 +115,12 @@ Single project structure with tests co-located:
 
 **Purpose**: Final validation and quality gates
 
-- [ ] T022 [P] Run lint: npm run lint (zero errors)
-- [ ] T023 [P] Run type check: npm run lint:tsc (zero errors)
-- [ ] T024 [P] Run tests with coverage: npm run test:ci (100% coverage required)
-- [ ] T025 [P] Run production build: npm run build (clean build)
-- [ ] T026 Verify all acceptance criteria from spec.md are met
-- [ ] T027 Verify quickstart.md testing checklist passes
+- [x] T022 [P] Run lint: npm run lint (zero errors)
+- [x] T023 [P] Run type check: npm run lint:tsc (zero errors)
+- [x] T024 [P] Run tests with coverage: npm run test:ci (100% coverage required)
+- [x] T025 [P] Run production build: npm run build (clean build)
+- [x] T026 Verify all acceptance criteria from spec.md are met
+- [x] T027 Verify quickstart.md testing checklist passes
 
 ---
 
