@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { DiffMethodToggle } from 'src/components/DiffMethodToggle';
 import { DiffViewer } from 'src/components/DiffViewer';
+import { ScrollToTop } from 'src/components/ScrollToTop';
 import { TextInput } from 'src/components/TextInput';
 import { ViewToggle } from 'src/components/ViewToggle';
 import { useDiff } from 'src/hooks/useDiff';
@@ -26,6 +27,7 @@ export function App() {
 
   return (
     <>
+      <ScrollToTop />
       <h1 className="mb-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
         📝 Diff
       </h1>

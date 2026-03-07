@@ -2,7 +2,7 @@
 
 **Date**: 2026-02-26  
 **Feature**: Line number scrolling synchronization  
-**Status**: Complete
+**Status**: Completed
 
 ## Core Entities
 
