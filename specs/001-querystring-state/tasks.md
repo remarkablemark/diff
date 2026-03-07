@@ -55,14 +55,14 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T010 [P] [US1] Write tests for useQueryState hook (URL update behavior) in `src/hooks/useQueryState.test.ts`
+- [x] T010 [P] [US1] Write tests for useQueryState hook (URL update behavior) in `src/hooks/useQueryState.test.ts`
 - [ ] T011 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (text changes trigger URL update)
 - [ ] T012 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (method changes trigger URL update)
 - [ ] T013 [P] [US1] Write tests for App component URL sync in `src/components/App/App.test.tsx` (view changes trigger URL update)
 
 ### Implementation for User Story 1
 
-- [ ] T014 [US1] Implement useQueryState hook in `src/hooks/useQueryState.ts` (state → URL encoding with debounce)
+- [x] T014 [US1] Implement useQueryState hook in `src/hooks/useQueryState.ts` (state → URL encoding with debounce)
 - [ ] T015 [US1] Update App component in `src/components/App/App.tsx` to use useQueryState for state management
 - [ ] T016 [US1] Verify debounced URL updates (500ms delay) work correctly
 - [ ] T017 [US1] Verify replaceState is used (not pushState) to avoid history pollution
