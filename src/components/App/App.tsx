@@ -16,7 +16,7 @@ export function App() {
   const effectiveViewMode = isDesktop ? view : 'unified';
 
   return (
-    <>
+    <main>
       <ScrollToTop />
       <h1 className="mb-6 text-3xl font-bold text-gray-900 dark:text-gray-100">
         📑 Diff
@@ -60,6 +60,6 @@ export function App() {
           <DiffViewer result={diffResult} viewMode={effectiveViewMode} />
         </div>
       )}
-    </>
+    </main>
   );
 }
