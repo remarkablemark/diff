@@ -71,7 +71,7 @@ export function TextInput({
           }}
           onScroll={handleScroll}
           placeholder={placeholder}
-          className="min-h-32 flex-1 resize-none overflow-x-auto overflow-y-auto bg-white px-3 py-2 font-mono text-sm leading-6 whitespace-pre text-gray-900 outline-none dark:bg-gray-800 dark:text-gray-100"
+          className="min-h-32 flex-1 resize-none overflow-x-auto overflow-y-auto px-3 py-2 font-mono text-sm leading-6 whitespace-pre text-gray-900 outline-none dark:bg-gray-800 dark:text-gray-100"
           spellCheck={false}
         />
       </div>

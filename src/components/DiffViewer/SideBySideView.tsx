@@ -62,7 +62,7 @@ export function SideBySideView({ lines }: SideBySideViewProps) {
   return (
     <div aria-live="polite">
       <div className="overflow-hidden rounded-md border border-gray-300 dark:border-gray-600">
-        <div className="bg-white font-mono text-sm leading-6 dark:bg-gray-800">
+        <div className="font-mono text-sm leading-6 dark:bg-gray-800">
           {pairs.map((pair, index) => {
             const key = `row-${String(index)}`;
             const originalLineNumber = pair.original?.originalLineNumber ?? '';
