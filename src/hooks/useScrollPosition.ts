@@ -60,7 +60,7 @@ export function useScrollPosition(
     () => ({ scrollY: 0, isScrolledPastThreshold: false }),
     [],
   );
-  /* v8 ignore end */
+  /* v8 ignore stop */
 
   const { scrollY, isScrolledPastThreshold } = useSyncExternalStore(
     subscribe,

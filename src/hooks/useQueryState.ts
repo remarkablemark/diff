@@ -45,7 +45,7 @@ export function useQueryState(): {
         if (!['original', 'modified', 'method', 'view'].includes(key)) {
           newParams.set(key, value);
         }
-        /* v8 ignore end */
+        /* v8 ignore stop */
       }
 
       const newURL = `${window.location.pathname}?${newParams.toString()}`;
@@ -57,7 +57,7 @@ export function useQueryState(): {
           `URL length (${String(newURL.length)}) exceeds recommended limit (${String(MAX_URL_LENGTH)}). Some browsers may not support URLs this long.`,
         );
       }
-      /* v8 ignore end */
+      /* v8 ignore stop */
 
       window.history.replaceState(null, '', newURL);
     }, DEBOUNCE_MILLISECONDS),

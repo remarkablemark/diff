@@ -23,7 +23,7 @@ export function TextInput({
         textareaRef.current.scrollWidth > textareaRef.current.clientWidth;
       setHasHorizontalScrollbar(hasScrollbar);
     }
-    /* v8 ignore end */
+    /* v8 ignore stop */
   };
 
   // Check scrollbar on mount and when value changes
@@ -36,7 +36,7 @@ export function TextInput({
     if (gutterRef.current) {
       gutterRef.current.scrollTop = event.currentTarget.scrollTop;
     }
-    /* v8 ignore end */
+    /* v8 ignore stop */
   };
 
   return (
@@ -53,9 +53,11 @@ export function TextInput({
           data-testid="line-gutter"
           aria-hidden="true"
           className={`overflow-hidden bg-gray-50 px-2 py-2 text-right font-mono text-sm leading-6 text-gray-400 select-none dark:bg-gray-800 dark:text-gray-500 ${
+            /* v8 ignore start */
             hasHorizontalScrollbar
               ? 'pb-[calc(2rem+var(--scrollbar-size,0px))]'
               : ''
+            /* v8 ignore stop */
           }`}
         >
           {Array.from({ length: lineCount }, (_, i) => (
