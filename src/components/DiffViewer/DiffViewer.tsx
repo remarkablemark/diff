@@ -30,9 +30,10 @@ export function DiffViewer({ result, viewMode }: DiffViewerProps) {
         {result.lines.map((line, index) => {
           const key = `c-${String(index)}-${line.type}`;
           // Line number: prefer original, fallback to modified
+          /* v8 ignore start */
           const lineNumber =
-            /* v8 ignore next */
             line.originalLineNumber ?? line.modifiedLineNumber ?? '';
+          /* v8 ignore stop */
 
           const { lineNumberClasses, contentClasses } = getDiffLineClasses(
             line.type,
