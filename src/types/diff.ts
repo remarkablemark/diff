@@ -9,14 +9,6 @@ export interface DiffSegment {
   type: DiffType;
 }
 
-/** The complete diff computation result */
-export interface DiffResult {
-  /** Ordered list of diff segments */
-  segments: DiffSegment[];
-  /** True if any segment is added or removed */
-  hasChanges: boolean;
-}
-
 /** Available diff display modes */
 export type ViewMode = 'unified' | 'side-by-side';
 
@@ -36,7 +28,11 @@ export interface DiffLine {
 }
 
 /** Extended diff result with line-based output for rendering with line numbers */
-export interface DiffLineResult extends DiffResult {
+export interface DiffLineResult {
+  /** Ordered list of diff segments */
+  segments: DiffSegment[];
+  /** True if any segment is added or removed */
+  hasChanges: boolean;
   /** Line-based representation of the diff, derived from segments */
   lines: DiffLine[];
 }
