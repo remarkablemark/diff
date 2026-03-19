@@ -27,6 +27,10 @@ updates:
           - '@types/react-dom'
           - react
           - react-dom
+      vite:
+        patterns:
+          - '@vite*'
+          - 'vite*'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
