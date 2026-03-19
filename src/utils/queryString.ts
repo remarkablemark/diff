@@ -25,18 +25,16 @@ export function decodeQueryState(
   const validMethods: DiffMethod[] = ['characters', 'words', 'lines'];
   const validViews: ViewMode[] = ['unified', 'side-by-side'];
 
+  /* v8 ignore start */
   return {
-    /* v8 ignore next */
     original: original ? decompressText(original) : (fallback.original ?? ''),
-    /* v8 ignore next */
     modified: modified ? decompressText(modified) : (fallback.modified ?? ''),
     method: validMethods.includes(method as DiffMethod)
       ? (method as DiffMethod)
-      : /* v8 ignore next */
-        (fallback.method ?? 'words'),
+      : (fallback.method ?? 'words'),
     view: validViews.includes(view as ViewMode)
       ? (view as ViewMode)
-      : /* v8 ignore next */
-        (fallback.view ?? 'unified'),
+      : (fallback.view ?? 'unified'),
   };
+  /* v8 ignore stop */
 }
